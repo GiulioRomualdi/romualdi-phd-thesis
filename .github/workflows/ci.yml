@@ -1,0 +1,47 @@
+name: Deploy the thesis 📖
+
+on:
+  push:
+  pull_request:
+  release:
+    types: [published]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Dependencies
+        run: |
+          sudo apt-get install texlive-latex-base texlive-font-utils texlive-fonts-extra texlive-publishers texlive-science texlive-pictures
+
+      - name: Generate PDF
+        run: |
+          cd thesis
+          bash ./compile-thesis.sh compile thesis
+
+      - name: Prepare for deploy
+        run: |
+          mkdir deploy
+          cp thesis/thesis.pdf deploy/romualdi-phd-thesis.pdf
+
+      - name: 📦 Deploy the thesis
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: gh-pages
+          folder: deploy
+
+      - name: Upload Release Asset
+        if: github.event_name == 'release'
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: deploy/romualdi-phd-thesis.pdf
+          asset_name: romualdi-phd-thesis.pdf
+          asset_content_type: application/pdf
