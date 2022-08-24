@@ -1,0 +1,72 @@
+\section{Notes on Hamilton's Variational Principle\label{appendix:hamilton}}
+Given a fixed initial point $x(t_0) = x_0 \in \mathbb{R}^n$ and a final point $x(t_f) = x_f \in \mathbb{R}^n$ we aim to compute the trajectory $x(t)$ such that is a \emph{stationary point}\footnote{A \emph{stationary point} of a differentiable function of one variable is a point on the graph of the function where the function's derivative is zero.} of the \emph{action functional}:
+\begin{equation}
+    \label{eq:hamilton_x_epsilon_definition_optimization}
+   \mathfrak{G} = \int_{t_0}^{t_f} \mathcal{L}\left(x, \dot{x}, \hdots, x^{(m)}\right) \diff t,
+\end{equation}
+where $\mathcal{L}\left(x, \dot{x}, \hdots, x^{(m)}\right)$ is the Lagrangian function and depends on the trajectory $x$ and its derivative, here the superscripts $(m)$ denotes the $m$-order time derivative of $x(t)$. 
+The optimization problem can be solved by applying \emph{Hamilton's Variational Principle}~\citep{Liberzon2012CalculusTheory}. To do so, we first introduce the concept of variations on $\mathbb{R}^n$ and then we present the \emph{Hamilton’s Variational Principle}.
+\par
+Suppose that a curve $x:[t_0, t_f] \rightarrow \mathbb{R}^n$ describes a trajectory in $\mathbb{R}^n$. We now introduce the variation of the curve $x(t)$, which is the $\epsilon$-parameterized family of curves $x_\epsilon(t)$ taking values in $\mathbb{R}^n$, where $\epsilon \in (-c, c)$ with $c>0$, $x_0(t) = x(t)$ and the endpoints are fixed, i.e., $x_\epsilon(T_i) = x(T_i)$ and $x_\epsilon(T_{i+1}) = x(T_{i+1})$. The Taylor expansion of $x_\epsilon(t)$ is given by
+\begin{equation}
+\label{eq:hamilton_x_epsilon_definition}
+x_\epsilon(t) = x(t) + \epsilon \delta x(t) + \mathcal{O}\left(\epsilon^2\right).
+\end{equation}
+The $i$-th order time derivative of~\eqref{eq:hamilton_x_epsilon_definition} writes as
+\begin{equation}
+    x_\epsilon^{(i)} = x ^{(i)} + \epsilon \delta x^{(i)} + \mathcal{O}\left(\epsilon^2\right),
+\end{equation}
+where for the sake of clarity the explicit dependency on the time is hidden. 
+The infinitesimal variation of motion $\delta x^{(i)}$ is given by
+\begin{equation}
+    \delta x^{(i)}  = \at{\frac{\diff}{\diff \epsilon} x^{(i)}_\epsilon}{\epsilon = 0},
+\end{equation}
+where the infinitesimal variation satisfies the fixed-endpoint conditions $\delta x^{(i)}(t_0) = 0$ and $\delta x^{(i)}(t_f) = 0$ for $i\in[0, m-1]$.
+\par
+We now introduce the \emph{action functional} along a variation of a motion $\mathfrak{G}_\epsilon$ as 
+\begin{equation}
+    \label{eq:hamilton_x_epsilon_definition_optimization_epsilon}
+   \mathfrak{G}_\epsilon = \int_{t_0}^{t_f} \mathcal{L}\left(x_\epsilon, \dot{x}_\epsilon, \hdots, x^{(m)}_\epsilon\right) \diff t.
+\end{equation}
+Similarly to what is discussed in Equation~\eqref{eq:hamilton_x_epsilon_definition}, the first-order Taylor expansion of the $\mathfrak{G}_\epsilon$ is given by
+\begin{equation}
+      \mathfrak{G}_\epsilon = \mathfrak{G} + \epsilon \delta \mathfrak{G} + \mathcal{O}\left(\epsilon^2\right),
+\end{equation}
+where the infinitesimal variation of the action functional is given by 
+\begin{equation}
+    \delta \mathfrak{G}  = \at{\frac{\diff}{\diff \epsilon} \mathfrak{G}_\epsilon}{\epsilon = 0}.
+\end{equation}
+\par
+Hamilton's principle states that the evolution of a system that minimizes the action functional \eqref{eq:hamilton_x_epsilon_definition_optimization} is a stationary point of $\mathfrak{G}$. More formally, for all possible variations $x_\epsilon(t)$ with fixed endpoints, we have
+\begin{equation}
+    \delta \mathfrak{G}  = \at{\frac{\diff}{\diff \epsilon} \mathfrak{G}_\epsilon}{\epsilon = 0} = 0.
+\end{equation}
+Since the co-domain of $x(t)$, $\mathbb{R}^n$, is a vector space, we determine the action integral by differentiating Equation~\eqref{eq:hamilton_x_epsilon_definition_optimization_epsilon} as
+\begin{IEEEeqnarray}{ll}
+\phantomsection  \IEEEyesnumber \IEEEyessubnumber*
+    \delta \mathfrak{G}  = \at{\frac{\diff}{\diff \epsilon} \mathfrak{G}_\epsilon}{\epsilon = 0} &= \int_{t_0} ^{t_f} \sum_{k=0}^m \left\langle \frac{\partial \mathcal{L}}{\partial x^{(k)}}, \delta x^{(k)} \right\rangle \diff t\\
+    &= \sum_{k=0}^m \int_{t_0} ^{t_f} \left\langle \frac{\partial \mathcal{L}}{\partial x^{(k)}},  \delta x^{(k)} \right\rangle \diff t\label{eq:delta_variation_switch},
+\end{IEEEeqnarray}
+where in \eqref{eq:delta_variation_switch} we exploit the fact that the summation set is finite and the integral converges. Here $\left\langle ., . \right\rangle$ is the scalar product operator.
+By integrating~\eqref{eq:delta_variation_switch} by parts, we obtain
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:delta_variation_part}  \IEEEyesnumber \IEEEyessubnumber*
+    \delta \mathfrak{G} &= \sum_{k=0}^m \int_{t_0} ^{t_f} \left\langle \frac{\partial \mathcal{L}}{\partial x^{(k)}},  \delta x^{(k)} \right\rangle \diff t  \\
+   & = \sum_{k=0}^m \sum_{i=0}^{k-1} \at{(-1)^i \left\langle \frac{\diff ^i}{\diff t ^i} \frac{\partial \mathcal{L}}{\partial x ^{(i)}}, \delta x ^{(k -1 -i)}\right\rangle}{t_0}^{t_f} \\
+   & + \sum_{k=0}^m  (-1) ^k \int_{t_0} ^{t_f} \left\langle \frac{\diff ^k }{\diff t^k}\frac{\partial \mathcal{L}}{\partial x^{(k)}},  \delta x \right\rangle \diff t.
+\end{IEEEeqnarray}
+Using the fact that the infinitesimal variations $\delta x^{(i)}$ vanish at $t_0$ and $t_f$ for $i\in [0, m-1]$, we simplify Equation~\eqref{eq:delta_variation_part} as
+\begin{IEEEeqnarray}{ll}
+\phantomsection  \label{eq:delta_variation_part_clen}  \IEEEyesnumber \IEEEyessubnumber*
+    \delta \mathfrak{G} &=  \sum_{k=0}^m  (-1) ^k \int_{t_0} ^{t_f} \left\langle \frac{\diff ^k }{\diff t^k}\frac{\partial \mathcal{L}}{\partial x^{(k)}},  \delta x \right\rangle \diff t \\
+    &=   \int_{t_0} ^{t_f} \left\langle \sum_{k=0}^m  (-1) ^k \frac{\diff ^k }{\diff t^k}\frac{\partial \mathcal{L}}{\partial x^{(k)}},  \delta x \right\rangle \diff t, \label{eq:delta_variation_part_clen_switch}
+\end{IEEEeqnarray}
+where in \eqref{eq:delta_variation_part_clen_switch} we exploit the fact that the summation set is finite and the integral converges.
+\par
+We now recall that Hamilton's principle has to valid for all possible variations, consequently $\delta \mathfrak{G} = 0$ implies that
+\begin{equation}
+    \label{eq:hamilton_dae}
+    \sum_{k=0}^m  (-1) ^k \frac{\diff ^k }{\diff t^k}\frac{\partial \mathcal{L}}{\partial x^{(k)}} = 0.
+\end{equation}
+To conclude, a trajectory $x(t)$ is a \emph{stationary point} of the \emph{action functional}~\eqref{eq:hamilton_x_epsilon_definition_optimization} if and only if it is a solution of the partial differential equation~\eqref{eq:hamilton_dae}.
+

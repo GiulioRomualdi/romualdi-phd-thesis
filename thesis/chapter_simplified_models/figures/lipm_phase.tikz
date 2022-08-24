@@ -1,0 +1,33 @@
+    \def\modulus{sqrt(x^2+y^2)}
+    \begin{tikzpicture}
+        \begin{axis}[
+            xmin = -1, xmax = 1,
+            ymin = -1, ymax = 1,
+            zmin = 0, zmax = 1,
+            axis equal image,
+            xtick distance = 1,
+            ytick distance = 1,
+            view = {0}{90},
+            scale = 1,
+            xticklabel=\empty,
+            yticklabel=\empty,
+            minor tick num=1,
+            axis lines = middle,
+            xlabel=$x_1$,
+            ylabel=$x_2$,
+        ]
+            \addplot3[
+                point meta = {\modulus},
+                quiver = {
+                    u = y/\modulus,
+                    v = x/\modulus,
+                    scale arrows = 0.1,
+                },
+                quiver/colored = {mapped color},
+                samples = 10,
+                - stealth,
+                domain = -0.8:0.8,
+                domain y = -0.8:0.8,
+            ] {0};
+        \end{axis}
+    \end{tikzpicture}

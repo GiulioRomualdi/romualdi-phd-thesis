@@ -1,0 +1,21 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [draw opacity=0][fill={rgb, 255:red, 231; green, 235; blue, 204 }  ,fill opacity=1 ] (405.11,125.93) -- (533.46,220.73) -- (508.26,254.84) -- (379.91,160.04) -- cycle ;
+\draw  [draw opacity=0][fill={rgb, 255:red, 242; green, 188; blue, 183 }  ,fill opacity=1 ] (431.19,90.62) -- (559.54,185.42) -- (533.46,220.73) -- (405.11,125.93) -- cycle ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (469.28,173.33) -- (536.15,80.99) ;
+\draw [shift={(538.5,77.75)}, rotate = 125.91] [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (13.4,-6.43) -- (0,0) -- (13.4,6.44) -- (8.9,0) -- cycle    ;
+\draw    (405.11,125.93) -- (533.46,220.73) ;
+\draw    (419.5,198.75) -- (413,219.5) ;
+\draw    (481.5,96.25) -- (475,117) ;
+\draw    (554.5,217.75) -- (536.5,224) ;
+
+\draw (376.5,223.9) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.56,0.65,0.09}{a}\textcolor[rgb]{0.56,0.65,0.09}{^{\top }}\textcolor[rgb]{0.56,0.65,0.09}{x\ < \ b}$};
+\draw (443,73.9) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.65,0.1,0.05}{a}\textcolor[rgb]{0.65,0.1,0.05}{^{\top }}\textcolor[rgb]{0.65,0.1,0.05}{x\  >\ b}$};
+\draw (552.5,196.4) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0,0,0}{a}\textcolor[rgb]{0,0,0}{^{\top }}\textcolor[rgb]{0,0,0}{x\ =\ b}$};
+
+
+\end{tikzpicture}

@@ -1,0 +1,28 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [color={rgb, 255:red, 16; green, 190; blue, 186 }  ,draw opacity=1 ] (109.02,186.67) .. controls (109.02,157.74) and (149.54,134.28) .. (199.52,134.28) .. controls (249.5,134.28) and (290.02,157.74) .. (290.02,186.67) .. controls (290.02,215.6) and (249.5,239.06) .. (199.52,239.06) .. controls (149.54,239.06) and (109.02,215.6) .. (109.02,186.67) -- cycle ;
+\draw  [color={rgb, 255:red, 58; green, 115; blue, 255 }  ,draw opacity=1 ] (133.15,186.67) .. controls (133.15,165.45) and (162.87,148.25) .. (199.52,148.25) .. controls (236.17,148.25) and (265.89,165.45) .. (265.89,186.67) .. controls (265.89,207.89) and (236.17,225.09) .. (199.52,225.09) .. controls (162.87,225.09) and (133.15,207.89) .. (133.15,186.67) -- cycle ;
+\draw  [color={rgb, 255:red, 65; green, 44; blue, 186 }  ,draw opacity=1 ] (157.28,186.67) .. controls (157.28,173.17) and (176.19,162.22) .. (199.52,162.22) .. controls (222.84,162.22) and (241.75,173.17) .. (241.75,186.67) .. controls (241.75,200.17) and (222.84,211.12) .. (199.52,211.12) .. controls (176.19,211.12) and (157.28,200.17) .. (157.28,186.67) -- cycle ;
+\draw  [color={rgb, 255:red, 243; green, 186; blue, 57 }  ,draw opacity=1 ] (84.88,186.67) .. controls (84.88,150.02) and (136.21,120.31) .. (199.52,120.31) .. controls (262.83,120.31) and (314.16,150.02) .. (314.16,186.67) .. controls (314.16,223.32) and (262.83,253.03) .. (199.52,253.03) .. controls (136.21,253.03) and (84.88,223.32) .. (84.88,186.67) -- cycle ;
+\draw  [color={rgb, 255:red, 247; green, 219; blue, 42 }  ,draw opacity=1 ] (60.75,186.67) .. controls (60.75,142.31) and (122.88,106.34) .. (199.52,106.34) .. controls (276.16,106.34) and (338.29,142.31) .. (338.29,186.67) .. controls (338.29,231.04) and (276.16,267) .. (199.52,267) .. controls (122.88,267) and (60.75,231.04) .. (60.75,186.67) -- cycle ;
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.42 ] (294.71,62.79) .. controls (294.95,63.6) and (298.22,76.18) .. (302.64,93.2) .. controls (307.06,110.22) and (331.66,205.84) .. (332.57,207.79) .. controls (333.48,209.74) and (273,186.07) .. (256.43,178.79) .. controls (239.86,171.5) and (177.55,151.48) .. (178.57,150.64) .. controls (179.6,149.8) and (210.18,126.59) .. (238.44,105.22) .. controls (266.69,83.85) and (294.48,61.97) .. (294.71,62.79) -- cycle ;
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ]   (51.46,171.13) .. controls (127.5,70.75) and (363,262.75) .. (407,210.25) ;
+\draw    (290.79,48.83) -- (337.33,224.5) ;
+\draw    (157,167.17) -- (308.49,52.02) ;
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (219.42,165.4) .. controls (219.42,163.97) and (220.57,162.81) .. (222,162.81) .. controls (223.43,162.81) and (224.59,163.97) .. (224.59,165.4) .. controls (224.59,166.83) and (223.43,167.99) .. (222,167.99) .. controls (220.57,167.99) and (219.42,166.83) .. (219.42,165.4) -- cycle ;
+\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (225.2,169.9) -- (316,258.7) ;
+\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (85.67,258.83) -- (176,195.17) ;
+
+\draw (278.02,85.14) node [anchor=north west][inner sep=0.75pt]    {$S$};
+\draw (289.27,261.87) node [anchor=north west][inner sep=0.75pt]   [align=left] {optimal solution: $\displaystyle x^{*}$};
+\draw (34,132.07) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.25,0.46,0.02}{g_{1}( x)}$};
+\draw (229.33,59.4) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0,0,0}{g_{2}( x)}$};
+\draw (308.67,64.07) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0,0,0}{g}\textcolor[rgb]{0,0,0}{_{3}}\textcolor[rgb]{0,0,0}{(}\textcolor[rgb]{0,0,0}{x}\textcolor[rgb]{0,0,0}{)}$};
+\draw (60.93,262.67) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\displaystyle f( x)$};
+
+
+\end{tikzpicture}

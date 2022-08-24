@@ -1,0 +1,48 @@
+\section{The time-varying DCM\label{sec:dcm-tv}}
+Given a multi-body system making $n_c$ contacts with the environment and having a mass equal to $m$, an inertial frame $\mathcal{I}:=(o_\mathcal{I}, [\mathcal{I}])$ and $\bar{G}:=(x_\text{CoM}, [\mathcal{I}])$. We previously show that the DCM dynamics is defined by~\eqref{eq:3d_dcm}, where the parameter $b$ is a constant positive number. The time-varying DCM~\citep{Hopkins2015} extends the DCM definition~\citep{Englsberger2015} to account for a natural frequency that changes over time. \cite{Hopkins2015} define the time-varying DCM as
+\begin{equation}
+    \label{eq:3d_dcm_tv}
+    \xi = x_\text{CoM} + \eta(t) \dot{x}_\text{CoM}.
+\end{equation}
+where $\eta(t)$ is a strictly positive function such that $\eta(t)>\bar{\eta} > 0$
+By reordering Equation \eqref{eq:3d_dcm_tv} the CoM dynamics can be derived as
+\begin{equation}
+  \label{eq:com_3d_dcm_tv}
+  \dot{x}_\text{CoM} = -\frac{1}{\eta(t)} (x_\text{CoM} - \xi).
+\end{equation}
+The CoM position is governed by an asymptotically stable first-order nonlinear system~\citep{Hopkins2015}. 
+
+By differentiating \eqref{eq:com_3d_dcm_tv} and combining it with \eqref{eq:3d_dcm_tv} and \eqref{eq:com_dynamics_dcm}, the Time-Varying DCM dynamics holds:
+\begin{IEEEeqnarray}{LL}
+	\IEEEyesnumber \phantomsection \label{eq:3d_dcm_dynamics_F_tv}
+    \dot{\xi} &= -\frac{1}{\eta}(x_\text{CoM} - \xi) - \frac{\dot{\eta}}{\eta} (x_\text{CoM} - \xi) +  \eta \ddot{x}_\text{CoM} \IEEEyessubnumber \\
+    &= \left( \frac{1 + \dot{\eta}}{\eta}\right)(\xi- x_\text{CoM}) + \frac{\eta}{m} ( {}_{\bar{G}} f +  m g) \IEEEyessubnumber
+\end{IEEEeqnarray}
+
+Following the same approach as in Section~\ref{sec:dcm}, we ask for an external force ${}_{\bar{G}} f$ equal to
+\begin{equation}
+    \label{eq:3d_dcm_external_force_tv}
+    {}_{\bar{G}} f = \frac{m(1 + \dot{\eta})}{\eta^2} (x_\text{CoM} - x_\text{eCMP}),
+\end{equation}
+we simply select the time-varying DCM dynamics~\eqref{eq:3d_dcm_dynamics_F_tv} as:
+\begin{equation}
+  \label{eq:3d_dcm_dynamics_eCMP_tv}
+  \dot{\xi} = \frac{\dot{\eta} + 1}{\eta}( \xi - x_\text{eCMP}) +  \eta g.
+\end{equation}
+Let us reformulate the virtual repellent point (VPR)~\eqref{eq:vrp} as 
+\begin{equation}
+\label{eq:vrp_tv}
+x_\text{VRP} := x_\text{eCMP} - \frac{\eta^2}{\dot{\eta} + 1} g,
+\end{equation}
+the DCM dynamics can be simplified as:
+\begin{equation}
+  \label{eq:3d_dcm_dynamics_vrp_tv}
+   \dot{\xi} = \frac{\dot{\eta} + 1}{\eta}( \xi - x_\text{VRP}).
+\end{equation}
+Note that for a constant parameter $\eta(t) = b$ and $\dot{\eta}(t) = b$, the time-varying DCM dynamics~\eqref{eq:3d_dcm_dynamics_vrp_tv} the CoM dynamics~\eqref{eq:com_3d_dcm_tv} and the VRP definition~\eqref{eq:vrp_tv} are equivalent to the time-invariant equations \eqref{eq:3d_dcm_dynamics_vrp} \eqref{eq:com_3d_dcm} and \eqref{eq:vrp}, respectively. 
+\par
+We remark that if there exists an instant $t^*$ such that $\eta(t^*) = 0$ or $\dot{\eta}(t^*) = -1$, the dynamics~\eqref{eq:com_3d_dcm_tv} is uncontrollable. If $\eta(t^*) = 0$, Equations~\eqref{eq:com_3d_dcm_tv}, \eqref{eq:3d_dcm_dynamics_eCMP_tv}, and \eqref{eq:3d_dcm_external_force_tv} are not defined. On the other hand, if $\dot{\eta}(t^*) = -1$ the sum of the external force ${}_{\bar{G}} f$ becomes zero -- Equation~\eqref{eq:3d_dcm_external_force_tv}.
+As a consequence, we have to enforce $\eta(t) \ge \epsilon_{\eta}$ and $\dot{\eta}(t) \ge \epsilon_{\dot{\eta}} - 1$ where $\epsilon_\eta$ $\epsilon_{\dot{\eta}}$ are any small positive number.
+As a consequence, the aforementioned constraints restrict the application of the time-varying DCM to tasks that do not consider states where the sum of external force ${}_{\bar{G}} f$ is equal to zero, i.e., all the tasks composed by a flight phase.
+\par
+We finally highlight that for a choice of $\eta(t) = 1/\omega(t)$ and consequently $\dot{\eta}(t) = - \dot{\omega}(t)/\omega(t)^2$,  Equations~\eqref{eq:com_3d_dcm_tv}, \eqref{eq:3d_dcm_dynamics_eCMP_tv} and \eqref{eq:3d_dcm_external_force_tv} are equivalent to the equation introduced by~\cite{Hopkins2015}.

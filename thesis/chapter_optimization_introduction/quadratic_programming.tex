@@ -1,0 +1,67 @@
+\section{Quadratic Programming\label{sec:qp}}
+The optimization problem \eqref{eq:optmization_problem_def_real} is called a \emph{quadratic program} (QP) if the objective is convex quadratic and the constrain functions are affine. We express a quadratic program problem in the following form:
+\begin{IEEEeqnarray}{cc}
+\phantomsection \label{eq:qp} \IEEEyesnumber \IEEEyessubnumber*
+\; \; \minimize_x \; \; & \frac{1}{2} x^\top P x + q^\top x + r\\
+\st & G x \preceq h.
+\end{IEEEeqnarray}
+$x\in\mathbb{R}^n$, $P \succ 0$ is a positive definite matrix, $q\in \mathbb{R}^n$, $G\in \mathbb{R}^{m \times n}$, $h\in \mathbb{R}^m$ and $r\in\mathbb{R}$.
+\begin{figure}[t]
+\centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/qp_active.tikz}
+        \caption{Optimizer on boundary of $S$.}
+        \label{fig:qp_active}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/qp.tikz}
+        \caption{Optimizer in interior of $S$.}
+        \label{fig:qp}
+    \end{subfigure}
+	\caption[Solution of a QP problem]{Geometric interpretation of the QP solution. (a) The solution belongs to the boundary of $P$. One of the constraint is active (green line). (b) The solution belongs to the interior of $P$. In this case, $x^* = -P^{-1} q$.}
+	\label{fig:qp_active_qp}
+\end{figure}
+If the set $S = \{x | G x \preceq h\}$ is not empty, the solution exists and is unique. 
+Figure~\eqref{fig:qp_active_qp} illustrates the solution of a QP problem. In Figure~\eqref{fig:qp_active} the optimal solution belongs to the boundary of the feasible set $S$, while in Figure~\eqref{fig:qp} the solution belongs to the interior of $S$. In this case, the optimization problem~\eqref{eq:qp} is equivalent to an unconstrained optimization problem. Since the cost function is quadratic and hence convex, the optimal solution is given by setting the gradient of 
+$\frac{1}{2} x^\top P x + q^\top x + r$ to zero:
+\begin{equation}
+    \nabla_x \left[\frac{1}{2} x^\top P x + q^\top x + r \right] = 0,
+\end{equation}
+whose solution is given by $x^* = -P^{-1} q$.
+
+\paragraph{Dual of QP}
+Consider~\eqref{eq:qp} the Lagrange function~\eqref{eq:lagrangian_function} is given by
+\begin{equation}
+    \label{eq:lagrangian_function_qp}
+    \mathcal{L}(x, \lambda) = x^\top P x + q^\top x  - \lambda ^\top \left[ Gx -h \right],
+\end{equation}
+The dual cost~\eqref{eq:dual_function} is obtained by minimizing the Lagrange function~\eqref{eq:lagrangian_function_qp} with respect to $x$
+\begin{equation}
+\label{eq:dual_cost_qp}
+    g(\lambda) = \min_x \left\{ x^\top P x + q^\top x  - \lambda ^\top \left[ Gx -h \right] \right\},
+\end{equation}
+For a given $\lambda$, the Lagrange function~\eqref{eq:lagrangian_function_qp} is convex, consequently the dual cost~\eqref{eq:dual_cost_qp} is obtained by setting the gradient of~\eqref{eq:lagrangian_function_qp} equal to zero. We then have
+\begin{equation}
+    \label{eq:x_qp_dual}
+    x = -P^{-1} \left(q + G^\top \lambda\right).
+\end{equation}
+Finally, the dual problem~\eqref{eq:lagrangian_dual_problem} is given by substituting~\eqref{eq:x_qp_dual} into~\eqref{eq:dual_cost_qp} and computing the maximum for $\lambda \succeq 0_{m\times1}$ as
+\begin{IEEEeqnarray}{cl}
+\label{eq:lagrangian_dual_problem_qp} \IEEEyesnumber \IEEEyessubnumber*
+\; \; \minimize\limits_{\lambda} \; \; & \frac{1}{2} \lambda^\top (G P^{-1} G^\top) \lambda + \lambda^\top(h - G P^{-1} q) + \frac{1}{2} q^\top H^{-1} q \\
+\st & \lambda \succeq 0_{m\times1}.
+\end{IEEEeqnarray}
+The dual of a QP problem is a QP problem itself.
+
+\paragraph{KKT of QP}
+Given a QP problem~\eqref{eq:lagrangian_function_qp} the KKT conditions~\eqref{eq:kkt} become
+\begin{IEEEeqnarray}{rl}
+\phantomsection \label{eq:kkt_qp} \IEEEyesnumber \IEEEyessubnumber*
+Px + q + G^\top \lambda &= 0 \\
+\lambda^{* ^\top} (G x - h) &= 0 \\
+\lambda^{*} &\succeq 0_{ m \times1}  \\
+G x - h  &\preceq 0_{ m \times1}.
+\end{IEEEeqnarray}

@@ -1,0 +1,140 @@
+\chapter{Proof of Corollary~\ref{corollary:approximation}\label{appendix:proof_corollary_compliant}} 
+
+Let ${}_{\mathcal{I}} f$ and ${}_{B[\mathcal{I}]} \mu $ the  contact force and torque given by \eqref{eq:contact_force_integral_rectangle} and \eqref{eq:contact_torque_integral_rectangle}, respectively. Assume that $\prescript{\mathcal{I}}{}{\bar{R}} _B = I _3 $ and  $\prescript{\mathcal{I}}{}{R} _B$ is approximated with its first order of the Taylor expansion, i.e., $\prescript{\mathcal{I}}{}R _B = I_3 + \Theta\times$, with $\Theta \in \mathbb{R}^3$. Assume that $\Theta$ represents the classical roll-pitch-yaw sequence, namely $\prescript{\mathcal{I}}{}R _B(\Theta) = R_z(\Theta_3)R_y(\Theta_2)R_x(\Theta_1)$.
+Then, we want to prove the state of Corollary~\ref{corollary:approximation}.
+\par
+By substituting the first-order Taylor expansion $\prescript{\mathcal{I}}{}R _B = I_3 + \Theta\times$ into Equation~\eqref{eq:contact_force_integral_rectangle}, we obtain the following:
+\begin{IEEEeqnarray}{ll}
+\phantomsection  \IEEEyesnumber \IEEEyessubnumber*
+     {}_{\mathcal{I}} f \;&\approx lw | e_3^\top \left( I_3 + \Theta \times \right) e_3| \left[ k (\bar{o}_B - o_B) - b \dot{o}_B\right] \\
+     &= lw \left[ k (\bar{o}_B - o_B) - b \dot{o}_B \right],
+\end{IEEEeqnarray}
+where the last term is equivalent to Equation~\eqref{eq:linear_model_force} with $\mathcal{K}_l = lwk I_3$ and $\mathcal{B}_l = lwb I_3$.
+\par
+To prove Equation~\eqref{eq:linear_model_torque} we first set $\prescript{\mathcal{I}}{}{\bar{R}} _B = I _3$
+\begin{IEEEeqnarray}{lcl}
+\phantomsection \label{eq:compliant_toque_linearization} \IEEEyesnumber \IEEEyessubnumber*
+{}_{B[\mathcal{I}]} \mu &\;=\;&  \frac{l w}{12} |e _ 3^\top \prescript{\mathcal{I}}{}{R} _B e _ 3|  \label{eq:compliant_toque_linearization_1} \\
+&&\left\{ l^2 k (\prescript{\mathcal{I}}{}{R} _B e_1) \times  e_1 \right . \label{eq:compliant_toque_linearization_2} \\
+&& + l^2 b (\prescript{\mathcal{I}}{}{R} _B e_1) \times (\prescript{\mathcal{I}}{}{R} _B e_1) \times {}^{\mathcal{I}} \omega _ {\mathcal{I}, B}
+\label{eq:compliant_toque_linearization_3}  \\
+&&  + w^2 k  (\prescript{\mathcal{I}}{}{R} _B e_2) \times  e_2 \label{eq:compliant_toque_linearization_4}  \\
+&& \left. + w^2 b  (\prescript{\mathcal{I}}{}{R} _B e_2) \times (\prescript{\mathcal{I}}{}{R} _B e_2) \times {}^{\mathcal{I}} \omega _ {\mathcal{I}, B} \right\}. \label{eq:compliant_toque_linearization_5} 
+\end{IEEEeqnarray}
+We now analyze the contribution of each term in Equation~\eqref{eq:compliant_toque_linearization}. 
+By substituting the first order Taylor expansion $\prescript{\mathcal{I}}{}R _B = I_3 + \Theta\times$ in Equation~\eqref{eq:compliant_toque_linearization_2} and applying the vector triple product~\footnote{Given three vectors $a, b, c \in \mathbb{R}^3$, the following relationship holds:
+\begin{equation*}
+    a \times \left(b \times c\right) = \left(a^\top c\right) b - \left(a^\top b \right) c.
+\end{equation*}}, we obtain
+\begin{IEEEeqnarray}{lcl}
+\phantomsection \label{eq:compliant_toque_linearization_2_expanded}   \IEEEyesnumber \IEEEyessubnumber*
+ l^2 k (\prescript{\mathcal{I}}{}{R} _B e_1) \times  e_1 &\,=\,& l^2 k [(I_3 + \Theta\times) e_1] \times  e_1 \\
+&=& l^2 k [e_1 \times e_1 + (\Theta \times e_1) \times e_1 ]\\
+&=& l^2 k [(e_1 ^\top \Theta) e_1 - \Theta] \\
+&=& l^2 k \begin{bmatrix} 0 & -\Theta_2 & -\Theta_3 \end{bmatrix}^\top.
+\end{IEEEeqnarray}
+The very same approach is also valid for~\eqref{eq:compliant_toque_linearization_4}:
+\begin{IEEEeqnarray}{lcl}
+\phantomsection \label{eq:compliant_toque_linearization_4_expanded}   \IEEEyesnumber \IEEEyessubnumber*
+ w^2 k (\prescript{\mathcal{I}}{}{R} _B e_2) \times  e_2 &\,=\,& w^2 k [(I_3 + \Theta\times) e_2] \times  e_2 \\
+&=&  w^2 k [e_2 \times e_2 + (\Theta \times e_2) \times e_2]\\
+&=& w^2 k [(e_2 ^\top \Theta) e_2 - \Theta] \\
+&=& w^2 k \begin{bmatrix} -\Theta_1 & 0&  -\Theta_3 \end{bmatrix}^\top.
+\end{IEEEeqnarray}
+Let us now compute the small-angle approximation for the angular velocity ${}^{\mathcal{I}} \omega _ {\mathcal{I}, B}$. We recall that it is always possible to compute the angular velocity from the rate of change of the Euler parametrization. In the case of roll-pitch-yaw parametrization we have:
+\begin{equation}
+    {}^{\mathcal{I}} \omega _ {\mathcal{I}, B} = \begin{bmatrix} R _z (\Theta _ 3)  R _ y (\Theta _ 2 ) e _ 1& R _z (\Theta _ 3) e _ 2 & e _ 3  \end{bmatrix} \dot{\Theta}.
+\end{equation}
+We now evaluate the first-order approximation of the angular velocity as a function of the Euler angle rate of change:
+
+\begin{IEEEeqnarray}{ll}
+\phantomsection  \IEEEyesnumber \IEEEyessubnumber*
+{}^{\mathcal{I}} \omega _ {\mathcal{I}, B}\; &= \begin{bmatrix} R _z (\Theta _ 3)  R _ y (\Theta _ 2 ) e _ 1& R _z (\Theta _ 3) e _ 2 & e _ 3  \end{bmatrix} \dot{\Theta} \\ 
+& = \begin{bmatrix} 
+\cos(\Theta _ 2) \cos(\Theta _ 3) &  -\sin(\Theta _ 3) & 0 \\ 
+\cos(\Theta _ 2) \sin(\Theta _ 3) &  \cos(\Theta _ 3) &  0 \\ 
+-\sin(\Theta _ 2) & 0 & 1 
+\end{bmatrix}   \dot{\Theta} \\ 
+&= \begin{bmatrix} 
+-\cos(\Theta _ 2) \cos(\Theta _ 3) -1&  -\sin(\Theta _ 3) & 0 \\ 
+\cos(\Theta _ 2) \sin(\Theta _ 3) &  \cos(\Theta _ 3) -1&  0 \\ 
+-\sin(\Theta _ 2) & 0 & 0 
+\end{bmatrix}   \dot{\Theta} + \dot{\Theta} \\
+&\approx \begin{bmatrix} 
+-\frac{\Theta _ 2 ^ 2 \Theta _ 3 ^ 2}{2}&  -\Theta _ 3 & 0 \\ 
+-\Theta _ 3 &  -\frac{\Theta _ 3}{2}&  0 \\ 
+-\Theta _ 2 & 0 & 0 
+\end{bmatrix}   \dot{\Theta} + \dot{\Theta} \\
+&\approx \dot{\Theta}.
+\end{IEEEeqnarray}
+We can conclude that for small angles, the angular velocity can be approximated to the rate of change of the Euler angle, i.e. ${}^{\mathcal{I}} \omega _ {\mathcal{I}, B} \approx \dot{\Theta}$.
+\par
+Considering the angular velocity approximation and substituting the first order Taylor expansion $\prescript{\mathcal{I}}{}R _B = I_3 + \Theta\times$ in the term~\eqref{eq:compliant_toque_linearization_3}, we obtain
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:compliant_toque_linearization_3_expanded}  \IEEEyesnumber \IEEEyessubnumber*
+ (\prescript{\mathcal{I}}{}{R} _B e_1) \times (\prescript{\mathcal{I}}{}{R} _B e_1) \times {}^{\mathcal{I}} \omega _ {\mathcal{I}, B}  \;&=  \left[(\prescript{\mathcal{I}}{}{R} _B e_1) \times \right]^2 {}^{\mathcal{I}} \omega _ {\mathcal{I}, B} \\
+&\approx \left\{\left[\left( I_3 + \Theta\times \right) e_1\right] \times \right\} ^2  \dot{\Theta} \\
+& = \begin{bmatrix} 0 & \Theta _ 2 & \Theta _ 3 \\ -\Theta _ 2 & 0 & -1 \\ -\Theta _ 3 &  1 & 0\end{bmatrix}   ^ 2 \dot{\Theta} \\
+&= \begin{bmatrix} - \Theta _ 2 ^ 2 - \Theta _ 3 ^ 2 & \Theta _ 3 & -\Theta _ 2  \\ \Theta _ 3 & - \Theta _ 2 ^ 2 - 1 & - \Theta _ 3 \Theta _ 2 \\ 
+-\Theta _ 2 & - \Theta _ 3 \Theta _ 2 & - \Theta _ 3 ^ 2 - 1 \end{bmatrix} \dot{\Theta} \\ 
+&\approx 
+\begin{bmatrix}  0 &  \Theta _ 3 & -\Theta _ 2  \\  \Theta _ 3  & -  1 & 0 \\ 
+-\Theta _ 2 & 0 & -  1 \end{bmatrix} \dot{\Theta} \\
+&\approx 
+\begin{bmatrix}  0 &  0 & 0  \\  0  & -  1 & 0 \\ 
+0 & 0 & -  1 \end{bmatrix} \dot{\Theta}.
+\end{IEEEeqnarray}
+Here we neglect all the second-order terms.
+\par
+The very same approach is also valid for~\eqref{eq:compliant_toque_linearization_5}:
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:compliant_toque_linearization_5_expanded} \IEEEyesnumber \IEEEyessubnumber*
+(\prescript{\mathcal{I}}{}{R} _B e_2) \times (\prescript{\mathcal{I}}{}{R} _B e_2) \times {}^{\mathcal{I}} \omega _ {\mathcal{I}, B}  \;&=  \left[(\prescript{\mathcal{I}}{}{R} _B e_2) \times \right]^2 {}^{\mathcal{I}} \omega _ {\mathcal{I}, B} \\
+&\approx \left\{\left[\left( I_3 + \Theta\times \right) e_2\right] \times \right\} ^2  \dot{\Theta} \\
+&= \begin{bmatrix} 
+-\Theta _ 1 ^ 2 - 1&  - \Theta _ 3 & - \Theta _ 1 \Theta _ 3 \\ 
+-\Theta_3 & - \Theta _ 1 ^ 2 - \Theta _ 3 ^ 2 &          \Theta _ 1 \\ 
+-\Theta _ 1 \Theta _ 3 & \Theta _ 1 &  -\Theta _ 3 ^ 2 - 1 
+\end{bmatrix}\dot{\Theta} \\ 
+&\approx \begin{bmatrix} 
+-1&  - \Theta _ 3 & 0 \\ 
+-\Theta_3 & 0 &          \Theta _ 1 \\ 
+0 & \Theta _ 1 &  - 1 
+\end{bmatrix}\dot{\Theta} \\
+&\approx 
+\begin{bmatrix}  -1 &  0 & 0  \\  0  & 0 & 0 \\ 
+0 & 0 & -  1 \end{bmatrix} \dot{\Theta}.
+\end{IEEEeqnarray}
+
+By substituting \eqref{eq:compliant_toque_linearization_2_expanded} \eqref{eq:compliant_toque_linearization_3_expanded} \eqref{eq:compliant_toque_linearization_4_expanded} and \eqref{eq:compliant_toque_linearization} and remembering that $|e _ 3^\top \prescript{\mathcal{I}}{}{R} _B e _ 3| \approx 1$ for a small rotation we obtain
+\begin{equation}
+    {}_{B[\mathcal{I}]} \mu \approx \frac{lw}{12} \left(l^2 k \begin{bmatrix}
+    0 \\
+    -\Theta_2 \\
+    - \Theta_3
+    \end{bmatrix} 
+    + w^2 k \begin{bmatrix}
+    -\Theta_1 \\
+    0 \\
+    - \Theta_3
+    \end{bmatrix}
+    + l^2 b \begin{bmatrix}
+    0 \\
+    -\dot{\Theta}_2 \\
+    - \dot{\Theta}_3
+    \end{bmatrix} 
+    + w^2 b \begin{bmatrix}
+    -\dot{\Theta}_1 \\
+    0 \\
+    - \dot{\Theta}_3
+    \end{bmatrix}\right),
+\end{equation}
+that  is equivalent to Equation~\eqref{eq:linear_model_torque} with 
+\begin{equation}
+\mathcal{K}_a =  k \frac{l w}{12} \begin{bmatrix} w ^ 2 & 0 & 0 \\ 
+0 & l ^ 2 & 0 \\ 
+0 & 0& l ^2 {+} w ^2 \end{bmatrix}
+\quad \quad \mathcal{B}_a =  b \frac{l w}{12} \begin{bmatrix} w ^ 2 & 0 & 0 \\ 
+0 & l ^ 2 & 0 \\ 
+0 & 0& l ^2 {+} w ^2 \end{bmatrix}.
+\end{equation}

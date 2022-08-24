@@ -1,0 +1,24 @@
+\section{The centroidal moment pivot\label{sec:cmp}}
+Given a multi-body system that interacts with its surroundings. Consider a frame that is rigidly coupled to the contact surface $B:=(o_B, [B])$ and a frame that is positioned on the CoM. The origin of $G[B]:=(x_\text{CoM}, [B])$ is at the center of mass $x_\text{CoM}$, and is oriented as $B$. The Centroidal Moment Pivot (CMP)~\citep{Popovic2005} is defined as the point where a line parallel to the contact force, passing through the CoM, intersects the contact surface. More formally, we define the CMP, denoted as $x_\text{CMP}$, as
+\begin{equation}
+\label{eq:cmp_definition}
+    x_\text{CMP} \in \mathbb{R}^3\quad \text{such that } ({}^B x_\text{CMP} - {}^B x_\text{CoM}) \times {}_B f = 0, \; e_3 ^ \top {}^B x_\text{CMP} = 0.
+\end{equation}
+Expanding Equation~\eqref{eq:cmp_definition}, the components ${}^B x_\text{CMP}$ write as
+\begin{IEEEeqnarray}{RCL}
+	\IEEEyesnumber \phantomsection \label{eq:cmp_definition_explicit}
+	{}^B x_{\text{CMP}_x} &=& {}^B x_{\text{CoM}_x} - \frac{{}_B f_x}{{}_B f_z} x_{\text{CoM}_z} , \IEEEyessubnumber\\
+	{}^B  x_{\text{CMP}_y} &=& {}^B x_{\text{CoM}_y} - \frac{{}_B f_y}{{}_B f_z} x_{\text{CoM}_z}, \IEEEyessubnumber \\
+	{}^B  x_{\text{CMP}_z} &=& 0. \IEEEyessubnumber
+\end{IEEEeqnarray}
+Combining Equation~\eqref{eq:zmp_centroidal_relationship} with the CMP definition~\eqref{eq:cmp_definition_explicit} we can express the CMP in terms of ZMP location, rate of change of the centroidal angular momentum, and the ground reaction force as
+\begin{IEEEeqnarray}{RCL}
+	\IEEEyesnumber \phantomsection \label{eq:cmp_definition_explicit_zmp}
+	{}^B x_{\text{CMP}_x} &=& {}^B x_{\text{ZMP}_x} + \frac{{}_{G[B]} \dot{h}^\omega_y}{{}_B f_z} , \IEEEyessubnumber\\
+	{}^B  x_{\text{CMP}_y} &=& {}^B x_{\text{ZMP}_y} - \frac{{}_{G[B]} \dot{h}^\omega_x}{{}_B f_z}, \IEEEyessubnumber \\
+	{}^B  x_{\text{CMP}_z} &=& 0. \IEEEyessubnumber
+\end{IEEEeqnarray}
+To give the reader a better comprehension, we can image the CMP as the point where the ground reaction
+force would have to act to keep the horizontal component of the whole-body angular momentum constant. When the centroidal angular momentum is constant, i.e., ${}_{G[B]} \dot{h}^\omega = 0_{3\times 1}$ the CMP coincides with the ZMP -- Figure~\ref{fig:cmp-zmp}. Moreover, while by definition the ZMP cannot leave the contact domain $\Omega$, the CMP, in the case of ${}_{G[B]} \dot{h}^\omega_x \neq 0$  or ${}_{G[B]} \dot{h}^\omega_y \neq 0$, can.
+Let us assume that the motion of the multi-body system is approximated by the LIPM, i.e., the hypothesis in Section~\ref{sec:lip} holds, then it is possible to prove that the position of the CMP coincides with the ZMP.
+To prove this statement, it is worth noticing that when the hypotheses of the LIPM are satisfied the centroidal angular momentum is kept constant -- Section~\ref{sec:lip}, hence, substituting ${}_{G[B]} \dot{h}^\omega$ into Equation~\eqref{eq:cmp_definition_explicit_zmp}, we can conclude that if the system is approximated by the LIPM, then the CMP and ZMP coincide.

@@ -1,0 +1,23 @@
+
+\chapter{Whole-Body Controller on Visco Elastic Environment\label{chapter:wbc_visco_elastic}}
+
+\graphicspath{{ChapterCompliantContact/figures}}
+
+In Chapter~\ref{chapter:benchmarking_wbc}, we introduced a whole-body controller for humanoid robot locomotion in contact with a stiff environment. When the contact between a robot and its surroundings is sufficiently rigid, controllers based on the rigid contact assumption may nevertheless result in satisfactory robot performance. However, when contact compliance reduces robot performance, it is necessary to design contact models that account for contact stiffness and damping, which may subsequently be included in feedback controllers.
+In light of that, this chapter presents a model of compliant contacts for time-critical humanoid robot motion control. The proposed model considers the environment as a continuum of spring-damper systems, allowing us to compute the equivalent contact force and torque that the environment exerts 
+on the contact surface. We show that the proposed model extends the linear and rotational springs and dampers, classically used to characterize soft terrains,
+to the case of \emph{large} contact surface orientations.
+The contact model is then used for the 
+real-time whole-body control of humanoid robots walking in visco-elastic environments. The overall approach is validated by simulating
+walking motions of the iCub humanoid robot. Furthermore, we compare the proposed whole-body control strategy with state-of-the-art approaches. In this respect, we investigate the terrain compliance that makes the classical approaches that assumes rigid contacts fail. We finally analyze the robustness of the presented control design with respect to non-parametric uncertainty in the contact model.
+\par
+The chapter is organized as follows: Section~\ref{sec:contact_mode_compliant} presents the model used to characterize the interaction between the robot and the environment. Section~\ref{sec:controller_tsid_compliant} details the whole-body controller for walking on compliant surfaces. The section also contains the design of an observer to estimate the contact parameters. Section~\ref{sec:results_compliant} presents the simulation results on the iCub humanoid robot v2.7 -- see Section~\ref{sec:icub2.7}. Finally, Section~\ref{sec:conclusions_compliant} concludes the chapter.
+
+The content of this chapter appears in:
+\fciteWithVideoAndCode{Romualdi2021ModelingControl}{https://www.youtube.com/watch?v=7XKQ5ZWJvYU}{https://www.youtube.com/watch?v=7XKQ5ZWJvYU}{https://github.com/ami-iit/romualdi-2021-ral-soft\_terrain\_walking}{ami-iit/romualdi-2021-ral-soft\_terrain\_walking}
+
+\input{chapter_compliant_contact/visco-elastic_modeling}
+\input{chapter_compliant_contact/whole-body-controller}
+\input{chapter_compliant_contact/results}
+\input{chapter_compliant_contact/conclusions}
+

@@ -1,0 +1,125 @@
+
+\begin{figure}[tpb]
+\centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics{chapter_simplified_models/figures/lipm.tikz}
+        \caption{Model representation}
+        \label{fig:lipm}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{chapter_simplified_models/figures/lipm_phase.tikz}
+        \caption{Phase space representation}
+        \label{fig:lipm_phase}
+    \end{subfigure}
+	\caption[The linear inverted pendulum model.]{The linear inverted pendulum approximates a humanoid robot walking on a planar ground while keeping a constant CoM height and zero centroidal angular momentum rate of change.}
+\end{figure}
+
+\section{The linear inverted pendulum}\label{sec:lip}
+When a biped robot supports its body on one leg, its dynamics can be approximated by the Linear Inverted Pendulum Model (LIPM). This model approximates floating base dynamics~\eqref{eq:system_initial} simply considering the center of mass, which is represented as a point mass on top of a pendulum with negligible inertia and one contact, i.e., one stance foot, which is rigidly in contact with the ground -- Figure~\ref{fig:lipm}.
+
+Let us assume an inertial frame $\mathcal{I}$ whose z is pointing against the gravity vector $g$ and assuming:
+\begin{enumerate}
+    \item \label{enum:lip_pureforce} a pure force ${}_p f \in \mathbb{R}^3$ located at the point ${}_p x$ on the ground acts on the system;
+    \item \label{enum:friction_cone} the contact point ${}_p x$ is weakly stable, i.e., ${}_p \dot{x} = 0$ and the contact force ${}_p f$ belongs to the friction cone~\footnote{As discussed in Section~\ref{sec:convex_set_example}, the friction cone is an example of a second-order cone. Where a second-order cone, also known as Lorentz cone, is given by 
+    \begin{IEEEeqnarray*}{ll}
+   \mathcal{Q}^{n+1} &=  \left\{ \left. \begin{bmatrix}x \\ t\end{bmatrix} \in \mathbb{R}^{n+1} \; \right| \; \| x \| \le t \right\}  \\
+&=\left\{ \left. \begin{bmatrix}x \\ t\end{bmatrix} \in \mathbb{R}^{n+1} \; \right| \; \begin{bmatrix}x \\ t\end{bmatrix} ^\top 
+    \begin{bmatrix}
+    I_n & 0_{n \times 1} \\
+    0_{1\times n }& -1
+    \end{bmatrix} 
+    \begin{bmatrix}x \\ t\end{bmatrix} \le 0, t\ge 0
+    \right\}.
+\end{IEEEeqnarray*}
+\\
+    }, that is, ${}_p f \in \mathcal{Q}^3_\mu$ where 
+    \begin{equation}
+    \label{eq:friction_cone}
+    \mathcal{Q}^3_\mu = \left\{ {}_p f \in \mathbb{R}^3 \; | \; {}_p f_z \mu \ge \sqrt{{}_p f_x^2 + {}_p f_y^2}\right\}
+    \end{equation}
+    \item \label{enum:com_height} the z component of the distance between contact location ${}_p x$ and the CoM $x_{\text{CoM}}$ is kept constant during the motion i.e., $e_3 ^\top ({}_p x - x_{\text{CoM}}) = h$,  $e_3 ^\top \dot{x}_{\text{CoM}} = 0$, $e_3 ^\top \ddot{x}_{\text{CoM}} = 0$; 
+    \item \label{enum:angular_momentum} the centroidal angular momentum is constantly zero, i.e.,  ${}_{\bar{G}}h^\omega = 0$ and ${}_{\bar{G}}\dot{h}^\omega = 0$.
+\end{enumerate}
+Taking into account the assumptions, the centroidal momentum dynamics~\eqref{eq:centroidal_momentum_dynamics} becomes
+\begin{IEEEeqnarray}{c}
+	\IEEEyesnumber \phantomsection \label{eq:lip_dynamics_full}	
+  {}_{\bar{G}} h  = \begin{bmatrix}
+    {}_{\bar{G}} h ^p \\ {}_{\bar{G}} h ^\omega
+    \end{bmatrix}= \begin{bmatrix}
+    {}_p f - m g \\
+    ({}_p x - x _{\text{CoM}})^\wedge {}_p f 
+    \end{bmatrix} \IEEEyessubnumber  \label{eq:lip_dynamics_centroidal}\\
+	\left({}_p x- x_\text{CoM}\right)^\wedge {}_p f  = 0.  \IEEEyessubnumber \label{eq:lip_force_constraint}    
+\end{IEEEeqnarray}
+Given the hypothesis \ref{enum:com_height} and the constraint~\eqref{eq:lip_force_constraint}, the components ${}_p f$ writes as
+\begin{IEEEeqnarray}{RCL}
+	\IEEEyesnumber \phantomsection \label{eq:lip_tang_forces}
+	{}_pf_x &=& m\zeta^2e_1^\top \left(x_\text{CoM}- {}_\text{p}x\right), \IEEEyessubnumber\\
+	{}_pf_y &=& m\zeta^2e_2^\top \left(x_\text{CoM} - {}_\text{p}x\right), \IEEEyessubnumber \\
+	{}_pf_z &=&  -m|g|, \IEEEyessubnumber
+\end{IEEEeqnarray}    
+where $\zeta = \sqrt{\frac{|g|}{h}}$ is the time constant of the LIPM. ${}_pf_x$, ${}_pf_y$, and ${}_pf_z$ represent the components $x$, $y$, and $z$ of the vector ${}_pf$.
+By substituting the contact force values~\eqref{eq:lip_tang_forces} into the dynamics \eqref{eq:lip_dynamics_full}, we obtain the following:
+\begin{equation*}
+\ddot{x}_\text{CoM} = \begin{bmatrix}
+e_1^\top \\
+e_2^\top \\
+0_{3\times 1}
+\end{bmatrix} \zeta^2\left(x_\text{CoM} - {}_\text{p}x\right).
+\end{equation*}
+Since the dynamics is different from zero only in the planar coordinates, we can define
+\begin{equation}
+	x_\text{LIP} = \begin{bmatrix}
+	e_1^\top \\
+	e_2^\top
+	\end{bmatrix}x_\text{CoM}, \quad x_\text{LIP} \in \mathbb{R}^2,
+\end{equation}
+and, without loss of generality, we consider ${}_\text{p}x \in \mathbb{R}^2$. We then obtain the LIP dynamic equation,
+\begin{equation}\label{eq:lip_dynamics}
+	\ddot{x}_\text{LIP} = \zeta^2\left(x_\text{LIP} - {}_\text{p}x\right),
+\end{equation} 
+The LIP model \eqref{eq:lip_dynamics} is described by a second-order linear dynamical system. It is worth noticing that the dynamics of the $x$ and $y$ coordinates of the LIPM are completely decoupled; as a consequence it is possible to focus our analysis on only one component, then the same observations will hold also for the other. 
+Without loss of generality, let us define $x_1 = x_{\text{LIP}_x}$ and $x_2 = \dot{x}_{\text{LIP}_x}$, the state-space representation of the \eqref{eq:lip_dynamics} writes as
+\begin{equation}
+\label{eq:lip_dynamics_ss_x}
+    \begin{bmatrix}
+    \dot{x}_1 \\
+     \dot{x}_2 
+    \end{bmatrix}
+    = 
+         \begin{bmatrix}
+    0 & 1 \\
+    \zeta^2 & 0_2
+    \end{bmatrix}
+        \begin{bmatrix}
+    x_1 \\
+     x_2 
+    \end{bmatrix} + 
+    \begin{bmatrix}
+    0 \\
+    -\zeta^2
+    \end{bmatrix}
+{}_px_x = A     \begin{bmatrix}
+    x_1 \\
+     x_2 
+    \end{bmatrix} + 
+    B \; {}_px_x
+\end{equation} 
+The system has one single equilibrium point given by 
+\begin{equation}
+    \begin{bmatrix}
+    {x}_{\text{LIP}_x}^e\\
+	{\dot{x}}_{\text{LIP}_x}^e
+	\end{bmatrix}
+	 := \begin{bmatrix}
+	    {}_px_x\\
+	 	0
+	 \end{bmatrix}.
+\end{equation}
+Since the eigenvalues of $A$ are equal to $\lambda_{1,2} =  \pm \zeta$, the equilibrium point is unstable. Figure~\ref{fig:lipm_phase} shows the state-space representation of the dynamics~\eqref{eq:lip_dynamics_ss_x}. 
+It is worth noting that the dynamical system is completely controllable, in fact, the rank of the controllability matrix $\mathcal{R}$ is equal to the dimension of the system. As a consequence, it is possible to design a control system such that the dynamics~\eqref{eq:lip_dynamics_ss_x} is asymptotically stabilized. 
+\par
+The LIP model can be extended considering also a finite-sized-foot \citep{Kajita2001,koolen2012capturability}. In this case, it can be shown that ${}_\text{p}x$ corresponds to the position of the zero moment point $x_\text{ZMP}$ \citep{vukobratovic2004zero}, instead of the position of the foot.

@@ -1,0 +1,19 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [fill={rgb, 255:red, 227; green, 227; blue, 227 }  ,fill opacity=1 ] (366,182) .. controls (275.29,118.71) and (484,125) .. (474,167) .. controls (464,209) and (404,163) .. (465,223) .. controls (526,283) and (370,280) .. (352,240) .. controls (334,200) and (456.71,245.29) .. (366,182) -- cycle ;
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ][line width=1.5]  [dash pattern={on 1.69pt off 2.76pt}]  (450.6,172.2) -- (453.5,255.67) ;
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (450.5,255.67) .. controls (450.5,254.01) and (451.84,252.67) .. (453.5,252.67) .. controls (455.16,252.67) and (456.5,254.01) .. (456.5,255.67) .. controls (456.5,257.33) and (455.16,258.67) .. (453.5,258.67) .. controls (451.84,258.67) and (450.5,257.33) .. (450.5,255.67) -- cycle ;
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ][line width=1.5]  [dash pattern={on 1.69pt off 2.76pt}]  (450.6,172.2) -- (390.2,242.6) ;
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (387.2,242.6) .. controls (387.2,240.94) and (388.54,239.6) .. (390.2,239.6) .. controls (391.86,239.6) and (393.2,240.94) .. (393.2,242.6) .. controls (393.2,244.26) and (391.86,245.6) .. (390.2,245.6) .. controls (388.54,245.6) and (387.2,244.26) .. (387.2,242.6) -- cycle ;
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (447.6,172.2) .. controls (447.6,170.54) and (448.94,169.2) .. (450.6,169.2) .. controls (452.26,169.2) and (453.6,170.54) .. (453.6,172.2) .. controls (453.6,173.86) and (452.26,175.2) .. (450.6,175.2) .. controls (448.94,175.2) and (447.6,173.86) .. (447.6,172.2) -- cycle ;
+
+\draw (432.44,149.56) node [anchor=north west][inner sep=0.75pt]    {$x_{1}$};
+\draw (432.19,241.08) node [anchor=north west][inner sep=0.75pt]    {$x_{2}$};
+\draw (398.19,237.71) node [anchor=north west][inner sep=0.75pt]    {$x_{3}$};
+
+
+\end{tikzpicture}

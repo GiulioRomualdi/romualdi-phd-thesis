@@ -1,0 +1,205 @@
+\section{Flexible Joint State Observer\label{sec:flexible_joint_observer}}
+The optimal control problem presented in Section~\ref{sec:wbc_tsid_flex_joints} assumes the knowledge of the state of the flexible joints, namely position, velocity, and torque.  In a simulated environment, these values are perfectly known. However, in the real scenario, an estimation algorithm is required to compute them.
+\par
+In this section, we discuss an algorithm that estimates the flexible joint torques, position, and velocity considering the measured contact wrenches that act on the robot soles and the actuated joint state. For simplicity, we present the algorithm considering the flexibility of the TALOS link. Given the symmetry of the robot structure, we analyze the approach only for one leg.
+Even if we approach the problem considering the TALOS use case, we want to underline that the
+proposed estimation can also be applied to other humanoid robots affected by link flexibility.
+\par
+For TALOS, we know that each leg is made up of $8$ joints, $2$ of which are flexible and the other $6$ are actuated. Furthermore, we assume that the flexible joints are located near the waist. As discussed in Section~\ref{sec:floating-base-multi-body-system}, we model the floating base multi-body
+system as a kinematic three. Figure~\ref{fig:talos_leg_scheme} presents a schematic representation
+of the TALOS leg structure. Exploring the three from the waist to the sole, we first visit the flexible joints, and then the actuated joints.
+\begin{figure}[t]
+    \centering
+	\includegraphics{chapter_flexible_joints/figures/leg_scheme.tikz}
+	\caption[Schematic representation of the flexible TALOS leg.]{Schematic representation of the flexible TALOS leg. The links are represented by the graphs node, while the joints are the arcs. $L^a_0$ is the robot waist, $L^f_1$ and $L^f_2$ the flexible links, $L^a_i$ and  $s^a_i$ with $1\le i \le6$ are respectively the robot link and the actuated joints}
+	\label{fig:talos_leg_scheme}
+\end{figure}
+From now on, we denote by $L^a_0$ the waist of the robot, while $L^f_1$ and $L^f_2$ are the fictitious flexible links required to connect the flexible joints $s_1^f$ and $s_2^f$. $L^a_i$ and  $s^a_i$ with $1\le i \le6$ are the robot link and the actuated joints, respectively. Figure~\ref{fig:leg_geometric_scheme} presents the geometric model of the flexible robot leg. Each link is associated with a frame attached to the joint connecting the link to its parent. The name of the frame associated with the link coincides with the name of the link. 
+\begin{figure}[t]
+    \centering
+	\includegraphics{chapter_flexible_joints/figures/leg_geometric_scheme.tikz}
+	\caption[Geometric model of the flexible TALOS leg.]{Geometric model of the flexible TALOS leg. Each link is associated with a frame attached to the joint connecting the link to its parent. The red frames are associated with the flexible links while the green frames to the robot links.}
+	\label{fig:leg_geometric_scheme}
+\end{figure}
+\par
+Given one link of the leg chain, the associated rigid body dynamics is given by \emph{Eurel-Poincaré Equations} (Equation~\eqref{eq:eurel-poincare-equations-lie-se3-force}): 
+\begin{equation}
+\label{eq:eurel-poincare-equations-lie-se3-force-flex-joints}
+     {}_L \mathbb{M} _ L {}^L \dot{\mathrm{v}} _{\lieGroup{I}, L} + {}^L \mathrm{v} _{\lieGroup{I}, L } \times^* {}_L \mathbb{M} _ L {}^L \mathrm{v} _{\lieGroup{I}, L }  = {}_L \mathbb{M} _ L \begin{bmatrix}
+      {}^\lieGroup{I} R _ L ^\top g \\ 
+      0_{3\times1}
+     \end{bmatrix} + \sum_{k=1}^{n_f} {}_L  \mathrm{f}_k.
+\end{equation}
+where $L$ is the frame associated with the link. ${}_L \mathbb{M} _ L$ is the 6D constant inertial matrix of the link~\eqref{eq:6d_inertial_matrix_body}. ${}^L \mathrm{v} _{\lieGroup{I}, L }$ is the left-trivialized spatial velocity~\eqref{eq:left_trivialized_velocity_definition}. $g$ is the gravity vector. ${}_L\mathrm{f}_k$ is a 6D spatial force acting on the link, and $n_f$ are the forces acting on the link.
+We now assume that each link is subject to only two forces. One is exerted by the parent link, and the other is exerted by the child link. Given the chain structure of the leg (Figure~\ref{fig:talos_leg_scheme}), each link has one parent and one child, except for the waist $L^a_0$ and the foot sole $L^a_6$. With an abuse of notation, we consider the environment as the child of the sole. If the foot is in contact with the ground, one of the 6D forces acting on $L_6^a$ is caused by the interaction with the environment. Since TALOS has a force-torque sensor mounted on the ankle, we assume the ground reaction force is measurable. 
+\par
+We now introduce the \emph{proper sensor acceleration} as~\citep[Section~2.4.4]{Traversaro2017ModellingDynamics}
+\begin{equation}
+\label{eq:proper_sensor_acceleration_def}
+    \alpha _ {\mathcal{I},L}^g := {}^L X_ {L[\mathcal{I}]} {}^{L[\mathcal{I}]} \dot{\mathrm{v}}_ {\mathcal{I},L} - \
+    \begin{bmatrix}
+     {}^\lieGroup{I} R _ L ^\top g \\ 
+      0_{3\times1}
+    \end{bmatrix}.
+\end{equation}
+Where ${}^L X_ {L[\mathcal{I}]}$ is the adjoint matrix, i.e, ${}^L X_ {L[\mathcal{I}]} = \AdM_{{}^L H_ {L[\mathcal{I}]}}$ -- see Equation~\eqref{eq:adjoint_matrix_se3_def}. 
+$\alpha _ {\mathcal{I},L}^g$ is the acceleration obtained by an inertial measurement unit (IMU) aligned with $L$. The linear part is the readout of a linear accelerometer, and the angular part is the derivative of the output of a gyroscope.
+\par
+Combining the proper sensor acceleration~\eqref{eq:proper_sensor_acceleration_def} with \eqref{eq:eurel-poincare-equations-lie-se3-force-flex-joints}, we rewrite the body dynamics as
+\begin{equation}
+    {} _ L \mathbb{M} _ L \alpha ^ g _ {\mathcal{I},L} + \begin{bmatrix} 
+0 _ {3 \times 1} \\ 
+{}^L \omega _{\mathcal{I}, L} \end{bmatrix}  \times ^ * {} _ L \mathbb{M} _ L \begin{bmatrix} 
+0 _ {3 \times 1} \\ 
+{}^L \omega _{\mathcal{I}, L} \end{bmatrix} =   \sum_{k=1}^{n_f} {} _ L \mathrm{f}_k.
+\end{equation}
+For convenience, we define ${}_L \phi_L\left(\alpha ^ g _ {\mathcal{I},L},{}^L \omega _{\mathcal{I}, L}\right) $ as
+\begin{equation}
+\label{eq:b_phi_b_definition}
+    {}_L \phi_L\left(\alpha ^ g _ {\mathcal{I},L},{}^L \omega _{\mathcal{I}, L}\right)=  {} _ L \mathbb{M} _ L \alpha ^ g _ {\mathcal{I},L} + \begin{bmatrix} 
+0 _ {3 \times 1} \\ 
+{}^L \omega _{\mathcal{I}, L} \end{bmatrix}  \times ^ * {} _ L \mathbb{M} _ L \begin{bmatrix} 
+0 _ {3 \times 1} \\ 
+{}^L \omega _{\mathcal{I}, L} \end{bmatrix}.
+\end{equation}
+We notice that ${}_L \phi_L\left(\alpha ^ g _ {\mathcal{I},B},{}^B \omega _{\mathcal{I}, L}\right)$ depends on the acceleration, velocity, and inertial parameters of the body. Taking into account~\eqref{eq:b_phi_b_definition} we can finally rewrite the rigid body dynamics of the body $L$ as
+\begin{equation}
+\label{eq:rigid_body_dynamics_simplfied_final}
+{}_L \phi_L =  \sum_{k=1}^{n_f} {} _ L \mathrm{f}_k,
+\end{equation}
+where, for the sake of clarity, we hide the dependencies ${}_L \phi_L$.
+\par
+Recalling the structure of the leg chain, we denote by ${}_{L^{a}_i} \phi_{L^{a}_i} $ the terms associated with the robot link ${L^{a}_i}$ connected to the parent through the actuated joint $s^a_i$ and by ${}_{{L^{f}_i}}  \phi_{{L^{f}_i}}$ the one associated with the fictitious flexible link ${L^{f}_i}$.
+
+
+
+\subsection{Forward kinematics\label{sec:forward_kinematics_flex_joints}}
+Given the angular velocity and the proper sensor acceleration of the foot sole $L^a_6$, we can compute ${}_{{L^{a}_i}}  \phi_{{L^{a}_i}}$ recursively. Indeed, given the link ${L^{a}_i}$, we compute its body angular velocity as
+\begin{equation}
+\label{eq:angular_velocity_algorithm}
+{}^{{L^{a}_i}} \omega _{\mathcal{I}, {L^{a}_i}} = {}^{{L^{a}_i}} R_{L^{a}_{i+1}}(s^a_{i+1}) {}^{L^{a}_{i+1}} \omega _{\mathcal{I}, L^{a}_{i+1}} +   {}^{L^{a}_{i}} \omega _{L^{a}_{i+1},  L^{a}_{i}}
+\end{equation}
+where ${}^{L^{a}_{i+1}} \omega _{\mathcal{I}, L^{a}_{i+1}}$ is the angular velocity of the child link.  ${}^{L^{a}_{i}} \omega _{L^{a}_{i+1},  L^{a}_{i}}$ is the relative velocity of the link $L^{a}_{i}$ with respect to $L^{a}_{i+1}$ written in ${L^{a}_{i}}$. Since TALOS is equipped by revolute joints only ${}^{L^{a}_{i}} \omega _{L^{a}_{i+1},  L^{a}_{i}}$ depends only on the \emph{left-trivialized joint motion subspace} ${}^{i+1}\textbf{s}$ (Equation~\eqref{eq:left-trivialized_joint_motion_subspace_def}) and on the joint velocity $\dot{s}^a_{i+1}$. 
+Similarly, we can prove that the sensor proper acceleration $\alpha ^ g _ {\mathcal{I},L^{a}_{i}}$  can be computed recursively by considering the child joint position ${s}^a_{i+1}$ velocity $\dot{s}^a_{i+1}$ and acceleration $\ddot{s}^a_{i+1}$, and the child sensor proper acceleration $\alpha ^ g _ {\mathcal{I},L^{a}_{i+1}}$~\citep[Section~4.4.3]{Traversaro2017ModellingDynamics}.
+\par
+Algorithm~\ref{alg:forward_kinematics} summarizes the procedure required to compute the body angular velocities and proper accelerations. We notice that given a link, its velocity and acceleration depend only on the child link state and on the joint that connects the link to its child. 
+\begin{algorithm}[t]
+\caption{Forward kinematics}\label{alg:forward_kinematics}
+\begin{algorithmic}
+\Procedure{ForwardKinematics}{$s^a, \dot{s}^a, \ddot{s}^a, {}^{{L^{a}_6}} \omega _{\mathcal{I}, {L^{a}_6}},  \alpha^g_{\mathcal{I}, {L^{a}_6}}$}
+\State $n_a \gets 6$ \Comment{Actuated joints}
+\State $i \gets n_a$
+\While{$i \neq 0$}
+\If{$i = n_a$}
+    \State $\bm{\omega} [i] \gets {}^{{L^{a}_6}} \omega _{\mathcal{I}, {L^{a}_6}}$
+    \State $\bm{\alpha} [i] \gets \alpha^g_{\mathcal{I}, {L^{a}_6}}$
+\Else
+    \State $\bm{\omega} [i] \gets$ \texttt{ComputeAngularVelocity}($s^a_{i+1},\dot{s}^a_{i+1}, \bm{\omega}[i+1]$) \Comment{Eq.~\eqref{eq:angular_velocity_algorithm}}
+    \State $\bm{\alpha} [i] \gets $ \texttt{ComputeAcceleration}($s^a_{i+1},\dot{s}^a_{i+1}, \ddot{s}^a_{i+1}, \bm{\alpha}[i+1])$
+\EndIf
+\State $i \gets i - 1$
+\EndWhile
+\State \textbf{return} $\bm{\omega}, \bm{\alpha}$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\par
+We want to stress that if an IMU is mounted on the robot sole, the angular velocity and the proper
+sensor acceleration of $L^{a}_{6}$ can be derived from the sensor readouts. Otherwise, we propose
+two possible solutions: $i)$ In the case of low swing foot velocity and acceleration, we suggest considering ${}^{L^{a}_{6}} \omega _{\mathcal{I}, L^{a}_{6}}$ and $\alpha ^ g _
+{\mathcal{I},L^{a}_{6}}$ equal to zero.  $ii)$ Assuming that an IMU is mounted on the robot
+waist. We suggest setting the proper acceleration of the foot $\alpha ^ g _ {\mathcal{I},L^{a}_{6}}$ and the
+angular velocity ${}^{L^{a}_{6}} \omega _{\mathcal{I}, L^{a}_{6}}$ at time $t$ equal to the one
+computed by the forward kinematics that considers the waist angular velocity ${}^{B} \omega
+_{\mathcal{I}, B}$ and the proper acceleration $ \alpha _ {\mathcal{I},B}^g$ at time $t$, the actuated
+joint position velocity and acceleration at time $t$ and the estimated flexible joint position
+velocity and acceleration at $t - \diff t$. With $\diff t$ the control sampling period. To guarantee
+the convergence of the algorithm, the choice of $\diff t$ becomes crucial. Here, we suggest setting
+$\diff t$ small enough to capture the evolution of the system dynamics.
+
+\subsection{Inverse dynamics propagation \label{secforward_kinematics_flex_joints}}
+Assuming that the link proper acceleration $\alpha ^ g _ {\mathcal{I},L^{a}_{i}}$ and angular velocity ${}^{L^{a}_{i}} \omega _{\mathcal{I}, L^{a}_{i}}$ have been computed with Algorithm~\ref{alg:forward_kinematics}. Considering Equation~\eqref{eq:rigid_body_dynamics_simplfied_final} and assuming that each link is subject to two 6D forces, we write the rigid body dynamics for the link $L^a_i$ as:
+\begin{equation}
+\label{eq:rigid_body_dynamics_iterative_initial}
+{}_{L^a_i} \phi_{L^a_i} = {}_{L^a_i} \mathrm{f}_{\lambda(L^a_i), L^a_{i}} + {}_{L^a_i} \mathrm{f}_{ L^a_{i+1}, L^a_{i}}.
+\end{equation}
+$\lambda(L^a_i)$ gives the parent link of $L^a_i$ -- see Section~\ref{sec:floating-base-multi-body-system}.
+${}_{L^a_i} \mathrm{f}_{\lambda(L^a_i), L^a_{i}}$ is the spatial force exerted by the parent link $\lambda(L^a_i)$ to $L^a_i$ whose coordinates are expressed in $L^a_i$. ${}_{L^a_i} \mathrm{f}_{ L^a_{i+1}, L^a_{i}}$ is the spatial force exerted by $L^a_{i+1}$ to $L^a_{i}$ expressed in $L^a_i$.
+We now reorganize Equation~\eqref{eq:rigid_body_dynamics_iterative_initial} to reveal the recursive structure of the algorithm:
+\begin{IEEEeqnarray}{lL}
+\phantomsection \label{eq:rigid_body_dynamics_iterative_without_torque} \IEEEyesnumber \IEEEyessubnumber*
+    {}_{L^a_i} \mathrm{f}_{\lambda(L^a_i), L^a_{i}}  &= {}_{L^a_i} \phi_{L^a_i} - {}_{L^a_i} \mathrm{f}_{ L^a_{i+1}, L^a_{i}} \\
+    &= {}_{L^a_i} \phi_{L^a_i} + {}_{L^a_i} \mathrm{f}_{ L^a_{i}, L^a_{i+1}} \\
+    &= {}_{L^a_i} \phi_{L^a_i} + {}_{L^a_i} X ^{L^a_{i+1}}  {}_{L^a_{i+1}} \mathrm{f}_{L^a_{i}, L^a_{i+1}} 
+\end{IEEEeqnarray}
+We notice that by projecting \eqref{eq:rigid_body_dynamics_iterative_without_torque} into the \emph{joint motion subspace} ${}^{i} \textbf{s}$ we obtain the torque acting on the joint $s^a_i$, that is,
+\begin{equation}
+ \tau^a_i = {}^{i} \textbf{s}^\top {}_{L^a_i} \mathrm{f}_{\lambda(L^a_i), L^a_{i}}
+\end{equation}
+We recall that TALOS is equipped with joint torque sensors -- see Section~\ref{sec:talos}. As a
+consequence, $\tau^a_i$ can be directly measured. Using this information, we attempt to improve the
+estimation of the 6D force ${}_{L^a_i} \mathrm{f}_{\lambda(L^a_i), L^a_{i}}$ by considering the
+measured joint torque as follows:
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:rigid_body_dynamics_iterative_with_torque} \IEEEyesnumber \IEEEyessubnumber*
+    {}_{L^a_i} \mathrm{f}_{\lambda(L^a_i), L^a_{i}} =& \left[ (1-\beta)  \tau^{a^\text{meas}}_i + \beta \; {}^{i} \textbf{s}^\top \left({}_{L^a_i} \phi_{L^a_i} + {}_{L^a_i} X ^{L^a_{i+1}}  {}_{L^a_{i+1}} \mathrm{f}_{L^a_{i}, L^a_{i+1}}\right)  \right] {}^{i} \textbf{s} \\
+    &+ \left(I_{6} - {}^{i} \textbf{s} \; {}^{i} \textbf{s}^\top\right) \left( {}_{L^a_i} \phi_{L^a_i} + {}_{L^a_i} X ^{L^a_{i+1}}  {}_{L^a_{i+1}} \mathrm{f}_{L^a_{i}, L^a_{i+1}} \right).
+\end{IEEEeqnarray}
+Here, $\beta \in [0, 1]$ is a tunable parameter. To give the reader a better understanding, we
+notice that whether $\beta=0$ the torque component parallel to the vector motion subspace is replaced by the readouts of the joint torque sensor. If $\beta=1$ the joint torque sensor is not considered.
+\par
+Algorithm~\ref{alg:inverse_dynamics} summarizes the procedure to compute the wrench acting on an actuated joint. We notice that given a joint $s^a_i$, the wrench acting on it depends only on the state of the child link.
+\begin{algorithm}[t]
+\caption{Inverse Dynamics}\label{alg:inverse_dynamics}
+\begin{algorithmic}
+\Procedure{InverseDynamics}{$s^a, \beta, \tau^{a^\text{meas}}, \bm{\alpha}, \bm{\omega}$}
+\State $n_a \gets 6$
+\State $i \gets n_a$
+\While{$i \neq 0$}
+\State ${}_{L^a_i} \phi_{L^a_i} \gets $\texttt{ComputePhi}($\omega[i], \alpha[i], {} _ {L^a_i} \mathbb{M} _ {L^a_i}$)
+\If{$i = n_a$}
+    \State ${}_{L^a_{i+1}} \mathrm{f}_{L^a_{i}, L^a_{i+1}} \gets$ \texttt{GetSoleExternalWrench}()
+\Else
+    \State $ {}_{L^a_{i+1}} \mathrm{f}_{L^a_{i}, L^a_{i+1}} \gets \bm{f}[i+1]$
+\EndIf
+\State $\tau \gets \tau^{a^\text{meas}}_i$
+\State ${}^i \textbf{s} \gets$ \texttt{GetMotionSubspace}($i$)
+\State $ {}_{L^a_i} X ^{L^a_{i+1}} \gets$ \texttt{GetCoAdjointMatrix}($s^a_i$)
+\State $\bm{f}[i] \gets $ \texttt{ComputeWrench}($\beta, \tau, {}_{L^a_i} \phi_{L^a_i}, {}^i \textbf{s}, {}_{L^a_{i+1}} \mathrm{f}_{L^a_{i}, L^a_{i+1}}, {}_{L^a_i} X ^{L^a_{i+1}}$ ) \Comment{Eq.~\eqref{eq:rigid_body_dynamics_iterative_without_torque}}
+\State $i \gets i - 1$
+\EndWhile
+\State \textbf{return} $\bm{f}$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Flexible joint state estimation}
+Applying the Algorithms~\ref{alg:forward_kinematics} and \ref{alg:inverse_dynamics} we can recursively compute the wrench acting on the joint $s_1^a$. 
+Assuming a neglected mass and inertia for the flexible link $L_2^f$, i.e., ${}_{L_2^f} \mathbb{M}_{L_2^f} = 0_{6 \times 6}$, we can write the flexible link dynamics as 
+\begin{IEEEeqnarray}{lL}
+\phantomsection \label{eq:rigid_body_dynamics_iterative_first_flexible_joint}
+\IEEEyesnumber \IEEEyessubnumber*
+    {}_{L^f_2} \mathrm{f}_{L^f_1, L^f_{2}}  &= - {}_{L^f_2} \mathrm{f}_{ L^a_{1}, L^f_{2}} \\
+    &= {}_{L^f_2} \mathrm{f}_{L^f_{2}, L^a_{1}} \\
+    &= {}_{L^f_2} X ^{L^a_{1}}  {}_{L^a_{1}} \mathrm{f}_{L^f_{2}, L^a_{1}} 
+\end{IEEEeqnarray}
+We notice that ${}_{L^f_2} X ^{L^a_{1}}$ depends on the position of the joint $s_1^a$. 
+\par
+Given~\eqref{eq:rigid_body_dynamics_iterative_first_flexible_joint}, we can compute the flexible joint torque $\tau^f_2$ by projecting ${}_{L^f_2} \mathrm{f}_{L^f_1, L^f_{2}}$ onto the vector motion subspace
+\begin{equation}
+\label{eq:flexible_joint_torque_2}
+    \tau^f_2 = \left({}_{L^f_2} \mathrm{f}_{L^f_1, L^f_{2}}\right)^\top \; {}^2\textbf{s}^f
+\end{equation}
+Combining~\eqref{eq:flexible_joint_torque_2} with the discretized flexible joint position~\eqref{eq:flexibility_discretized_position} we estimate the flexible joint position $s^f_2$.
+Applying the very same approach, we can estimate the flexible joint torque $\tau^f_1$ and the position $s^f_1$. 
+\par
+At each time step, applying Algorithms~\ref{alg:forward_kinematics}, \ref{alg:inverse_dynamics} and
+Equations~\eqref{eq:rigid_body_dynamics_iterative_first_flexible_joint} and
+\eqref{eq:flexible_joint_torque_2}, we estimate the flexible joint state. The result is finally considered by the whole-body controller to compute the desired actuated joint torques. Figure~\ref{fig:scheme_complete}
+\begin{figure}[t]
+    \centering
+	\includegraphics{chapter_flexible_joints/figures/scheme_complete.tikz}
+	\caption{Flexible joint controller architecture.}
+	\label{fig:scheme_complete}
+\end{figure}
+shows the connection between the whole-body controller, the flexible joint state estimator, and the simulator.

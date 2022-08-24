@@ -1,0 +1,55 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw    (130.62,239.17) -- (130.24,185.18) ;
+\draw [shift={(130.21,182.18)}, rotate = 89.59] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw  [fill={rgb, 255:red, 227; green, 227; blue, 227 }  ,fill opacity=1 ] (336,48) -- (578.41,137.53) -- (334.11,217.47) -- (91.71,127.94) -- cycle ;
+\draw  [fill={rgb, 255:red, 217; green, 120; blue, 100 }  ,fill opacity=1 ] (359.13,77.19) -- (412.99,97.08) -- (325.27,125.79) -- (271.41,105.9) -- cycle ;
+\draw  [fill={rgb, 255:red, 78; green, 120; blue, 217 }  ,fill opacity=1 ] (377.23,134.15) -- (431.09,154.04) -- (343.38,182.75) -- (289.52,162.86) -- cycle ;
+\draw    (130.62,239.17) -- (183.38,266.86) ;
+\draw [shift={(186.04,268.25)}, rotate = 207.69] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (130.62,239.17) -- (83.2,266) ;
+\draw [shift={(80.59,267.47)}, rotate = 330.5] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw [color={rgb, 255:red, 140; green, 66; blue, 50 }  ,draw opacity=1 ]   (342.2,101.49) -- (341.65,25.59) ;
+\draw [shift={(341.63,22.59)}, rotate = 89.59] [fill={rgb, 255:red, 140; green, 66; blue, 50 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw [color={rgb, 255:red, 140; green, 66; blue, 50 }  ,draw opacity=1 ]   (342.2,101.49) -- (410.28,126.49) ;
+\draw [shift={(413.09,127.52)}, rotate = 200.16] [fill={rgb, 255:red, 140; green, 66; blue, 50 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (387.89,155.05) -- (471.63,186.06) ;
+\draw    (165.88,57.22) -- (192.5,86.81) ;
+\draw    (459,54) -- (379.36,94.57) ;
+\draw    (130.62,239.17) -- (356.88,157.12) ;
+\draw [shift={(359.7,156.1)}, rotate = 160.07] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (130.62,239.17) -- (339.69,103.13) ;
+\draw [shift={(342.2,101.49)}, rotate = 146.95] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw [color={rgb, 255:red, 60; green, 85; blue, 143 }  ,draw opacity=1 ]   (359.7,156.1) -- (359.15,80.19) ;
+\draw [shift={(359.13,77.19)}, rotate = 89.59] [fill={rgb, 255:red, 60; green, 85; blue, 143 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw [color={rgb, 255:red, 60; green, 85; blue, 143 }  ,draw opacity=1 ]   (359.7,156.1) -- (427.78,181.1) ;
+\draw [shift={(430.59,182.13)}, rotate = 200.16] [fill={rgb, 255:red, 60; green, 85; blue, 143 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw [color={rgb, 255:red, 60; green, 85; blue, 143 }  ,draw opacity=1 ]   (359.7,156.1) -- (284.45,180.68) ;
+\draw [shift={(281.59,181.61)}, rotate = 341.91] [fill={rgb, 255:red, 60; green, 85; blue, 143 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw [color={rgb, 255:red, 140; green, 66; blue, 50 }  ,draw opacity=1 ]   (342.2,101.49) -- (266.95,126.07) ;
+\draw [shift={(264.09,127)}, rotate = 341.91] [fill={rgb, 255:red, 140; green, 66; blue, 50 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+
+\draw (113.08,34.72) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textcolor[rgb]{0.29,0.29,0.29}{feasibility region}};
+\draw (436.71,27.38) node [anchor=north west][inner sep=0.75pt]   [align=left] {\begin{minipage}[lt]{74.16pt}\setlength\topsep{0pt}
+\begin{center}
+\textcolor[rgb]{0.55,0.26,0.2}{nominal contact}
+\end{center}
+
+\end{minipage}};
+\draw (442.63,190.06) node [anchor=north west][inner sep=0.75pt]   [align=left] {\begin{minipage}[lt]{83.24pt}\setlength\topsep{0pt}
+\begin{center}
+\textcolor[rgb]{0.24,0.33,0.56}{computed contact}
+\end{center}
+
+\end{minipage}};
+\draw (110.63,241) node [anchor=south east] [inner sep=0.75pt]    {$\mathcal{I}$};
+\draw (265.05,181.84) node [anchor=north west][inner sep=0.75pt]   [align=left] {$ $};
+\draw (166.99,189.72) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.55,0.26,0.2}{p}\textcolor[rgb]{0.55,0.26,0.2}{_{i}^{n}}$};
+\draw (190,220.45) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.24,0.33,0.56}{p}\textcolor[rgb]{0.24,0.33,0.56}{_{i}}$};
+
+
+\end{tikzpicture}

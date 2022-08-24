@@ -1,0 +1,9 @@
+\section{Conclusions\label{sec:conclusion_simplified_benchmarking}}
+This chapter contributes to the benchmarking of different implementations of state-of-the-art control simplified model controllers for humanoid robot locomotion. In particular, we proposed two simplified controllers which exploit the concept of the Divergent Component of Motion. 
+In particular, we discussed the results obtained with the predictive and instantaneous controller implementations. Furthermore, we compare the performance obtained by controlling the robot in position and velocity.
+\par
+We show that the proposed instantaneous controllers combined with the robot position control allowed us to achieve a desired walking speed of $\SI{0.3372}{\meter \per \second}$, which is the highest walking velocity achieved by the iCub robot v2.7.
+\par
+A possible future work is the implementation of an online footstep adjustment algorithm~\citep{Griffin2016,Shafiee-Ashtiani2017a,Shafiee2019OnlineRobots} This will increase the overall robustness in case of a disturbance acting on the robot.
+\par
+It is worth mentioning that the presented simplified model controller relies on the assumption of a constant height of the center of mass. In the next chapter, we will attempt to loosen this hypothesis by designing a controller that considers the reduced centroidal dynamics of the system. By modeling the system using a reduced model instead of a simplified one, we will achieve highly dynamic robot motions that can be performed online. Furthermore, the footstep adjustment is considered in the centroidal dynamics stabilization problem, so it is not required to design an ad-hoc block for this feature.

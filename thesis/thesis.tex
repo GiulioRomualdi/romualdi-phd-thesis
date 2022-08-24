@@ -1,0 +1,98 @@
+
+\documentclass[a4paper,12pt,oneside,custombib,print,index]{Classes/PhDThesisPSnPDF}
+
+
+
+
+
+
+\input{Preamble/preamble}
+
+\input{thesis-info}
+
+
+\ifdefineAbstract
+ \pagestyle{empty}
+ \includeonly{Declaration/declaration, Abstract/abstract}
+\fi
+
+
+\ifdefineChapter
+ \includeonly{Chapter3/chapter3}
+\fi
+
+
+\begin{document}
+
+\input{coverpage}
+
+\frontmatter
+
+
+\include{Dedication/dedication}
+\include{Declaration/declaration}
+\include{Acknowledgement/acknowledgement}
+\include{Abstract/abstract}
+
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+
+
+\printnomenclature
+
+
+
+\mainmatter
+\include{prologue/prologue}
+
+\part{Background \& Fundamentals\label{part:background}}
+\include{chapter_introduction/chapter}
+\include{chapter_lie/chapter}
+\include{chapter_floating_base_system_modeling/chapter}
+\include{chapter_simplified_models/chapter}
+\include{chapter_optimization_introduction/chapter}
+\include{chapter_state_of_the_art/chapter}
+
+\part{Whole-Body Controllers\label{part:wbc}}
+\include{chapter_wbc_benchmarking/chapter}
+\include{chapter_compliant_contact/chapter}
+\include{chapter_flexible_joints/chapter}
+
+\part{From Simplified to Reduced Models Controllers\label{part:simplified}}
+\include{chapter_simplified_benchmarking/chapter}
+\include{chapter_centroidal_mpc/chapter}
+
+\include{epilogue/epilogue}
+
+
+\begin{spacing}{0.9}
+
+
+\bibliographystyle{apalike}
+\cleardoublepage
+\bibliography{References/Locomotion} %
+
+
+
+
+
+\end{spacing}
+
+
+\begin{appendices} %
+
+\include{appendix_lie/appendix}
+\include{appendix_proof_lemma_compliant/appendix}
+\include{appendix_proof_corollary_compliant/appendix}
+\include{appendix_optimal_trajectory_rn/appendix}
+\include{appendix_optimal_trajectory_so3/appendix}
+
+\end{appendices}
+
+\printthesisindex %
+
+\end{document}

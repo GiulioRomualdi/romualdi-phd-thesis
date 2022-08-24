@@ -1,0 +1,109 @@
+\section{Floating base multi-body system modeling\label{sec:floating-base-multi-body-system}}
+A \emph{rigid-body system} is an assembly of component parts, namely: $n_b$ \emph{rigid bodies} and $n_j$ \emph{joints} which are responsible for the kinematic constraints in the system. In this section, we present a formalism used to describe rigid-body systems in terms of graphs. In particular, we seek to describe the interaction between bodies and joints as an element of nodes and the arch of a graph. We call such a description \emph{system model} with respect to an inertial frame $\mathcal{I}$. 
+\par
+A system model is often expressed in the form of a \emph{connectivity graph} having the following properties:
+\begin{itemize}
+    \item Each node represents one rigid body in the dynamical system. We assume that at least one frame is rigidly attached to each body; 
+    \item Each arc represents a joint;
+    \item There exists one node, i.e. a rigid body, which is called \emph{base} of the multi-body system. The base is indicated by the frame $B$;
+    \item The graph is undirected;
+    \item The graph is connected, i.e., there exists at least one path between any two nodes. 
+\end{itemize}
+If the base of the multi-body system does not have an \emph{a priori} fixed pose with respect to an inertial frame, $\mathcal{I}$, the associated body is called \emph{floating base}. In this case, the pose (position and orientation) of the floating base $B$ with respect to the inertial frame $\mathcal{I}$ is given by the element of the $\SE(3)$ and it writes as:
+\begin{equation}
+\label{eq:base-pose}
+{}^\mathcal{I} H _B = \begin{bmatrix}
+{}^\mathcal{I} R _B & {}^\mathcal{I} p _B \\
+{0}_{1 \times 3} & 1
+\end{bmatrix}.
+\end{equation}
+A graph is a topological tree if there exists exactly one path between any two
+nodes in the graph. If the connectivity graph of a rigid-body system is a topological tree, then we call the system itself a \emph{kinematic tree}. If the rigid-body system is represented by a kinematic tree, there exists a well-defined relation between the number of joints $n_j$, and the number of rigid bodies $n_b$, that is,
+\begin{equation}
+    n_b = n_j + 1.
+\end{equation}
+From now on, we consider only floating base multi-body systems characterized by a kinematic tree. 
+\par
+Once we describe the rigid-body system as a graph, we aim to number the nodes and arcs following the \emph{regular numbering} scheme~\citep{Featherstone2014}. We now present the scheme for the topological tree. The generic scheme that applies to the generic graph is described in ~\citep[Section 4.1.2]{Featherstone2014}.
+Given a kinematic tree $G$, we denote the elements as follows:
+\begin{itemize}
+    \item The base is represented by the number $0$;
+    \item The remaining $n_b - 1$ nodes are numbered in any order such that each node has a higher number than its parent in $G$ ;
+    \item The arcs are identified with a number for $1$ to $n_j$ such that the arc $i$ connects between node $i$ and its parent.
+\end{itemize}
+
+\begin{figure}[tpb]
+\centering
+    \begin{subfigure}[b]{1\textwidth}
+        \centering
+        \includegraphics{chapter_floating_base_system_modeling/figures/tree-multi-body.tikz}
+        \caption{Regular numbering applied to an unbranched kinematic tree}
+        \label{fig:tree-multi-body}
+    \end{subfigure}
+    \vskip 0.5cm
+    \begin{subfigure}[b]{1\textwidth}
+        \centering
+        \includegraphics{chapter_floating_base_system_modeling/figures/graph-multi-body.tikz}
+        \caption{Regular numbering applied to a kinematic tree}
+        \label{fig:graph-multi-body}
+    \end{subfigure}
+    \caption[Schematic representation of a multi-body structure.]{Schematic representation of a multi-body structure. The links are represented by the graph nodes, while joints are the graph's arcs. The links and joints are named by applying the Regular numbering principle.}
+\end{figure}
+If these principles are applied to an unbranched kinematic tree (one with no more than one child), the bodies and joints are numbered sequentially from the base, as shown in Figure~\ref{fig:tree-multi-body}. On the other hand, if the tree is composed of multiple branches, the numbering is not unique. Figure~\ref{fig:graph-multi-body} represents one of the possible examples.
+\par
+A connectivity graph is fully determined by a pair of arrays named $p$ and $s$, such that the element $i$ in $p$ is the vector of the predecessor of the joint $i$ while the element $i$ in $s$ contains the successor of the joint $i$. 
+Taking as an example the unbranched kinematic tree in Figure~\ref{fig:tree-multi-body} the arrays $s$ and $p$ are given by
+\begin{equation}
+    p  = \begin{bmatrix}
+    0 &1&\dots&n_j-2 & &n_j-1 
+    \end{bmatrix}, \quad 
+    s  = \begin{bmatrix}
+    1 &2&\dots&n_j-1 & &n_j 
+    \end{bmatrix}.
+\end{equation}
+On the other hand,  the tree in Figure~\ref{fig:graph-multi-body} is described by:
+\begin{equation}
+    p = \begin{bmatrix}
+    0 & 1 & 0 & 3 & 4 & 0 & 0
+    \end{bmatrix}, \quad 
+    s = \begin{bmatrix}
+    1 &2&3&4&5&6&7&8 
+    \end{bmatrix}.
+\end{equation}
+\par
+The \emph{parent array} $\lambda$ identifies the parent of each body. $\lambda(i)$ is the parent of the body $i$.
+We finally introduce for any body $i$ three sets, namely: $\kappa(i)$,  $\mu(i)$ and $\nu(i)$. $\kappa(i)$ is the set of all joints on the path between body $i$ and base. If $i=0$, i.e. the body is the base, the set is empty. 
+$\mu(i)$ is the set of the children of body $i$, and $\nu(i)$ is the set of bodies in the subtree starting at body $i$. $\kappa(i)$,  $\mu(i)$ and $\nu(i)$ are called the \emph{support}, \emph{child} and \emph{subtree} sets, respectively. 
+Given the tree in Figure~\ref{fig:graph-multi-body} the \emph{support}, \emph{child} and \emph{subtree} sets are given by
+\begin{IEEEeqnarray}{lll}
+\phantomsection \IEEEyesnumber \IEEEyessubnumber*
+\kappa(0) = \emptyset \quad & \mu(0) = \{1,3,6,8\}\quad & \nu(0) = \{0,1,2,3,4,5,6,7,8\} \\
+\kappa(1) = \{1\}\quad  & \mu(1) = \{2\}\quad & \nu(1) = \{1,2\} \\
+\kappa(2) = \{1, 2\} \quad & \mu(2) = \emptyset \quad& \nu(2) = \{2\} \\
+\kappa(3) = \{3\} \quad & \mu(3) = \{4\}\quad & \nu(3) = \{3,4,5\} \\
+\kappa(4) = \{3,4\} \quad & \mu(4) = \{5\} \quad& \nu(4) = \{4,5\} \\
+\kappa(5) = \{3,4,5\} \quad & \mu(5) = \emptyset \quad& \nu(5) = \{5\} \\
+\kappa(6) = \{6\}\quad  & \mu(6) = \{7\}\quad & \nu(6) = \{6,7\} \\
+\kappa(7) = \{6,7\}\quad  & \mu(7) = \emptyset \quad& \nu(7) = \{7\} \\
+\kappa(8) = \{8\}\quad  & \mu(8) = \emptyset \quad  & \nu(8) = \{8\}.
+\end{IEEEeqnarray}
+\par
+When a joint connects two bodies, its relative motion is limited. The mobility allowed by the joint and the placement of the joint relative to each body are necessary for a thorough description of the restriction. A joint model explains the former. The geometry of the system determines the latter.
+
+\paragraph{The joint model}
+In this context, a joint may be thought of as a motion constraint between two Cartesian frames, one of which is embedded in the body $i$ and the other in its parent, $\lambda(i)$.
+The kind of mobility that a joint allows is determined by its type of joint. A \emph{revolute} joint, for example, provides for pure rotation along a single axis, but a spherical joint allows for unrestricted rotation around a single point. Consequently, we should introduce the admissible motions for each type of joint. However, since in this thesis we assume that the floating base system is composed only of one-degree-of-freedom revolute joints, we analyze the joint characteristics only for this kind of joint. A revolute joint $j$ is completely characterized by an axis ${}_j a \in \lieGroup{S}^2$ and an angle $s_j$, where $\lieGroup{S}^2$ is the set of 3D vectors with norm equal to 1, i.e., $\lieGroup{S}^2 = \left\{ x\in \mathbb{R}^3 | x^\top x = 1 \right\}$ and $s_j \in \mathbb{R}$. 
+
+\begin{figure}[t]
+    \centering
+	\includegraphics{chapter_floating_base_system_modeling/figures/rigid-bodies.tikz}
+	\caption[Geometric model of a rigid-body system.]{Geometric model of a rigid-body system. The red frames are the \emph{link frames}. The green frames are the \emph{joint frames}. Each arrow represents a homogeneous transformation. A black arrow indicates a constant transformation, while a blue one a joint state-dependent transformation.}
+	\label{fig:geometric-model-rigid-bodies}
+\end{figure}
+
+
+\paragraph{Geometric model}
+The geometric model describes the location of each joint in each rigid body. In detail, each body $i$ is characterized by a set of frames. One, known as \emph{link frame}, identifies the position of the link. The others are placed in the joints, $j$. Figure~\ref{fig:geometric-model-rigid-bodies} represents the geometry model of a rigid-body system. Here, each rigid body has a frame embedded in it, which defines a local coordinate system for that body. In Figure~\ref{fig:geometric-model-rigid-bodies} these frames are labeled as $B_i$ where $i$ represents the body index. Figure~\ref{fig:geometric-model-rigid-bodies} also presents several frames with names of the form $B_{(i,j)}$ where $i$ refers to a body and $j$ to the associated joint. The position and the orientation of the frame $B_{(i,j)}$ with respect to $B_i$ are constant and are given by the transformation ${}^{(i,j)} H _i$. Finally, each joint describes a joint transform labeled ${}^{(i,k)} H _ {(j, k)}$ where $i$ refers to the parent body, $j$ to the child body, and $k$ to the joint. ${}^{(i,k)} H _ {(j, k)}$ depends only on the joint position. 
+From now on we assume that, given two rigid bodies $i$ and $j$ connected by a joint $k$, the transformation ${}^{(i,k)} H _i$ and ${}^{(j,k)} H _j$ are chosen so that ${}^{(i,k)} H _ {(j, k)} = I_4$ only if the joint position state is equal to 0, i.e., ${}^{(i,k)} H _ {(j, k)}(s_j) =  {}^{(i,k)} H _ {(j, k)}(0) = I_4$.
+
+

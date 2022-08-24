@@ -1,0 +1,36 @@
+\chapter{Benchmarking of Whole-Body Controllers for Locomotion on Rigid Environment\label{chapter:benchmarking_wbc}}
+
+In Part~\ref{part:background} we introduced the background and the literature review of the thesis. Instead, this chapter presents the first contribution of the manuscript. 
+Here, we present and compare several whole-body controllers for bipedal locomotion in a rigid environment. 
+In particular, we specify the three-layer controller architecture presented in Figure~\ref{fig:three-layer}, as shown in Figure~\ref{fig:three-layer-wbc-benchmarking}. 
+The \emph{trajectory optimization} layer is kept fixed with a unicycle-based planner~\citep{8594277} that generates the desired DCM and foot trajectories. The \emph{simplified model control layer}, instead, implements two types of controllers for the tracking of the DCM: an instantaneous and an MPC one. 
+The content of the \emph{trajectory optimization} and \emph{simplified model control layer} is detailed in Chapter~\ref{chapter:simplified_benchmarking}. 
+Finally, the \emph{whole-body QP control} ensures the tracking of the desired CoM and feet trajectories by considering the complete robot models. In this context, we first present a kinematics-based whole-body controller, and then we extend the framework to consider the robot dynamics. Thanks to the modularity of the two problems, it is possible to exchange the two implementations depending on the low-level control interfaces available on the robot. 
+The several combinations of the control architecture along with the simplified model controllers presented in Chapter~\ref{chapter:simplified_benchmarking} are compared on the iCub humanoid robot v2.7 -- see Section~\ref{sec:icub2.7}.
+\par 
+The chapter is organized as follows. Section~\ref{sec:ik_qp} presents the kinematics-based whole-body QP control layer. Section~\ref{sec:dynamics_QP} details the dynamics-based whole-body controller. Section~\ref{sec:wbc_experimental_results} presents the experimental validation of the
+proposed approach and shows an explanatory table comparing the different control approaches. Finally, Section~\ref{sec:wbc_conclusion} concludes the chapter.
+
+The content of this chapter appears partially in:
+\begin{leftbar}
+	\begin{quote}%
+		\bibentry{8625025} \vspace{5mm}\newline 
+		\bibentry{Romualdi2020ARobots} \vspace{5mm} \newline
+		\begin{tabular}{c p{10.0cm}}
+			     Video & \href{https://www.youtube.com/watch?v=FIqwAO71Fc4}{\texttt{https://www.youtube.com/watch?v=FIqwAO71Fc4}} \\
+			     GitHub &  \href{https://github.com/robotology/walking-controllers}{\texttt{robotology/walking-controllers}} 
+		\end{tabular}
+	\end{quote}
+\end{leftbar}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics{chapter_wbc_benchmarking/figures/three-layer.tikz}
+    \caption[The three layer controller architecture for bipedal locomotion in rigid environment]{The control architecture is composed of three layers: the \emph{trajectory optimization}, the \emph{simplified model control}, and the \emph{whole-body control}. The middle and the other layers are described in Chapter~\ref{chapter:simplified_benchmarking}.
+    \label{fig:three-layer-wbc-benchmarking}}
+\end{figure}
+
+\input{chapter_wbc_benchmarking/ik}
+\input{chapter_wbc_benchmarking/tsid}
+\input{chapter_wbc_benchmarking/results}
+\input{chapter_wbc_benchmarking/conclusions}

@@ -1,0 +1,42 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [draw opacity=0][fill={rgb, 255:red, 227; green, 227; blue, 227 }  ,fill opacity=1 ] (366.12,153.51) -- (392.11,210.08) -- (350.83,254.42) -- (282.79,240.66) -- (262.15,194.79) -- (308.02,154.27) -- cycle ;
+\draw    (255.16,179.12) -- (287.48,251.41) ;
+\draw    (253.19,203.36) -- (320.03,144.17) ;
+\draw    (300.12,153.76) -- (382.93,153.34) ;
+\draw    (362.18,145.04) -- (396.26,219.09) ;
+\draw    (343.4,262.33) -- (398.88,202.92) ;
+\draw    (259.31,235.91) -- (366.55,257.75) ;
+\draw    (312.93,246.83) -- (304.3,283.7) ;
+\draw [shift={(303.62,286.62)}, rotate = 283.17] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (271.32,215.27) -- (238.11,230.7) ;
+\draw [shift={(235.39,231.96)}, rotate = 335.08] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (285.08,174.53) -- (263.97,151.24) ;
+\draw [shift={(261.96,149.02)}, rotate = 47.81] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (337.07,153.89) -- (337.07,121.25) ;
+\draw [shift={(337.07,118.25)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (379.11,181.79) -- (407.35,168.63) ;
+\draw [shift={(410.07,167.36)}, rotate = 155.01] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (371.14,232.63) -- (396.01,255.36) ;
+\draw [shift={(398.22,257.38)}, rotate = 222.42] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (260.43,194.79) .. controls (260.43,193.84) and (261.2,193.07) .. (262.15,193.07) .. controls (263.1,193.07) and (263.87,193.84) .. (263.87,194.79) .. controls (263.87,195.74) and (263.1,196.51) .. (262.15,196.51) .. controls (261.2,196.51) and (260.43,195.74) .. (260.43,194.79) -- cycle ;
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (364.4,153.51) .. controls (364.4,152.56) and (365.17,151.79) .. (366.12,151.79) .. controls (367.07,151.79) and (367.84,152.56) .. (367.84,153.51) .. controls (367.84,154.46) and (367.07,155.23) .. (366.12,155.23) .. controls (365.17,155.23) and (364.4,154.46) .. (364.4,153.51) -- cycle ;
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (390.39,210.08) .. controls (390.39,209.13) and (391.16,208.36) .. (392.11,208.36) .. controls (393.06,208.36) and (393.83,209.13) .. (393.83,210.08) .. controls (393.83,211.03) and (393.06,211.8) .. (392.11,211.8) .. controls (391.16,211.8) and (390.39,211.03) .. (390.39,210.08) -- cycle ;
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (349.11,254.42) .. controls (349.11,253.47) and (349.88,252.7) .. (350.83,252.7) .. controls (351.78,252.7) and (352.55,253.47) .. (352.55,254.42) .. controls (352.55,255.37) and (351.78,256.14) .. (350.83,256.14) .. controls (349.88,256.14) and (349.11,255.37) .. (349.11,254.42) -- cycle ;
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (306.3,154.27) .. controls (306.3,153.32) and (307.07,152.55) .. (308.02,152.55) .. controls (308.97,152.55) and (309.74,153.32) .. (309.74,154.27) .. controls (309.74,155.22) and (308.97,155.99) .. (308.02,155.99) .. controls (307.07,155.99) and (306.3,155.22) .. (306.3,154.27) -- cycle ;
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (281.07,240.66) .. controls (281.07,239.71) and (281.84,238.94) .. (282.79,238.94) .. controls (283.74,238.94) and (284.51,239.71) .. (284.51,240.66) .. controls (284.51,241.61) and (283.74,242.38) .. (282.79,242.38) .. controls (281.84,242.38) and (281.07,241.61) .. (281.07,240.66) -- cycle ;
+
+\draw (323.38,193.88) node [anchor=north west][inner sep=0.75pt]    {$\mathcal{P}$};
+\draw (308.5,263.4) node [anchor=north west][inner sep=0.75pt]    {$a_{1}$};
+\draw (228.15,200.56) node [anchor=north west][inner sep=0.75pt]    {$a_{2}$};
+\draw (246,148.92) node [anchor=north west][inner sep=0.75pt]    {$a_{3}$};
+\draw (340.03,118.53) node [anchor=north west][inner sep=0.75pt]    {$a_{4}$};
+\draw (402.72,173.96) node [anchor=north west][inner sep=0.75pt]    {$a_{5}$};
+\draw (392.97,231.48) node [anchor=north west][inner sep=0.75pt]    {$a_{6}$};
+
+
+\end{tikzpicture}

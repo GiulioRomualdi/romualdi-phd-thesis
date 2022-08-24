@@ -1,0 +1,201 @@
+\section{Centroidal model predictive controller}
+\label{sec:reduced_mpc}
+Let us assume the presence of a high-level contact planner that generates only the contact location and times, for example, the one presented in Section~\ref{sec:footsteps_trajectory}~\citep{8594277}.
+The control objective of the reduced model is to implement a control law that generates feasible contact wrenches ${}_{\mathcal{C}_i[\mathcal{I}]}\mathrm{f}_i$ and locations $p_i$ while considering the centroidal dynamics of the floating base system and a nominal set of contact positions and timings. Here we denote by $\mathcal{C}_i[\mathcal{I}] = (p_i, \mathcal{I})$, the frame placed on the robot contact location $p_i$ and oriented as the inertial frame $\mathcal{I}$, where $i\in\mathbb{N}$ such that $1\le i \le n_c$, with $n_c$ is the number of admissible contacts. The control problem is formulated using the Model Predictive Control (MPC) framework. 
+\par
+The control objective is achieved by framing the controller as a constrained optimization problem composed of three main elements, namely: the \emph{prediction model}, an \emph{objective function}, and a set of \emph{inequality constraints}.
+\par
+What follows is a complete description of the task composing the optimal control problem. In mode detail, Section~\ref{sec:centroidal_mpc_dynamics} introduces the model considered in the controller as prediction. Section~\ref{sec:mpc_tasks_formulation} presents the terms that describe the control objective. Finally, in Section~\ref{sec:mpc_constraints} we discuss the inequality constraints required to guarantee a feasible walking pattern.
+
+\subsection{Prediction model}
+\label{sec:centroidal_mpc_dynamics}
+
+Given a frame $\bar{G} = (x_\text{CoM},[\mathcal{I}])$, the centroidal momentum rate of change ${}_{\bar{G}} \dot{h}$ balances the external spatial force applied to the robot~\eqref{eq:centroidal_momentum_dynamics_mixed}:
+\begin{equation}
+    \label{eq:mpc_centroidal_dynamics}
+    {}_{\bar{G}} \dot{{h}} = \sum_{j = 1}^{n_c} \begin{bmatrix}
+	I_3 & {0}_{3\times 3} \\
+	\left({p}_j - {x}_\text{CoM}\right)\times & I_3 
+	\end{bmatrix} {}_{\mathcal{C}_j[\mathcal{I}]}\mathrm{f}_j + m \bar{g},
+\end{equation}
+where $\bar{g} = \begin{bmatrix} 0&0&-g&0&0&0 \end{bmatrix}^\top$ is the 6D gravity acceleration vector.
+\par
+We now recall that, given a rigid body in contact with a rigid environment and assuming that the contact surface is described by a rectangle. Then, the contact wrench acting on the rigid body is uniquely described by four pure forces acting on the corner of the contact surface~\citep{Caron2015StabilityAreas}. Indeed, in the case of a rectangular contact surface, twelve variables define the six-dimensional wrench. Thanks to this choice, several contact configurations can be modeled independently, depending on the number of points in contact~\citep{Dafarra2020Whole-BodyApproach,dai2014whole}. Given the relation between pure forces and contact wrench, we rewrite the centroidal dynamics \eqref{eq:mpc_centroidal_dynamics} as follows:
+\begin{equation}
+ 	{}_{\bar{G}} \dot{h} = \sum_{i = 1}^{n_c} \sum_{j = 1}^{n_v} \begin{bmatrix}
+       I_3 \\
+       (p_{i} + R _{\mathcal{C} _ {i} } \; {}^{\mathcal{C}_i}  p_{v_{i,j}} - x_{\text{CoM}})\times
+     \end{bmatrix} f_{i,j} + m\bar{g}.
+     \label{eq:centroidal_dynamics}
+\end{equation}
+We denote by $n_v$ the number of vertices associated with the contact surface, commonly $n_v = 4$. ${}^{\mathcal{C}_i} p_{v_{i,j}}$ is the position of the vertex $j$ of the contact $i$ expressed with respect to the frame associated with the contact surface $\mathcal{C}_i$. $f_{i,j}$ is the pure force applied to the vertex $j$ of the contact $i$ expressed in the inertial frame $\mathcal{I}$.
+\par
+Assume a rigid body that interacts with the environment. The contact force is supposed to be non-null only if the point is in contact with the environment. The condition is called \emph{complementary condition} and writes as:
+\begin{equation}
+    h(p_{i})n(p_{i})^\top f_i = 0,
+    \label{eq:complementary_condition}
+\end{equation}
+where $h$ computes the distance between the point $p_{i}$ and the environment and $n(p_{i})$ returns the normal direction to the contact surface at the point $p_{i}$. 
+
+
+Since the proposed controller assumes the knowledge of the contact sequence, it is possible to define the variable $\Gamma_i \in \{0, 1\}$ for each contact. $\Gamma_i$ represents the contact state at a given instant. $\Gamma_i(t) = 0$ indicates that the contact $i$-th is not active at the time $t$, while, when $\Gamma_i(t) = 1$ the contact is active. 
+Due to this assumption, it is not necessary to introduce the contact force complementary condition~\eqref{eq:complementary_condition}. In fact, considering the complementary condition in an optimization algorithm may cause problems for the nonlinear optimization solvers because the constraint Jacobian becomes singular, thus violating the linear independence constraint qualification (LICQ) on which most solvers rely -- see Section~\ref{sec:kkt_conditions}~\citep{BettsPractical2010}.
+As a consequence of the introduction of $\Gamma_i$, \eqref{eq:centroidal_dynamics} is rewritten as
+\begin{IEEEeqnarray}{cl}
+\phantomsection     \label{eq:centroidal_dynamics_discretized} \IEEEyesnumber \IEEEyessubnumber*
+    {}_{\bar{G}} \dot{h} &=\sum_{i = 1}^{n_c} \sum_{j = 1}^{n_v} \begin{bmatrix}
+      I_3 \\
+      (p_{i} + R _{\mathcal{C} _ {i}}\; {}^{\mathcal{C}_i}  p_{v_{i,j}}  - x_{\text{CoM}})\times
+    \end{bmatrix} \Gamma_i f_{i,j} + m\bar{g}\\
+    &=\mathcal{F}\left(p_{i}, x_{\text{CoM}}, f_{i,j}\right).
+\end{IEEEeqnarray}
+In $\mathcal{F}$, we explicitly express the dependency on the unknown variables, namely: the contact location $p_{i}$,  the CoM position $x_{\text{CoM}}$ and the contact forces $f_{i,j}$.
+We finally notice that the centroidal angular momentum dynamics~\eqref{eq:centroidal_dynamics_discretized} is not convex in the variables $f_{i,j}$, $p_{i}$ $x_{\text{CoM}}$, this fact may induce to complexity in treating the centroidal dynamics as a prediction model. 
+\par
+Since the MPC aims to compute the control outputs online, the optimal control problem formulation should be as general as possible in the number of active contact phases in the prediction windows. For this reason, we consider each contact location as a continuous variable subject to the following dynamics:
+\begin{equation}
+    \dot{p} _{i}= ( 1 - \Gamma _ i)  v_{i},
+    \label{eq:contact_dynamics}
+\end{equation}
+where we define $v _ {\mathcal{C}_i}$ as the \emph{contact velocity}\footnote{We want to warn the reader that the term \emph{contact velocity} could be misleading. Indeed, when the contact is active, its velocity is always assumed to be zero. $v_{i}$ is just an auxiliary variable that allows us to treat the contact location as a continuous variable; $v_{i}$ will be different from zero only when the contact is not active.}. To give the reader a better understanding of Equation~\eqref{eq:contact_dynamics}, we can imagine that when the contact is active, that is, $\Gamma_i = 1$, \eqref{eq:contact_dynamics} becomes $\dot{p} _{i} = 0$. In other words, the contact location is kept constant if the contact is active.
+
+\subsection{Objective function \label{sec:mpc_tasks_formulation}}
+The objective function is defined in terms of several tasks. In the following sections, we discuss the contribution of each task.
+
+\subsubsection{Contact force regularization}
+
+Each contact link is subject to the effect of different contact forces. Since the net effect is given by the sum of all these forces, we want them to be as similar as possible. As a consequence, we add a task that weighs the difference of each contact force from the average for a given contact link:
+\begin{equation}
+    \Psi_{f_{i,j}} = \frac{1}{2} \left\| \frac{1}{n_v}\sum_{w = 1}^{n_v} f_{i,w} - f_{i,j} \right\|^2_{\Lambda_{f_{i,j}}},
+\end{equation}
+where $\Lambda_{f_{i,j}}$ is a positive definite diagonal matrix, i.e., $\Lambda_{f_{i,j}} \succeq 0$. $f_{i,w}$ is given by the sum of all the forces acting by the environment on the link $i$ in contact as
+\begin{equation}
+    f_{i,w} = \sum_{w = 1}^{n_v} f_{i,j}.
+\end{equation}
+\par
+To prevent the controller from providing solutions with a huge rate of change of the contact force, we decided to minimize the contact force derivative by considering the following task:
+\begin{equation}
+    \label{eq:mpc_task_dotf_initial}
+    \Psi_{\dot{f}_{i,j}} = \frac{1}{2} \left\|  \dot{f}_{i,j} \right\|^2_{\Lambda_{\dot{f}_{i,j}}},
+\end{equation}
+where $\Lambda_{\dot{f}_{i,j}}$ is a positive defined diagonal matrix.
+In our control problem, the time derivative of the contact force $\dot{f}_{i,j}$ is not considered as an optimization variable. To overcome this limitation, we decided to replace $\dot{f}_{i,j}$ with its first-order numerical approximation:
+\begin{equation}
+    \label{eq:mpc_numerical_approximation_df}
+    \dot{f}_{i,j} = \frac{f_{i,j}[k] - {f}_{i,j}[k-1]  }{\diff t}.
+\end{equation}
+Here, $\diff t$ is the controller sampling rate. $f_{i,j}[k]$ ${f}_{i,j}[k-1]$ represent, respectively, the contact force at the time instant $t_0 + k \diff t$ and $t_0 + (k-1) \diff t$.
+Substituting~\eqref{eq:mpc_numerical_approximation_df} into the task~\eqref{eq:mpc_task_dotf_initial}, we obtain the final formulation of the contact force rate-of-change regularization task.
+\begin{equation}
+    \label{eq:mpc_task_dotf}
+    \Psi_{\dot{f}_{i,j}} = \frac{1}{2} \norm{\frac{f_{i,j}[k] - {f}_{i,j}[k-1]  }{\diff t}}^2_{\Lambda_{\dot{f}_{i,j}}}.
+\end{equation}
+
+\subsubsection{Centroidal momentum tracking task}
+To follow a desired centroidal momentum trajectory, we minimize the weighted norm of the error between the robot's centroidal quantities and the desired nominal trajectory:
+\begin{equation}
+    \Psi_{h} = \frac{1}{2} \left\| \prescript{}{\bar{G}}{h}^{\omega ^n} - \prescript{}{\bar{G}}{h}^\omega \right\|^2_{\Lambda_{h}} + \frac{1}{2} \left\| x_{\text{CoM}} ^ n -x_{\text{CoM}}  \right\|^2_{\Lambda_{\text{CoM}}}, 
+    \label{eq:task_centroidal}
+\end{equation}
+where $\Lambda_h$ and $\Lambda_{\text{CoM}}$ are two positive definite diagonal matrices. The desired angular momentum $\prescript{}{\bar{G}}{h}^{\omega ^n}$ and CoM position $x_{\text{CoM}} ^ n$, should be considered as regularization terms. As a consequence, their purpose is to \emph{drive} the optimal control problem to the desired feasible solution. In other words, $\prescript{}{\bar{G}}{h}^{\omega ^n}$ and $x_{\text{CoM}} ^ n$ could not be a dynamically consistent trajectory. In our specific scenario we consider $\prescript{}{\bar{G}}{h}^{\omega ^n}$ always equal to zero, while $ x_{\text{CoM}} ^ n$ is a fifth-order spline passing through the nominal contact locations, whose initial and final velocity and acceleration are zero. 
+
+\subsubsection{Contact location regularization}
+To reduce the difference between the nominal contact location and the one computed by the controller, we consider the following regularization task:
+\begin{equation}
+    \Psi_{p_{i}} = \frac{1}{2} \left\| p_{i}^n  - p_{i}  \right\|^2_{\Lambda_{p_{i}}}.
+    \label{eq:task_contact}
+\end{equation}
+Here $p_{\mathcal{C}_i^n}$ is the nominal contact position provided by a high-level planner, and $\Lambda_{p_{i}}$ is a positive definite diagonal matrix.
+
+
+\subsection{Inequality constraints\label{sec:mpc_constraints}}
+This section contains the two sets of inequality constraints considered in the optimal control problem. 
+
+\subsubsection{Contact force feasibility}
+Similar to what we discuss for the whole-body controllers~\ref{sec:tsid_tasks} and \ref{sec:tsid_compliant_tasks}, to guarantee a \emph{weakly stable contact}~\citep{Caron2015StabilityAreas}, the contact force should belong to a second-order cone~\eqref{eq:friction_cone}. However, to simplify the friction constraint, the friction cone is often approximated by the conic combination of $n$ vectors -- Section~\ref{sec:convex_set_example}. The half-space representation of the friction cone approximation is given by a set of linear inequalities of the form 
+\begin{equation}
+A \; {}^{\mathcal{C} _ {i} } R _{\mathcal{C} _ {i}[\mathcal{I}]} \; f _ {i, j} \preceq b.
+\end{equation}
+Here $A$ and $b$ are constants and depend only on the static friction coefficient. 
+\begin{figure}[t]
+    \centering
+    \includegraphics{chapter_centroidal_mpc/figures/contact_adjustment.tikz}
+    \caption{The contact feasibility region.}
+    \label{fig:contact_adjustment}
+\end{figure}
+
+\subsubsection{Contact location constraint}
+The proposed controller aims to compute the contact location. In particular, the new contact position should belong to the feasibility region described by a rectangle containing the nominal contact location -- Figure~\ref{fig:contact_adjustment}.
+
+We introduce the contact location constraint as 
+\begin{equation}
+    l_b\preceq {}^{\mathcal{C} _ {i} }  R_{\mathcal{I}}   (p_{i}^n - p_{i}) \preceq u_b,
+\end{equation}
+where $l_b$ and $u_b$ are the lower and upper bounds of the rectangle represented in the frame attached to the contact $\mathcal{C} _ {i} $.
+
+\subsection{MPC formulation}
+\label{sec:mpc_formulation}
+Combining the set of tasks presented in Section~\ref{sec:mpc_tasks_formulation}, with the prediction models of Section~\ref{sec:centroidal_mpc_dynamics} and the inequality constraints described in Section~\ref{sec:mpc_constraints}), we formulate the MPC as an optimization problem. 
+\par
+The MPC problem is solved using a Direct Multiple Shooting method \citep{BettsPractical2010} -- Section~\ref{sec:shooting_methods}. We discretize the centroidal dynamics~\eqref{eq:centroidal_dynamics_discretized} and the contact location dynamics~\eqref{eq:contact_dynamics} by applying the Forward Euler technique with a constant sampling time $\diff t$ -- Equation~\eqref{eq:forward_euler}. The controller outputs are generated using the Receding Horizon Principle \citep{Mayne90MPC}, adopting a fixed prediction window with a length equal to $N$ samples -- Section~\ref{sec:mpc}.
+
+The MPC formulation is finally obtained by solving the following optimization problem:
+\begin{IEEEeqnarray}{CL}
+\phantomsection \label{eq:mpc_centroidal_contact_optimization} \IEEEyesnumber \IEEEyessubnumber*
+	\minimize_{\substack{\mathcal{X}_k, \mathcal{U}_k, \\ k = [0, N]}}& \sum_{k = 0} ^ N \left(\sum_{i,j} \Psi_{f_{i,j}} + \sum_{i, j} \Psi_{\dot{f}_{i,j}} + \Psi_h + \sum_i \Psi_{p_{i}}\right)
+ \label{costFunction}\\
+	\text{subject to } & {}_{\bar{G}} h[k + 1] = \mathcal{F}\left(p_{i}, x_{\text{CoM}}, f_{i,j}\right) \diff t + {}_{\bar{G}} h[k] \label{eq:mpc_centroidal_centroidal_dynamics_optimization} \\
+	& x_{\text{CoM}}[k+1] = \frac{{}_{\bar{G}} h^p[k]}{m} \diff t  + x_{\text{CoM}}[k] \\
+	& p_{i}[k + 1] = p_{i}[k] + ( 1 - \Gamma _ i[k]) v_{i}[k] \diff t \label{eq:mpc_centroidal_contact_dynamics_optimization}\\
+	& A \; {}^{\mathcal{C} _ {i} } R _{\mathcal{C} _ {i}[\mathcal{I}]} \; f _ {i, j} \preceq b.
+ \label{eq:mpc_centroidal_contact_feasibility_optimization}\\ 
+	&        l_b\preceq {}^{\mathcal{C} _ {i} }  R_{\mathcal{I}}   (p_{i}^n - p_{i}) \preceq u_b \label{eq:mpc_centroidal_contact_position_optimization}.
+\end{IEEEeqnarray}
+Where the contact dynamics constraint~\eqref{eq:mpc_centroidal_contact_dynamics_optimization}, the contact force feasibility~\eqref{eq:mpc_centroidal_contact_feasibility_optimization} and the contact position constraint~\eqref{eq:mpc_centroidal_contact_position_optimization} are repeated for each admissible contact. $\mathcal{X}_k$ and $\mathcal{U}_k$ contain, respectively, the controller state and output at a time instant $k$:
+\begin{IEEEeqnarray}{c}
+\phantomsection \IEEEyesnumber \IEEEyessubnumber*
+    \mathcal{X}_k ^\top = \begin{bmatrix} x_{\text{CoM}}[k]^\top & \prescript{}{\bar{G}}{h}[k]^\top &  p_{i}[k]^\top \end{bmatrix}, \\
+    \mathcal{U}_k ^\top = \begin{bmatrix} f_{i,j}[k]^\top &  v_{i}[k]^\top \end{bmatrix}.
+\end{IEEEeqnarray}
+\par
+At every time step $\diff t$, we solve the optimization problem~\eqref{eq:mpc_centroidal_contact_optimization},  then we apply the control output $\mathcal{U}_0$ only, discarding all the other control inputs. The time horizon is shifted to an amount equal to $\diff t$ and the optimal control problem~\eqref{eq:mpc_centroidal_contact_optimization} is solved again with different initial conditions.
+\par
+Since the centroidal dynamics \eqref{eq:centroidal_dynamics} is a nonlinear non-convex function, the optimizer may find a local minimum. This may
+result in a suboptimal solution for the given task. As a consequence, the initialization of the solver may play a crucial role to drive the optimizer to the desired solution.
+In our case, the CoM is initialized with the nominal CoM trajectory $x_{\text{CoM}}^n$, while all other variables are set to zero.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+

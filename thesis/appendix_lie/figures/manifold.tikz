@@ -1,0 +1,63 @@
+
+
+  
+\tikzset {_jmsm729mj/.code = {\pgfsetadditionalshadetransform{ \pgftransformshift{\pgfpoint{93.13 bp } { -137.35 bp }  }  \pgftransformscale{1.34 }  }}}
+\pgfdeclareradialshading{_8sko6kt84}{\pgfpoint{-72bp}{104bp}}{rgb(0bp)=(1,1,1);
+rgb(0bp)=(1,1,1);
+rgb(25bp)=(0.91,0.61,0.1);
+rgb(400bp)=(0.91,0.61,0.1)}
+\tikzset{_yiw1oumd4/.code = {\pgfsetadditionalshadetransform{\pgftransformshift{\pgfpoint{93.13 bp } { -137.35 bp }  }  \pgftransformscale{1.34 } }}}
+\pgfdeclareradialshading{_y57ef5e1g} { \pgfpoint{-72bp} {104bp}} {color(0bp)=(transparent!30);
+color(0bp)=(transparent!30);
+color(25bp)=(transparent!0);
+color(400bp)=(transparent!0)} 
+\pgfdeclarefading{_lx5z7qith}{\tikz \fill[shading=_y57ef5e1g,_yiw1oumd4] (0,0) rectangle (50bp,50bp); } 
+
+  
+\tikzset {_879b6dsfq/.code = {\pgfsetadditionalshadetransform{ \pgftransformshift{\pgfpoint{89.1 bp } { -108.9 bp }  }  \pgftransformscale{1.32 }  }}}
+\pgfdeclareradialshading{_e7vis4j3s}{\pgfpoint{-72bp}{88bp}}{rgb(0bp)=(1,1,1);
+rgb(0bp)=(1,1,1);
+rgb(25bp)=(0,0,0);
+rgb(400bp)=(0,0,0)}
+\tikzset{_3cawtc865/.code = {\pgfsetadditionalshadetransform{\pgftransformshift{\pgfpoint{89.1 bp } { -108.9 bp }  }  \pgftransformscale{1.32 } }}}
+\pgfdeclareradialshading{_pd3ohohac} { \pgfpoint{-72bp} {88bp}} {color(0bp)=(transparent!20);
+color(0bp)=(transparent!20);
+color(25bp)=(transparent!0);
+color(400bp)=(transparent!0)} 
+\pgfdeclarefading{_7jgwsktie}{\tikz \fill[shading=_pd3ohohac,_3cawtc865] (0,0) rectangle (50bp,50bp); } 
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\path  [shading=_8sko6kt84,_jmsm729mj,path fading= _lx5z7qith ,fading transform={xshift=2}] (255.7,22.03) -- (515.12,76.29) -- (514.98,424.67) -- (255.55,370.4) -- cycle ; %
+ \draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][line width=0.75]  (255.7,22.03) -- (515.12,76.29) -- (514.98,424.67) -- (255.55,370.4) -- cycle ; %
+
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (255.49,198.77) -- (514.92,253.03) ;
+\draw  [dash pattern={on 0.84pt off 2.51pt}]  (385.28,51.71) -- (385.14,400.09) ;
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ][line width=2.25]    (385.21,225.9) .. controls (346.05,152.86) and (283.06,108.1) .. (258.33,98) ;
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ][line width=1.5]    (385.34,223.35) -- (284.66,60.65) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=3]    (385.21,225.9) .. controls (423.53,179.2) and (451.57,135.24) .. (456.14,127.53) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (385.21,225.9) -- (478.66,112.15) ;
+\draw [color={rgb, 255:red, 65; green, 65; blue, 65 }  ,draw opacity=1 ]   (199,342.67) -- (150,383.09) ;
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.5 ][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (382.71,225.38) .. controls (382.63,223.92) and (383.69,222.97) .. (385.07,223.26) .. controls (386.45,223.55) and (387.63,224.97) .. (387.71,226.42) .. controls (387.78,227.88) and (386.73,228.83) .. (385.35,228.54) .. controls (383.97,228.25) and (382.78,226.83) .. (382.71,225.38) -- cycle ;
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.5 ][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (282.16,60.13) .. controls (282.08,58.67) and (283.14,57.73) .. (284.52,58.02) .. controls (285.9,58.3) and (287.08,59.72) .. (287.16,61.17) .. controls (287.23,62.63) and (286.18,63.58) .. (284.8,63.29) .. controls (283.42,63) and (282.23,61.59) .. (282.16,60.13) -- cycle ;
+\draw [color={rgb, 255:red, 65; green, 65; blue, 65 }  ,draw opacity=1 ]   (573.67,166) -- (524.67,206.43) ;
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.5 ][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (476.16,111.63) .. controls (476.08,110.17) and (477.14,109.23) .. (478.52,109.52) .. controls (479.9,109.8) and (481.08,111.22) .. (481.16,112.67) .. controls (481.23,114.13) and (480.18,115.08) .. (478.8,114.79) .. controls (477.42,114.5) and (476.23,113.09) .. (476.16,111.63) -- cycle ;
+\path  [shading=_e7vis4j3s,_879b6dsfq,path fading= _7jgwsktie ,fading transform={xshift=2}] (172.57,243.17) .. controls (172.57,152.38) and (246.17,78.77) .. (336.97,78.77) .. controls (427.77,78.77) and (501.37,152.38) .. (501.37,243.17) .. controls (501.37,333.97) and (427.77,407.58) .. (336.97,407.58) .. controls (246.17,407.58) and (172.57,333.97) .. (172.57,243.17) -- cycle ; %
+ \draw   (172.57,243.17) .. controls (172.57,152.38) and (246.17,78.77) .. (336.97,78.77) .. controls (427.77,78.77) and (501.37,152.38) .. (501.37,243.17) .. controls (501.37,333.97) and (427.77,407.58) .. (336.97,407.58) .. controls (246.17,407.58) and (172.57,333.97) .. (172.57,243.17) -- cycle ; %
+
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=3]    (454.67,129.17) .. controls (462,117.83) and (425.5,116.42) .. (419.86,123.24) ;
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ][line width=2.25]    (258.33,98) .. controls (258,96.42) and (220.85,108.9) .. (251,156.92) ;
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.5 ][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (248.45,156.92) .. controls (248.45,155.51) and (249.59,154.37) .. (251,154.37) .. controls (252.41,154.37) and (253.55,155.51) .. (253.55,156.92) .. controls (253.55,158.33) and (252.41,159.48) .. (251,159.48) .. controls (249.59,159.48) and (248.45,158.33) .. (248.45,156.92) -- cycle ;
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=0.5 ][fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (417.3,123.24) .. controls (417.3,121.83) and (418.45,120.69) .. (419.86,120.69) .. controls (421.27,120.69) and (422.41,121.83) .. (422.41,123.24) .. controls (422.41,124.65) and (421.27,125.79) .. (419.86,125.79) .. controls (418.45,125.79) and (417.3,124.65) .. (417.3,123.24) -- cycle ;
+
+\draw (481.33,83.77) node [anchor=north west][inner sep=0.75pt]    {$\tau ^{\land }$};
+\draw (373.45,130.22) node [anchor=north west][inner sep=0.75pt]    {$\exp\left( \tau ^{\land }\right)$};
+\draw (544.29,127.5) node [anchor=north west][inner sep=0.75pt]   [align=left] {Lie algebra: $\displaystyle \mathfrak{g}$};
+\draw (99.43,385.93) node [anchor=north west][inner sep=0.75pt]   [align=left] {Lie group: $\displaystyle \mathcal{G}$};
+\draw (389.76,228.9) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\displaystyle \mathcal{E}$};
+\draw (245.53,166.87) node [anchor=north west][inner sep=0.75pt]    {$X$};
+\draw (294.93,42.66) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\displaystyle \log( X)$};
+
+
+\end{tikzpicture}

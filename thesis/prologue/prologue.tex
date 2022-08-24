@@ -1,0 +1,124 @@
+
+\chapter*{Prologue}
+
+\addcontentsline{toc}{chapter}{Prologue} 
+\chaptermark{Prologue}
+\lhead{\leftmark}
+
+When the Czech writer Karel Čapek coined the term \emph{robot} in 1920, he had no idea that a century later robots would be a fundamental component of modern civilization. Čapek's conception of robots, however, was quite different than ours. Čapek's robots were artificially assembled biological organisms that may be confused with humans. They were designed to free mankind from the shackles of physical fatigue. 
+Nowadays, the word \emph{robot} refers to mechanical artificial devices capable of completing tasks, whether ordinary or extraordinary. The robots were initially developed on a large commercial scale by \emph{Unimation}, starting from 1960, to reduce human labor along the assembly lines. One decade later, the \emph{Waseda University} presented the first humanoid robot. Its name is \emph{WABOT-1}.
+Although initially, robots' objective was to replace unskilled labor in assembly lines, nowadays robots are designed also to assist humans in their everyday tasks. In the future, robotics will enable a human being to have a real-time sensation of being in a place, and being able to interact with the remote environment. This idea is often known as \emph{telexistence}. Thanks to telexistence, a robot might instantaneously provide the sensation of human presence and care to anybody, regardless of distance.  A robot, or rather a physical avatar, might deliver essential life-saving abilities in real-time to remote, disaster-stricken locations too hazardous for a worker.
+To promote the use of robots in disaster scenarios, in 2015, the US Defense Advanced Research Projects Agency funded the DARPA Robotics Challenge (DRC) where humanoid robots had to perform several tasks in a nuclear crisis scenario.
+The tasks to be completed included things like driving a utility vehicle, walking through a door, and manipulating a tool to cut a hole in a wall. Many of the biped robots fell during the testing, highlighting the technology's immaturity.
+On March 12, 2018, All Nippon Airways (ANA), Japan’s largest airline, announced the \$10M ANA Avatar XPRIZE. The competition aims to create an avatar system that can transport human presence to a remote location in real-time. In this context, online walking capabilities are pivotal. Moreover, when cooperating with a human, the robot must guarantee a safe interaction while maintaining balance. As a consequence, researchers are driven to design accurate models of the physical interaction between the robot and its surroundings, attempting to make the problem of locomotion tractable online.
+\par
+One of the most important inheritances that DRC left us with was the definition of a model-based hierarchical control architecture for humanoid robot locomotion. Each layer provides references for the inner layer by processing inputs from the robot, the environment, and the outputs of the outer layer while considering the robot's model.
+Assumptions and simplifications may be necessary to maintain the locomotion problem tractable online, at the risk of compromising the model's descriptiveness. As a result, the humanoid robot's behavior varies depending on which model is considered at each layer of the control architecture.
+\par
+In this thesis, we investigate different model-based controllers for time-critical humanoid robot motion control. Considering the above hierarchical control architecture, we vary the considered models from simplified to complete dynamics depending on the desired task. In particular, considering the importance of designing an online architecture for locomotion, we propose a control architecture composed of three layers. From top to bottom, we denote these layers as: \emph{trajectory optimization, simplified model control}, and \emph{whole-body control}. We study the performance of the \emph{simplified model control} and \emph{whole-body control} layers when the models under consideration change.
+Indeed, we believe that various tasks may be performed while preserving a cascade control structure and modifying the models considered in the specific layer.
+We show that the locomotion task in different scenarios can be accomplished while keeping the cascade control structure and changing the models considered in the specific layers.
+\par
+This thesis is divided into three parts and its structure reflects the cascade architecture.  
+
+
+\subsubsection*{Part~\ref{part:background}: \nameref{part:background}}
+This part introduces a background about the concepts exploited in the thesis
+
+\begin{itemize}
+    \item Chapter \ref{chapter:introduction} introduces the content of the thesis, along with some food for thought on art and literature.
+    It also briefly introduces the underlying technologies used to implement the algorithms presented in this thesis.
+    \item Chapter \ref{chapter:rigid_base_system_modeling} introduces the rotation and the roto-translation groups. We also present the dynamics of a rigid body system.
+    \item Chapter \ref{chapter:floating_base_system_modeling} presents the model of a floating base multi body system.
+    \item Chapter \ref{chapter:simplified_model_for_locomotion} describes the simplified model considered to describe the locomotion of a bipedal robot.
+    \item Chapter \ref{chapter:optimization} gives the reader some notion about optimal control and non-linear optimization.
+    \item Chapter \ref{chapter:context} provides the literature review  and defines the thesis context.
+\end{itemize}
+
+\subsubsection*{Part~\ref{part:wbc}: \nameref{part:wbc}}
+In this part, we present the design of three whole-body controllers for humanoid robot
+locomotion.
+\begin{itemize}
+    \item Chapter \ref{chapter:benchmarking_wbc} compares whole-body controllers for locomotion on rigid surfaces. A kinematics-based and a dynamics-based whole-body controllers are proposed. The former considers the robot's kinematics to generate the desired joint positions or velocities. The latter, on the other hand, is based on the full dynamics of the robot. Due to the modularity of the two controllers, the two approaches may be interchanged depending on the low-level controller currently accessible on the robot. The experiments are performed on the Humanoid Robot iCub.
+    \item Chapter \ref{chapter:wbc_visco_elastic} attempts to loosen the stiff contact assumption introduced in Chapter~\ref{chapter:benchmarking_wbc} and it contributes towards the modeling of compliant contacts for robot motion control. The chapter, more specifically, proposes a contact model that describes the mechanical characteristics of a visco-elastic carpet. The whole-body controller then exploits the model to compute viable joint torques, allowing the robot to accomplish a locomotion task. The architecture is validated in a simulated version of the Humanoid Robot iCub.
+    \item Chapter \ref{chapter:flexible_joints} proposes an extension of the dynamics-based whole-body controller, presented in Chapter \ref{chapter:benchmarking_wbc}, in the case of a robot affected by inner link flexibility. We model the link flexibility as a passive under-actuated joints and consider their dynamics in the whole-body control layer. The approach is validated on the simulated torque-controlled Humanoid Robot TALOS.
+\end{itemize}
+
+
+\subsubsection*{Part~\ref{part:simplified}: \nameref{part:simplified}}
+
+This part discusses the design of the trajectories and the simplified model control layers. Starting from simplified models' assumptions, we decided to move towards reduce-models to compute, online, the desired trajectories for the whole-body control layer.
+
+\begin{itemize}
+    \item Chapter \ref{chapter:simplified_benchmarking} presents and compares several simplified model-based implementations of the kinematic-based controller architecture. In particular, given a desired footsteps location and timing, the simplified model control layer implements two controllers for the tracking of the robot's center of mass: an instantaneous and a predictive controller. We compare the two control strategies on the Humanoid Robot iCub. Moreover, we show that one of the proposed implementations allows the iCub robot to reach the highest walking velocity ever achieved on such a robot.
+    \item Chapter \ref{chapter:Centroidal_mpc} discusses the design of a non-linear Model Predictive Controller (MPC) that aims at generating online feasible contact locations and forces for humanoid robot locomotion. More precisely, we moved from the simplified models exploited in Chapter~\ref{chapter:simplified_benchmarking} to a reduced description of the humanoid robot. Thanks to this choice, we consider the contact location adjustment directly in the dynamics stabilization problem. The proposed approach is validated on the new version of the iCub Humanoid Robot.
+\end{itemize}
+
+This research work has been carried out during my tenure as Ph.D. candidate in the \emph{Artificial and Mechanical Intelligence} laboratory at the \emph{Istituto Italiano di Tecnologia} in Genoa, Italy.
+My Ph.D. secondment has been carried out at the \emph{Gepetto} laboratory at \emph{LAAS-CNRS Laboratory for Analysis and Architecture of Systems} in Toulouse, France.
+The doctoral program has been carried out in accordance with the requirements of \emph{University
+of Genoa, Italy} in order to obtain a Ph.D. title.
+
+\section*{Summary of publications}
+\nobibliography*
+
+The results of the research conducted for this thesis have been (or will be) published in peer-reviewed research publications. We also include additional material, such as a video presentation and a software repository, for each published paper. 
+\par
+The content of Chapter~\ref{chapter:benchmarking_wbc} and Chapter~\ref{chapter:simplified_benchmarking} appears in:
+\begin{leftbar}
+	\begin{quote}%
+		\bibentry{8625025} \vspace{5mm}\newline 
+		\bibentry{Romualdi2020ARobots} \vspace{5mm} \newline
+		\begin{tabular}{c p{10.0cm}}
+			     Video & \href{https://www.youtube.com/watch?v=FIqwAO71Fc4}{\texttt{https://www.youtube.com/watch?v=FIqwAO71Fc4}} \\
+			     GitHub &  \href{https://github.com/robotology/walking-controllers}{\texttt{robotology/walking-controllers}} 
+		\end{tabular}
+	\end{quote}
+\end{leftbar}
+\vspace{5mm}
+
+\noindent The content of Chapter \ref{chapter:wbc_visco_elastic} appears in:
+\fciteWithVideoAndCode{Romualdi2021ModelingControl}{https://www.youtube.com/watch?v=7XKQ5ZWJvYU}{https://www.youtube.com/watch?v=7XKQ5ZWJvYU}{https://github.com/ami-iit/romualdi-2021-ral-soft\_terrain\_walking}{ami-iit/romualdi-2021-ral-soft\_terrain\_walking}
+\vspace{5mm}
+
+\noindent The content of Chapter \ref{chapter:flexible_joints} will eventually appear in:
+\fcite{Romualdi2022ControlControl}
+
+\noindent The content of Chapter \ref{chapter:Centroidal_mpc} appears in:
+\fciteWithVideoAndCode{Romualdi2022OnlineAdjustment}{https://www.youtube.com/watch?v=u7vCgE2w_vY9}{https://www.youtube.com/watch?v=u7vCgE2w\_vY9}{https://github.com/ami-iit/paper_romualdi_2022_icra_centroidal-mpc-walking}{ami-iit/paper\_romualdi\_2022\_icra\_centroidal-mpc-walking}
+\vspace{5mm}
+
+
+Aside from publications directly relevant to the main contribution of this thesis, we now list additional contributions closely related to the thesis research aim.
+\par
+The following manuscript presents a computationally efficient method for online planning of bipedal walking trajectories with push recovery based on Simplified Models for locomotion. I have contributed to this dissemination by developing part of the push recovery algorithm and integrating it with the walking architecture described in~\citep{Romualdi2020ARobots}.
+\fciteWithVideo{Shafiee2019OnlineRobots}{https://www.youtube.com/watch?v=DyNG8S6zznI}{https://www.youtube.com/watch?v=DyNG8S6zznI}
+
+The following paper presents a framework for the teleoperation of humanoid robots using a novel approach for motion retargeting through inverse kinematics over the robot model. The proposed method enhances scalability for retargeting, i.e., it allows teleoperating different robots by different human users with minimal changes to the proposed system. My contribution towards this publication was concerned with the development of an interface on the walking controller to handle the information computed by the retargeting application. Furthermore, I supported the first author in the experimental procedures for the proposed architectures. 
+\fciteWithVideoAndCode{Darvish2019Whole-BodyRobots}{https://www.youtube.com/watch?v=yELyMYkCyNE}{https://www.youtube.com/watch?v=yELyMYkCyNE}{https://github.com/robotology/walking-teleoperation}{robotology/walking-teleoperation}
+
+The journal publication mentioned below proposes an architecture for achieving telexistence and teleoperation of humanoid robots. The architecture combines several technological set-ups, methodologies, locomotion, and manipulation algorithms in a novel manner, thus building upon and extending works available in the literature. I have contributed to this dissemination by aiding the first author with the validation, software testing, and experimental analysis of the proposed architecture. 
+\fciteWithVideo{Elobaid2020TelexistenceRobots}{https://www.youtube.com/watch?v=jemGKRxdAM8}{https://www.youtube.com/watch?v=jemGKRxdAM8}
+
+The following conference paper introduces a planner capable of generating walking trajectories using the centroidal dynamics and the full kinematics of a humanoid robot model. The interaction between the robot and the walking surface is modeled explicitly through a novel contact parametrization. I supported the first author in the experimental procedures for the proposed architectures. 
+\fciteWithCode{Dafarra2020Whole-BodyApproach}{https://github.com/ami-iit/dynamical-planner}{ami-iit/dynamical-planner}
+
+The conference publication mentioned in the following presents a contact-aided inertial-kinematic floating-base estimation for humanoid robots considering an evolution of the state and observations over matrix Lie groups. I supported the first author in the experimental validation of the proposed estimator. 
+\fciteWithVideoAndCode{Ramadoss2021DILIGENT-KIO:Groups}{https://www.youtube.com/watch?v=CaEZvbR9ZcA}{https://www.youtube.com/watch?v=CaEZvbR9ZcA}{https://github.com/ami-iit/paper\_ramadoss\_2021\_icra\_proprioceptive-base-estimator}{ami-iit/paper\_ramadoss\_2021\_icra\_proprioceptive-base-estimator}
+
+The following journal manuscript presents ADHERENT, a system architecture that integrates machine learning methods used in computer graphics with whole-body control methods employed in robotics to generate and stabilize human-like trajectories for humanoid robots. My contribution towards this dissemination was concerned with the development of the whole-body controllers to stabilize the trajectories provided by the machine learning algorithm. Furthermore, I supported the first author in the experimental procedures for the proposed architectures.
+\fciteWithVideoAndCode{Viceconte2022ADHERENT:Robots}{https://www.youtube.com/watch?v=s7-pML0ojK8}{https://www.youtube.com/watch?v=s7-pML0ojK8}{https://github.com/ami-iit/paper_viceconte_2021_ral_adherent}{ami-iit/paper\_viceconte\_2021\_ral\_adherent}
+
+The following journal paper presents a planner to generate walking trajectories by using the centroidal dynamics and the full kinematics of a humanoid robot. The paper extends and encompasses the authors' previous work~\citep{Dafarra2020Whole-BodyApproach}. Indeed, the introduced contact parametrization ~\citep{Dafarra2020Whole-BodyApproach} is now considered as a dynamic complementary condition (DCC) and compared with other state-of-the-art methods. I supported the first author in the experimental validation for the proposed architectures. 
+\fciteWithCode{Dafarra2022DynamicLocomotion}{https://github.com/ami-iit/paper\_dafarra\_2022\_tro_dcc-planner}{ami-iit/paper\_dafarra\_2022\_tro\_dcc-planner}
+
+\section*{Code developed during the Ph.D.}
+The results of the research conducted for this thesis have been obtained thanks to a suit of libraries I developed and I am maintaining.
+\paragraph{\texttt{osqp-eigen}} is a simple \texttt{Eigen} wrapper for the \texttt{osqp} library~\citep{Stellato2018}. The goal of \texttt{osqp-eigen} is to make it easier to describe a quadratic programming (QP) problem in \texttt{C++}. The library is open-source released under the \emph{BSD-3-Clause license} and it is available at \href{https://github.com/robotology/osqp-eigen}{\texttt{https://github.com/robotology/osqp-eigen}}.
+
+\paragraph{\texttt{lie-group-controllers}} is a header-only \texttt{C++} library containing controllers designed for Lie groups. The aim of the library is to hide the complexity of the design of a proportional and proportional and derivative controller for a general Lie group. For this reason the controllers implemented in \texttt{lie-group-controllers} are not restricted to $\SO(3)$ and $\SE(3)$.
+The library is open-source released under the \emph{LGPL-2.1 license} and it is available at \href{https://github.com/ami-iit/lie-group-controllers}{\texttt{https://github.com/ami-iit/lie-group-controllers}}.
+
+\paragraph{\texttt{bipedal-locomotion-framework}} is a suite of libraries to achieve bipedal locomotion in humanoid robots. Many of the algorithms and the models presented in Part~\ref{part:wbc} and \ref{part:simplified} have been implemented within this framework. \texttt{bipedal-locomotion-framework} implements also an efficient floating base inverse kinematics and dynamics. The project provides also \texttt{python} bindings. 
+The content of the \texttt{bipedal-locomotion-framework} library is the subject of a publication to be submitted. 
+The library is open-source released under the \emph{BSD-3-Clause license} and it is available at \href{https://github.com/ami-iit/bipedal-locomotion-framework}{\texttt{https://github.com/ami-iit/bipedal-locomotion-framework}}.

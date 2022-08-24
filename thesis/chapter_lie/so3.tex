@@ -1,0 +1,115 @@
+\section{The Rotation group \label{sec:so3}}
+The set of rotation matrices $\SO(3)$ represents the set of $\mathbb{R}^{3 \times 3}$ orthogonal matrices with determinant equal to one, namely
+\begin{equation}
+\label{eq:so3_definition}
+\SO(3) :=  \{\, R \in \mathbb{R}^{3 \times 3} \mid R^\top R = I_3 , \hspace{0.3em} \operatorname{det}(R) = 1 \,\}.
+\end{equation}
+It is worth noting that $\SO(3)$ is a \emph{group} under the product operator, i.e., ($\SO(3), \cdot$). Indeed, the product of two rotation matrices is still a rotation matrix. 
+Its identity element is the $3\times3$ identity matrix $I_3$ and for each element $R\in \SO(3)$ there exists the inverse of $R$, i.e., $R^{-1} = R^\top \in \SO(3)$.
+\par
+Given two frames $A$ and $B$, an element ${}^A R _B \in \SO(3)$ denotes the coordinate transformation from frame $B$ to $A$. ${}^A R _B$ only depends on the relative orientation between the frame orientations $[A]$ and $[B]$.
+\par
+Given a 3D vector ${}^B p$ whose coordinates are expressed in the frame $B$, applying ${}^A R _B$ to ${}^B p$ results in the coordinate transformation from the frame $B$ to the frame $A$, namely ${}^A p = {}^A R _B {}^B p$ -- a generalization of this concept is described in Appendix~\ref{sec:action_lie}.
+
+\subsection{Angular velocity\label{sec:angular_velocity}}
+Given a smooth trajectory $R(t) \in \SO(3)$ with $t \in \mathbb{R}$ such that $R(0) = I_3$, we define the time derivative of the rotation matrix as $\dot{R}(t)$.
+Given the $\SO(3)$ orthogonality condition, $R(t) R(t)^\top = I_3$, the time derivative writes as
+\begin{equation}
+    \label{eq:so3_derivative}
+    \dot{R}(t) R(t)^\top + R(t) \dot{R}(t)^\top = 0_{3\times3}, 
+\end{equation}
+which can be rearranged as $\dot{R}(t) R(t)^\top = -\left(  \dot{R}(t) R(t)^\top \right)^\top$. It is worth noting that $\dot{R}(t) R(t)^\top$ is a skew-symmetric matrix, and thus \eqref{eq:so3_derivative} can be rewritten as
+\begin{equation}
+    \label{eq:so3_derivative_skew}
+    \dot{R}(t) =  (\omega(t) \times)  R(t),
+\end{equation}
+where $\omega(t) \times$ belongs is a skew-symmetric matrix of the form
+\begin{equation}
+\label{eq:skew_simmetric_angular_velocity}
+    \omega \times = \begin{bmatrix}
+        0 & -\omega_z & \omega_y \\
+         \omega_z & 0 & -\omega_x \\
+         -\omega_y & \omega_x & 0
+    \end{bmatrix}.
+\end{equation}
+If $R(t) = I_3$, Equation \eqref{eq:so3_derivative_skew} becomes $\dot{R}(t) = \omega\times$. 
+Hereafter we denote the set of the 3D skew-symmetric matrices with $\so(3)$:
+\begin{equation}
+    \so(3) :=  \left\{\, S \in \mathbb{R}^{3 \times 3}  \mid S^T = -S \,\right\}.
+\end{equation}
+We notice that an element of $\so(3)$ is uniquely identified by a 3D vector -- see Equation~\eqref{eq:skew_simmetric_angular_velocity}. We now introduce \emph{hat} as 
+\begin{equation}
+    \omega ^\wedge := \omega \times.
+\end{equation}
+The inverse of the \emph{hat} map is denoted as \emph{vee} and it is defined as
+\begin{equation}
+    \left(\omega \times\right)^\vee := \omega.
+\end{equation}
+A more rigorous definition of the \emph{hat} and \emph{vee} operators is provided in Equation~\eqref{eq:hat_vee_operators}.
+
+
+Given a smooth trajectory ${}^A R(t) _B \in \SO(3)$ representing a time-varying coordinate transformation from the frame $B$ to the frame $A$. 
+\par
+We define \emph{right trivialized angular velocity}, denoted by ${}^A \omega _{A,B} \times \in \so(3)$ as
+\begin{equation}
+    \label{eq:so3_right}
+    {}^A \omega _{A,B} \times := {}^A \dot{R} _B  {}^A R _B ^\top.
+\end{equation}
+The \emph{right trivialized angular velocity} is equal to the angular velocity of the frame $A$ with respect to the frame $B$ whose coordinates are expressed in $A$.
+\par
+We define \emph{left trivialized angular velocity}, denoted with ${}^B \omega _{A,B} \times \in \so(3)$ as
+\begin{equation}
+    \label{eq:so3_left}
+    {}^B \omega _{A,B} \times := {}^A R _B ^\top  {}^A \dot{R} _B. 
+\end{equation}
+The \emph{left trivialized angular velocity} is equal to the angular velocity of the frame $A$ with respect to the frame $B$ whose coordinates are expressed in $B$.
+\par
+It is worth recalling that the right and left trivialized angular velocities can also be computed by time differentiating the orthogonality conditions of the form ${}^A R _B  {}^A R _B ^\top = I_3$ and ${}^A R _B ^\top {}^A R _B = I_3$, respectively. 
+
+
+
+
+\subsection{Exponential and Logarithmic map\label{sec:so3_exponential_log}}
+Given a unit vector\footnote{Given a vector $v\in\mathbb{R}^n$ we call it unit vector if its norm is equal to 1. i.e., $v^\top v = 1$.} $u\in\mathbb{R}^3$ and an angle $\theta\in\mathbb{R}$ the associated rotation matrix is given by the exponential map as
+\begin{equation}
+    \label{eq:exp_so3}
+    R = \Exp(\theta u) := I_3 + \sin(\theta) (u \times) + (1 - \cos(\theta)) (u \times) ^2,
+\end{equation}
+where \eqref{eq:exp_so3} is the well-known \emph{Rodrigues' Rotation Formula}~\citep{Murray1994}.
+\par
+Similarly, the logarithmic map is given by
+\begin{equation}
+    \label{eq:log_so3}
+    \theta u = \Log(R) := \frac{\theta(R - R^\top) ^ \vee}{ 2 \sin(\theta)}; \quad \theta = \cos^{1} \left(\frac{\tr(R) - 1 }{2}\right).
+\end{equation}
+Where $\tr(R)$ represents the trace of the matrix $R$. It is worth noting that the $\Log$ map applied on a rotation matrix returns the axis times the angle of the axis-angle representation of the rotation. 
+A detailed and more rigorous definition of the Exponential and Logarithmic operators is discussed in Appendix~\ref{sec:exp_and_log_maps}
+
+
+
+\subsection{The adjoint representation}
+Considering the left and right trivialized angular velocities ${}^B \omega _{A,B} \times \in \so(3)$ and ${}^A \omega_{A,B} \times \in \so(3)$ introduced in Equation~\eqref{eq:so3_left} and \eqref{eq:so3_right}, respectively. We introduce the adjoint representation as $\Ad_{{}^A R _B}\left({}^B \omega _{A,B} \times \right)$
+\begin{equation}
+   {}^A \omega  _{A,B} \times =  \Ad_{{}^A R _B}\left({}^B \omega _{A,B} \times \right) = {}^A R _B \left({}^B \omega  _{A,B} \times\right) {}^A R _B^{\top}.
+\end{equation}
+A more general definition of the adjoint representation is presented in Equation~\eqref{eq:adjoint_action_def},
+In other words, the adjoint representation $\Ad_{{}^A R _B}\left({}^B \omega _{A,B}\times\right)$ maps a left trivialized angular velocity into a right trivialized one, i.e., a body frame velocity into an inertial frame velocity. 
+As discussed in detail in Appendix~\ref{sec:adjoint_and_coadjoint_representation}, it is possible to show that the adjoint representation is a linear transformation, and as a consequence it can be uniquely represented by a matrix. We define such a matrix as \emph{adjoint matrix} and we denote it with $\AdM_{{}^A R _B}$:
+\begin{equation}
+    \AdM_{{}^A R _B} = {{}^A R _B}.
+\end{equation}
+Indeed, we can prove the identity $R( \omega\times) R^\top = (R \omega)\times$ by letting the right-hand side term act upon an arbitrary vector $v\in\mathbb{R}^3$
+\begin{IEEEeqnarray}{LL}
+\phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+    \left[(R\omega) \times\right] v &= (R\omega) \times v  \\
+    &= (R\omega) \times (R R^\top v) \\
+    &= R \left[ \omega \times (R^\top v) \right] \\
+    &= R (\omega\times) R^\top v,
+\end{IEEEeqnarray}
+
+where we use the fact that for any rotation matrix $R$ and vectors $a$ and $b$ we have $(R a) \times (R b) = R(a \times b)$.
+
+
+
+
+

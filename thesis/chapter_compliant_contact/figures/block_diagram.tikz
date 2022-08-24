@@ -1,0 +1,79 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [fill={rgb, 255:red, 239; green, 239; blue, 239 }  ,fill opacity=1 ] (366,75.75) -- (622,75.75) -- (622,199.25) -- (366,199.25) -- cycle ;
+\draw    (337,137) -- (362.5,137) ;
+\draw [shift={(365.5,137)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (546.1,137.5) -- (575.5,137.5) ;
+\draw [shift={(578.5,137.5)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (599,163) -- (599,190.65) -- (459.05,190.65) -- (459.05,166) ;
+\draw [shift={(459.05,163)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (58,152.25) -- (223.8,152.25) ;
+\draw [shift={(226.8,152.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (60.1,184.15) -- (223.8,184.15) ;
+\draw [shift={(226.8,184.15)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (58,89.81) -- (223.8,89.81) ;
+\draw [shift={(226.8,89.81)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (58,121) -- (223.8,121) ;
+\draw [shift={(226.8,121)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw   (226,75.75) -- (336.5,75.75) -- (336.5,199.25) -- (226,199.25) -- cycle ;
+\draw    (457,199.25) -- (457,276.65) ;
+\draw [shift={(457,279.65)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (530.55,199.25) -- (530.55,276.65) ;
+\draw [shift={(530.55,279.65)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (409.5,305.65) -- (246,305.65) -- (246,202.25) ;
+\draw [shift={(246,199.25)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (530.55,226.45) -- (317.5,226.45) -- (317.5,202.25) ;
+\draw [shift={(317.5,199.25)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (457,253.65) -- (281.25,253.65) -- (281.25,202.25) ;
+\draw [shift={(281.25,199.25)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+
+\draw (281.25,137.5) node   [align=left] {\begin{minipage}[lt]{77.86pt}\setlength\topsep{0pt}
+\begin{center}
+{\small Whole-body}\\{\small QP Controller}
+\end{center}
+
+\end{minipage}};
+\draw (494.13,89.81) node   [align=left] {\begin{minipage}[lt]{174.25pt}\setlength\topsep{0pt}
+\begin{center}
+Simulator
+\end{center}
+
+\end{minipage}};
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ]  (368.05,109) -- (548.05,109) -- (548.05,163) -- (368.05,163) -- cycle  ;
+\draw (458.05,136) node   [align=left] {\begin{minipage}[lt]{119.75pt}\setlength\topsep{0pt}
+\begin{center}
+{\small Forward dynamics~\eqref{eq:system_initial}}\\{\small Lemma~\ref{lemma:compliant_model}}
+\end{center}
+
+\end{minipage}};
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ]  (578,109) -- (620,109) -- (620,163) -- (578,163) -- cycle  ;
+\draw (599,136) node   [align=left] {\begin{minipage}[lt]{25.84pt}\setlength\topsep{0pt}
+\begin{center}
+$\displaystyle \int $
+\end{center}
+
+\end{minipage}};
+\draw (548.85,117.9) node [anchor=north west][inner sep=0.75pt]    {$\nu ,\dot{\nu }$};
+\draw (518.55,173.05) node [anchor=north west][inner sep=0.75pt]    {$q,\nu $};
+\draw    (409.75,279.65) -- (572.75,279.65) -- (572.75,331.65) -- (409.75,331.65) -- cycle  ;
+\draw (491.25,305.65) node   [align=left] {\begin{minipage}[lt]{107.78pt}\setlength\topsep{0pt}
+\begin{center}
+{\small Contact Parameters Estimator}
+\end{center}
+
+\end{minipage}};
+\draw (80.1,62.65) node [anchor=north west][inner sep=0.75pt]    {$_{\overline{G}} h^{\text{ref}} ,_{\overline{G}}\dot{h}^{\text{ref}} ,_{\overline{G}}\ddot{h}^{\text{ref}} \ $};
+\draw (341.1,115.9) node [anchor=north west][inner sep=0.75pt]    {$\tau ^{*}$};
+\draw (54.3,93.9) node [anchor=north west][inner sep=0.75pt]    {$^{\mathcal{I}} R_{R}^{\text{ref}} ,^{\mathcal{I}} R_{T}^{\text{ref}} ,^{\mathcal{I}} \omega _{\mathcal{I} ,R}^{\text{ref}} ,^{\mathcal{I}} \omega _{\mathcal{I} ,T}^{\text{ref}} \ $};
+\draw (60,125.4) node [anchor=north west][inner sep=0.75pt]    {$^{\mathcal{I}} H_{F}^{\text{ref}} ,^{F[\mathcal{I}]}\mathrm{v}_{\mathcal{I} ,F}^{\text{ref}} ,^{F[\mathcal{I}]}\dot{\mathrm{v}}_{\mathcal{I} ,F}^{\text{ref}} \ $};
+\draw (103,159.4) node [anchor=north west][inner sep=0.75pt]    {$_{F[\mathcal{I}]}\mathrm{f}^{\text{ref}} ,\ s^{\text{ref}}$};
+\draw (320,286.9) node [anchor=north west][inner sep=0.75pt]    {$k,\ b$};
+\draw (534.55,216.55) node [anchor=north west][inner sep=0.75pt]    {$q,\nu $};
+\draw (458,237.4) node [anchor=north west][inner sep=0.75pt]    {$_{F[\mathcal{I}]}\mathrm{f}$};
+
+
+\end{tikzpicture}

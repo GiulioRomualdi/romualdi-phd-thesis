@@ -1,0 +1,247 @@
+\section{Background \label{sec:background-bachmarking}}
+
+In several applications, we can assume flat terrain. In this scenario, a human, while walking, tends to keep the orientation of the body tangential to the path~\citep{Truong2010,Mombaur2010,flavigne2010reactive} to maximize the energy efficiency~\citep{handford2014sideways}. This consideration suggests designing a simple unicycle model to generate the desired footsteps locations and timings~\citep{Faragasso2013,cognetti2016real,8594277}. Authors of \citep{Faragasso2013} considers the unicycle model to plan footsteps in a corridor with turns and junctions using cameras. While \cite{cognetti2016real} exploits the unicycle model to perform \emph{evasive} robot maneuvers. However, in both cases, the footstep planners consider a constant velocity and a constant footsteps length. Attempts have been made to consider varying the length and velocity of the steps~\citep{8594277}.
+
+\subsection{The unicycle model \label{sec:unicycle}}
+\begin{figure}[!t]
+  \centering
+  \includegraphics{chapter_simplified_benchmarking/figures/unicycle.tikz}
+  \caption{Unicycle model.\label{fig:unicycle}}
+\end{figure}
+Let us now consider a 2D unicycle -- Figure~\ref{fig:unicycle}, and assume that:
+\begin{itemize}
+    \item there exists an inertial frame $\mathcal{I}$;
+    \item there exists a frame $U$ rigidly attached to the center of the unicycle, and we denote by $o_B$ the origin of the frame and by $[B]$ its orientation.
+\end{itemize}
+The unicycle model is described by the following dynamical system~\citep{Pucci2013}:
+\begin{equation}
+  \begin{cases}
+    \label{eq:unicycle_dynamics}
+    {\dot{o}}_{B} = R(\theta) e_1 v\\
+    \dot{\theta} = \zeta
+  \end{cases}
+\end{equation}
+where $v\in \mathbb{R}$ is the linear velocity of the robot expressed in the frame $B$. $\zeta\in \mathbb{R}$ is the unicycle angular velocity. ${o}_{B}$ is the position of the unicycle relative to the inertial frame $\mathcal{I}$. $\theta$ is the orientation of the robot. 
+\par
+The control objective is to asymptotically stabilize the point $F$, a fixed point with respect to the unicycle, to the desired point $F^*$. Thus, we define the error $\tilde{x}_F$ as
+\begin{equation}
+  \label{eq:unicycle_error}
+  \tilde{x}_F:= x_F - x_F^*,
+\end{equation}
+where $x_F$ is given by
+\begin{equation}
+  \label{eq:point_unicycle_forward}
+   x_F =
+o_B +
+R(\theta) \prescript{B}{}{x}_F,
+\end{equation}
+with $\prescript{U}{}{x}_F$ being a constant vector.  
+The control objective becomes the asymptotic stabilization of $\tilde{x}_F$ to zero.
+By time-differentiating Equation~\eqref{eq:point_unicycle_forward}, we obtain the following dynamical system
+\begin{equation}
+\label{eq:unicycle_output_dynamics}
+    \dot{x}_F = \dot{o}_B + \zeta R(\theta) H \prescript{B}{}{x}_F.
+\end{equation}
+where $H$ is
+\[
+H= \begin{bmatrix}
+  0 & -1 \\
+  1 & 0
+\end{bmatrix}.
+\]
+By substituting Equation~\eqref{eq:unicycle_dynamics} into~\eqref{eq:unicycle_output_dynamics}, we can rewrite the output dynamics as
+\begin{equation}
+    \dot{x}_F = B(\theta) u = \begin{bmatrix} R(\theta) e_1 & R(\theta) H  \prescript{U}{}{x}_F \end{bmatrix} u = R(\theta)
+\begin{bmatrix}
+  1 & -\prescript{U}{}{x}_{F_y}\\
+  0 & \prescript{U}{}{x}_{F_x}
+\end{bmatrix} u.
+\end{equation}
+Here, $u$ is the vector containing the controlled input $v$ and $\zeta$, i.e.,  $u = \begin{bmatrix} v & \zeta \end{bmatrix}^\top$. It can be seen that $\det\left(B(\theta)\right) = \prescript{B}{}{x}_{F_x}$, consequently, when the control point $F$ is not located on the axis of the wheels, its stabilization to an arbitrary reference trajectory $F^*$ can be achieved by using a simple feedback linearization law of the form
+\begin{equation}
+  \label{eq:unicycle_control_law}
+ u  = B(\theta)^{-1} ({\dot{{x}}}_{F}^* - K ( x_F - x_F^* )),
+\end{equation}
+with $K$ a positive definite matrix, that is, $K \succ 0$.
+
+\subsection{Footsteps trajectory planner
+\label{sec:footsteps_trajectory}}
+\begin{figure}[!t]
+  \centering
+  \includegraphics{chapter_simplified_benchmarking/figures/footsteps_unicycle.tikz}
+  \caption{Footsteps planning from the unicycle trajectory.\label{fig:footsteps_unicycle}}
+\end{figure}
+To obtain the footsteps positions, the trajectory of the left foot and the right foot,
+represented by the wheels of the unicycle, are sampled using a sampling time $\diff T$ as in~\citep{8594277}
+\begin{equation}
+    {{o}}_{\mathcal{L}_k} = {{o}}_{U_k} + R(\theta_k) \prescript{U}{}{{o}}_\mathcal{L},
+\quad \quad
+{{o}}_{\mathcal{R}_k} = {{o}}_{U_k} + R(\theta_k) \prescript{U}{}{{o}}_\mathcal{R},
+\end{equation}
+
+where $\mathcal{L}$ and $\mathcal{R}$ are, respectively, the frames attached to the left and right foot. The subscript $k$ denotes the time instant, i.e., $t = k \diff T$.
+\par
+Given the set of unicycle position (which is finite, thanks to discretization), we can select a particular position for the feet.
+Each position in the set is associated with a time instant, $k$. This instant is considered the moment in which the corresponding foot is expected to touch the ground and is called the impact time, $t_{\text{imp}}$. Impact time can be used as decision variables to also select the position of feet.
+\par
+Using the impact time, the step duration can be defined:
+\begin{equation}
+    \Delta_t = |t^{lf}_{\text{imp}} - t^{rf}_{\text{imp}}|.
+\end{equation}
+Another interesting quantity is the distance of the feet during the double support phase
+\begin{equation}
+\Delta_x = \norm{\prescript{\mathcal{I}}{}{{o}}^{ds}_{\mathcal{L}_k} - \prescript{\mathcal{I}}{}{{o}}^{ds}_{\mathcal{R}_k}}.
+\end{equation}
+Both $\Delta_x$ and $\Delta_t$ are used within the cost function in order to reduce the possibility
+to obtain long and fast steps
+\begin{equation}
+J = K_t \frac{1}{\Delta_t^2}  +  K_x \Delta_x^2,
+\end{equation}
+where $K_t>0$ and $K_x>0$ are used to allow the robot to perform long/short and fast/slow steps.
+\par
+However, considering only the cost function, too long/short or too fast/slow steps can be planned. To avoid this undesirable behavior, several constraints are added.
+First of all, the bound on the step duration is necessary to avoid too fast or too slow steps and a division by zero in the cost function:
+\begin{equation}
+t_{\text{min}} \leq \Delta_t \leq t_{\text{max}}.
+\end{equation}
+Also, the distance between the feet during the double support phase has to be bound in order to
+avoid undesired collision between feet and, on the other hand, step length that the robot, according to its mechanical structure cannot achieve:
+\begin{equation}
+d_{\text{min}} \le \Delta_x \leq d_{\text{max}}.
+\end{equation}
+Last but not least, an additional constraint has to be taken into account: the relative rotation
+between the two feet, $|\Delta_\theta|$, has to be lower than $\theta_{\text{max}}$,
+this is necessary to take into account the mechanical limitations of the humanoid robot.
+\begin{equation}
+|\Delta_\theta| \leq  \theta_{\text{max}}.
+\end{equation}
+\par
+
+Finally, the control objective is achieved by defining the planning problem as a constrained optimization problem whose conditional variable is $t_{\text{imp}}$. In detail, we have:
+\begin{IEEEeqnarray}{CCL}
+\phantomsection \label{eq:path_optimization_problem}  \IEEEyesnumber  \IEEEyessubnumber*
+\minimize\limits_{t_{\text{imp}}}  && K_t \frac{1}{\Delta_t^2}  +  K_x \Delta_x ^2 \\
+\st& \quad &t_{\text{min}} \leq \Delta_t \leq t_{\text{max}}\\
+    && d_{\text{min}} \le \Delta_x \leq d_{\text{max}} \\
+   && |\Delta_\theta| \leq  \theta_{\text{max}}.
+\end{IEEEeqnarray}
+
+
+\subsection{DCM trajectory generator \label{sec:dcm_traj_gen}}
+We now introduce the trajectory generation problem. Following the work of \cite{Englsberger2014}, we first assume instantaneous transitions between two consecutive single support phases (SS).
+Later, we relax this assumption by considering the double support phases (DS).
+
+\subsubsection{Generation of the single support trajectory \label{sec:dcm_ss}}
+\begin{figure}[t]
+  \centering
+  \includegraphics{chapter_simplified_benchmarking/figures/dcm_and_zmp.tikz}
+  \caption[DCM trajectory planning assuming single support phases only]{Planning of the DCM trajectory on a flat terrain considering only single support phases.
+    The ZMP position is assumed constant during the
+    single support transition. The final position of the DCM coincides
+    with ZMP of the last footstep, ${\xi}_{4}^{\text{eos}} = {x}_{\text{ZMP}_5}$.\label{fig:dcm_and_zmp}}
+\end{figure}
+Let us consider a set of footsteps locations and timings generated by a proper footsteps planner, e.g., the unicycle footstep planner in Section~\ref{sec:footsteps_trajectory}. Let us also assume that the LIPM hypothesis is valid -- Section~\ref{sec:lip}. Then the DCM dynamics~\eqref{eq:3d_dcm_dynamics_eCMP} can be projected on the contact plane and rewritten as \eqref{eq:dcm_dynamics_lipm_dcm}:
+\begin{equation}
+    \label{eq:dcm_dynamics_lipm_dcm_without_lip}
+    \dot{\xi} = \zeta\left(\xi - x_\text{ZMP}\right)
+\end{equation}
+where, for the sake of clarity, we removed the suffix LIP.
+\par
+For a constant ZMP, the projected DCM dynamics \eqref{eq:dcm_dynamics_lipm_dcm} admits a close form solution of the form:
+\begin{equation}
+  \label{eq:dcm_solution_ios}
+  {\xi}(t) = {x}_\text{ZMP} + e ^{\zeta t} ({\xi}_0 - {x}_\text{ZMP}),
+\end{equation}
+where ${\xi}_0 = {\xi}(0)$ and the time $t$ has to belong to the step domain $t \in [0, \; t^\text{\text{step}}_i]$, where $t^\text{\text{step}}_i$ is the duration of the $i$-th step.
+\par
+Assuming that the final position of the DCM coincides with the ZMP at the last step, i.e., ${\xi}_{N-1}^{\text{eos}} = {x}_{\text{ZMP}_N}$, Equation~\eqref{eq:dcm_solution_ios} can be used to find the desired DCM position at the end of each step as:
+\begin{IEEEeqnarray}{LL}
+\phantomsection \label{eq:dcm_eos_evaluation}  \IEEEyesnumber  \IEEEyessubnumber*
+    {\xi}_{N-1}^{\text{eos}} &= {x}_{\text{ZMP}_N} \label{eq:dcm_eos_evaluation_final_condition} \\
+    {\xi}_{i-1}^{\text{eos}} &= {\xi}_{i}^{\text{ios}} = {x}_{\text{ZMP}_i} + e^{-\zeta t^\text{\text{step}}_i} ({\xi}_i^{\text{eos}} - {x}_{\text{ZMP}_i}),
+\end{IEEEeqnarray}
+where ${\xi}_{i}^{\text{ios}}$ and ${\xi}_{i}^{\text{eos}}$ are respectively the initial
+and final positions of the desired DCM for the $i$-th step .
+\par
+By substitution of \eqref{eq:dcm_eos_evaluation} into \eqref{eq:dcm_solution_ios}, the reference DCM trajectory is calculated as follows:
+\begin{equation}
+  \label{eq:dcm_solution_eos}
+  {\xi}_i(t) = {x}_{\text{ZMP}_i} + e ^{\zeta \left(t - t^\text{\text{step}}_i\right)} \left({\xi}^{\text{eos}}_i - {x}_{\text{ZMP}_i}\right).
+\end{equation}
+The DCM velocity trajectory can be easily evaluated by differentiation of \eqref{eq:dcm_solution_eos}
+\begin{equation}
+\dot{{\xi}}_i(t) =\zeta e ^{\zeta \left(t - t^\text{\text{step}}_i\right)} \left({\xi}^{\text{eos}}_i - {x}_{\text{ZMP}_i}\right).
+\end{equation}
+By applying, Equation~\eqref{eq:dcm_eos_evaluation} and  \eqref{eq:dcm_solution_eos} recursively, we compute the DCM trajectory. Figure~\ref{fig:dcm_and_zmp} presents an example of DCM trajectory generation in the case of five footsteps.
+
+\subsubsection{Generation of the double support trajectory \label{sec:dcm_ds}}
+The presented planning method is very powerful and allows one to generate the desired DCM
+trajectory in real-time. Nevertheless, it has the limit of taking into account only single support phases. Indeed, considering only instantaneous transitions between two consecutive single support phases, the ZMP
+reference is discontinuous~\citep{Englsberger2014}.
+This makes the external forces  discontinuous too, and, in turn, also the desired joint torque may
+suffer from discontinuity.
+This can be unfeasible for a physical robot due to its limited actuator dynamics. These considerations motivate the development of a new DCM trajectory generator that handles the non-instantaneous transition between two single support phases \citep{Englsberger2014}.
+\par
+We notice that by rearranging Equation~\eqref{eq:dcm_dynamics_lipm_dcm_without_lip}, the ZMP position depends linearly on the DCM position and velocity
+\begin{equation}
+  \label{eq:dcm_zmp_relation}
+  {x}_\text{ZMP} = {\xi} - \zeta \dot{{\xi}},
+\end{equation}
+as a consequence, we can conclude that a DCM reference trajectory with continuous derivative, i.e., $C^1$ continuity, guarantees a continuous ZMP trajectory. This consideration motivates the use of a third-order polynomial interpolation to smooth the edges of the DCM reference trajectory evaluated using the exponential technique 
+\begin{equation}
+\label{eq:3d_dcm_ds_base} 
+    {\xi}^\text{DS}(t) = {a}_3 t^3 + {a}_2 t^2 + {a}_1 t + {a}_0,
+\end{equation}
+where the parameters ${a}_i$ must be chosen to satisfy the velocity and position boundary conditions, namely:
+\begin{IEEEeqnarray}{LL}
+\phantomsection \label{eq:3d_dcm_ds_boundary}  \IEEEyesnumber  \IEEEyessubnumber*
+  {\xi}^{\text{ios}_\text{DS}}_i &= {x}_{\text{ZMP}_{i-1}} + e ^{\zeta \left(t^{\text{ios}_\text{DS}}_{i-1} - t^{\text{step}}_{i-1}\right)} ({\xi}^{\text{eos}}_{i-1} - {x}_{\text{ZMP}_{i-1}}) \label{eq:3d_dcm_ds_boundary_ios}  \IEEEyessubnumber \\
+  \dot{{\xi}}^{\text{ios}_\text{DS}}_i &= \zeta e ^{\zeta \left(t^{\text{ios}_\text{DS}}_{i-1} - t^{\text{step}}_{i-1}\right)} ({\xi}^{\text{eos}}_{i-1} - {x}_{\text{ZMP}_{i-1}}) \label{eq:3d_dcm_ds_boundary_ios_v}  \IEEEyessubnumber \\
+  {\xi}^{\text{eos}_{\text{DS}}}_i &= {x}_{\text{ZMP}_{i}} + e ^{\zeta \left(t^{\text{eos}_{\text{DS}}}_i - t^{\text{step}}_i\right)} \left({\xi}^{\text{eos}}_i - {x}_{\text{ZMP}_{i}}\right) \label{eq:3d_dcm_ds_boundary_eos}  \IEEEyessubnumber \\
+  \dot{{\xi}}^{\text{eos}_{\text{DS}}}_i &= \zeta  e ^{\zeta \left(t^{\text{eos}_{\text{DS}}}_i - t^{\text{step}}_i\right)} ({\xi}^{\text{eos}}_i - {x}_{\text{ZMP}_{i}}). \label{eq:3d_dcm_ds_boundary_eos_v}  \IEEEyessubnumber
+\end{IEEEeqnarray}
+Equations~\eqref{eq:3d_dcm_ds_boundary_ios} and \eqref{eq:3d_dcm_ds_boundary_ios_v} denote, respectively, the desired position and velocity of DCM at the beginning of the double support phase. On the other hand, Equations~\eqref{eq:3d_dcm_ds_boundary_eos} and \eqref{eq:3d_dcm_ds_boundary_eos_v} represent
+the desired position and velocity of DCM at the end of the double support phase. $t^{\text{ios}_\text{DS}}_i$ and
+$t^{\text{eos}_{\text{DS}}}_i$ are, respectively, the initial and final time of the $i$-th double support phase.
+\par
+By combining the third-order DCM trajectory~\eqref{eq:3d_dcm_ds_base} with the boundary conditions~\eqref{eq:3d_dcm_ds_boundary}, we obtain the following:
+\begin{equation}
+  \label{eq:dcm_traj_constraints_vector}
+  \begin{bmatrix}
+    0 & 0 & 0 & 1 \\
+    0 & 0 & 1 & 0 \\
+    T_i^3 & T_i^2 & T_i & 1 \\
+  3T_i^2 & 2T_i & 1 & 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    {a}_{3_i} ^\top\\
+    {a}_{2_i} ^\top\\
+    {a}_{1_i} ^\top\\
+  {a}_{0_i} ^\top
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    ({\xi}^{\text{ios}_\text{DS}}_i ) ^\top\\
+    (\dot{{\xi}}^{\text{ios}_\text{DS}}_i) ^\top\\
+    ({\xi}^{\text{eos}_{\text{DS}}}_i) ^\top\\
+    (\dot{{\xi}}^{\text{eos}_{\text{DS}}}_i)^\top
+  \end{bmatrix}
+  \quad \forall i \in \left\{i \in \mathbb{N} | 1\leq i \leq N \right \}.
+\end{equation}
+$T_i$ is the duration of the $i$-th double support phase, i.e., $T_i = t^{\text{eos}_\text{DS}}_i - t^{\text{ios}_{\text{DS}}}_i$.
+Equation \eqref{eq:dcm_traj_constraints_vector} is always solvable if and only if the $i$-th double
+support duration $T_i \neq 0$. 
+The position and velocity of DCM during the double support phase are finally obtained by combining the solution of~\eqref{eq:dcm_traj_constraints_vector} with~\eqref{eq:3d_dcm_ds_base}.
+\par
+\begin{figure}[t]
+  \centering
+  \includegraphics{chapter_simplified_benchmarking/figures/dcm_ds.tikz}
+    \caption[DCM trajectory planning]{Planning of the DCM trajectory on a flat terrain.
+    The SS trajectories, evaluated using the exponential
+    function~\eqref{eq:dcm_solution_eos},
+    are represented by orange segments. The DS trajectories, evaluated using the polynomial function~\eqref{eq:3d_dcm_ds_base},
+    are represented by light blue curves. \label{fig:dcm_ds}}
+\end{figure}
+Figure~\ref{fig:dcm_ds} presents an example of DCM trajectory generation considering single and double support phases. While the robot is in single support, the DCM is generated by applying the exponential interpolation technique~\eqref{eq:dcm_solution_eos} (orange segment).
+During the double support phase (light blue curves), the DCM trajectory is evaluated by means of the polynomial interpolation method~\eqref{eq:3d_dcm_ds_base}.
+

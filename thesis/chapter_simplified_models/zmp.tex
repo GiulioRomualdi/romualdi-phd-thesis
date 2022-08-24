@@ -1,0 +1,84 @@
+
+\section{The zero moment point}\label{sec:zmp}
+Consider a rigid body that makes a contact with a surface and assume that:
+\begin{enumerate}
+    \item there exists an inertial frame $\mathcal{I}$;
+    \item there exist a frame $B$ rigidly attached to the body and we denote $o_B$ the origin of the frame and $[B]$ its orientation;
+    \item there exists a contact domain $\Omega \in \mathbb{R}^3$, we denote with ${}^B x$ a point in the contact surface expressed in the the frame $B$;
+    \item $\forall \; {}^B x \in \Omega$ there exists a continuous pure force distribution that depends on the point location, i.e.,
+    \begin{equation}
+        \rho : \mathbb{R}^3 \longrightarrow \mathbb{R}^3.
+    \end{equation}
+\end{enumerate}
+Given the above assumption, the contact torque distribution about a point $p_B$, $\sigma_{o_B} :  \mathbb{R}^3 \longrightarrow \mathbb{R}^3$ writes
+\begin{equation}
+    \sigma_{o_B} = {}^B x \times \rho({}^B x).
+\end{equation}
+Once the pure force and torque distribution are defined, then the equivalent left trivialized contact 6D force, i.e., in body frame writes as~\citep{Caron2015StabilityAreas}
+\begin{equation}
+    {}_B \mathrm{f} = \begin{bmatrix}
+    {}_B f \\
+    {}_B \mu
+    \end{bmatrix} = 
+    \begin{bmatrix}
+    \int_\Omega \rho \diff \Omega \\
+    \int_\Omega \sigma_{o_B} \diff \Omega
+    \end{bmatrix}.
+\end{equation}
+Let us introduce another frame $F[B]:= (o_F, [B])$ placed in the contact domain $\Omega$ as a frame that has its origin in $o_F$ and is oriented as $B$.
+Now we aim to find the origin $o_F$ such that the tangential component of the angular term of ${}_{F[B]} \mathrm{f}$ is equal to zero, i.e., $e_4^\top {}_{F[B]} \mathrm{f} = e_5^\top {}_{F[B]} \mathrm{f} = 0$.
+The location of the origin $o_F$ is crucial in the study of the contact dynamic balance, which is achieved by ensuring that the contact area $\Omega$ remains invariant. If $o_F$ exists and belongs to the contact domain, i.e., $o_F \in \Omega$ the contact dynamic balance is ensured and $o_F$ is equivalent to the Zero Moment Point (ZMP), often denoted by $x_\text{ZMP}$. Otherwise, if $o_F \notin \Omega$, then $x_\text{ZMP}$ is not defined and the rigid body will rotate.  
+This statement is generally denoted by the ZMP condition~\citep{Arakawa1997NaturalLayers},  also known as the ZMP stability criterion~\citep{Li1998LearningTrunk}.
+\par
+Given a 6D force ${}_B \mathrm{f}$, if the ZMP exists, it is given by~\citep{vukobratovic2004zero}:
+\begin{equation}
+    \label{eq:zmp_definition}
+    {}^B x_\text{ZMP} = \begin{bmatrix}
+    - \frac{{}_B\mu_y}{{}_Bf_z} \\
+    \frac{{}_B\mu_x}{{}_Bf_z}
+    \end{bmatrix}.
+\end{equation}
+The concept of ZMP has been frequently used in robot control~\citep{Hirai1998TheRobot,Shih1996TheFreedom,Kajita2003,Kajita2010BipedTracking} as a criterion of postural stability, however, we observe that:
+\begin{enumerate}
+    \item the term \emph{zero} moment point is misleading since, in general, only two of the three moments components are zero; 
+    \item even if the ZMP criterion is satisfied, the contact may not be \emph{weak contact stable}~\footnote{A contact is weakly stable if an only if~\citep{Caron2015StabilityAreas}: i)the relative velocity and acceleration of the contact are zero, ii) the 6D wrench belongs to the wrench cone.}. In fact, the ZMP can be defined, but the pure force ${}_{F[B]}\mathrm{f}$ may not belong to the friction cone. 
+\end{enumerate}
+Despite these weaknesses of the ZMP condition, the criterion is widely used with the LIPM where weakly stability of the contact is considered as a hypothesis. Combining the definition of the ZMP with the LIP the CoM dynamics becomes
+\begin{equation}\label{eq:lip_zmp_dynamics}
+	\ddot{x}_\text{LIP} = \zeta^2\left(x_\text{LIP} - {}^\mathcal{I} H _ B \; {}^B x_{\text{ZMP}}\right).
+\end{equation} 
+\subsection{Connection between the ZMP and the centroidal momentum dynamics}
+Given a multi-body system that makes a contact with the environment. Consider a rigidly attached frame to the contact surface $B:=(o_B, [B])$ and a frame placed on the CoM, $G[B]:=(x_\text{CoM}, [B])$, that has its origin in the center of mass $x_\text{CoM}$ and is oriented as $B$. The centroidal dynamics of the system~\eqref{eq:centroidal_momentum_dynamics} is given by
+\begin{equation}
+\label{eq:zmp_centroidal}
+    {}_{G[B]} \dot{h} =  \begin{bmatrix}
+     {}_{G[B]} \dot{h}^p \\
+      {}_{G[B]} \dot{h}^\omega
+    \end{bmatrix} = {}_{G[B]} X ^ B {}_B \mathrm{f} + m \bar{g}.
+\end{equation}
+Substituting ${}_B\mathrm{f}$ from~\eqref{eq:zmp_centroidal} into~\eqref{eq:zmp_definition}, we write a relationship between the ZMP and the centroidal momentum as
+\begin{equation}
+    \label{eq:zmp_centroidal_relationship}
+    {}^B x_\text{ZMP} = \begin{bmatrix}
+    {}^B x_{\text{CoM}_x} - \frac{ {}_{G[B]} \dot{h}^\omega_y}{ {}_{G[B]} \dot{h}^p_z + m \| \bar{g} \|} - {}^B  x_{\text{CoM}_z} \frac{ {}_{G[B]} \dot{h}^p_x}{{}_{G[B]} \dot{h}^p_z + m \| \bar{g} \|} \\
+    {}^B  x_{\text{CoM}_y} + \frac{ {}_{G[B]} \dot{h}^\omega_x}{ {}_{G[B]} \dot{h}^p_z + m \| \bar{g} \|} - {}^B  x_{\text{CoM}_z} \frac{ {}_{G[B]} \dot{h}_y^p}{{}_{G[B]} \dot{h}_z^p + m \| \bar{g} \|}
+    \end{bmatrix}.
+\end{equation}
+\begin{figure}[t]
+\centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics{chapter_simplified_models/figures/zmp-cmp-different.tikz}
+        \caption{}
+        \label{fig:zmp-cmp-different}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics{chapter_simplified_models/figures/zmp-cmp-equal.tikz}
+        \caption{}
+        \label{fig:zmp-cmp-equal}
+    \end{subfigure}
+	\caption[Relation between CMP and ZMP.]{The CMP is the point at which the ground reaction force must act to maintain the horizontal component of the centroidal angular momentum constant. The CMP corresponds with the ZMP when the rate of change of the centroidal angular momentum is zero - \ref{fig:zmp-cmp-equal}. When the centroidal angular momentum is not constant, the CMP and the ZMP are two different points.}
+	\label{fig:cmp-zmp}
+\end{figure}

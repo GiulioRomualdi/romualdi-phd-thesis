@@ -1,0 +1,155 @@
+\section{Whole-body Controller\label{sec:wbc_tsid_flex_joints}}
+Similar to what is discussed in Sections~\ref{sec:dynamics_QP} and \ref{sec:controller_tsid_compliant},
+the goal of the whole-body controller is to guarantee the tracking of desired kinematic quantities while ensuring the feasibility of the contact forces.
+In this section, we present an extension of the dynamics-based whole-body controller of Section
+\ref{sec:dynamics_QP} that considers the floating base dynamics in the case of under-actuated flexible joints -- Equation~\eqref{eq:system_flex}.
+\par
+The proposed controller computes the desired robot actuated joint torques $\tau^a$, the generalized
+acceleration ${}^{B[\mathcal{I}]}\dot{\nu}$, and a set of desired spatial contact forces expressed
+in mixed representation ${}_{\mathcal{C}_j[\mathcal{I}]}\mathrm{f}_j$. Following the same approach
+as in Section~\ref{sec:dynamics_QP}, we formulate the control problem using the stack of tasks
+approach. We transcribe the optimal control problem into a constrained optimization problem. Here, we
+consider the low priority tasks as the terms of the cost function, while the high priority tasks are modeled as constraints.
+
+\subsection{Low and high priority tasks}
+This section introduces the list of low and high priority tasks considered in the optimal control problem.
+
+\subsubsection{Centroidal momentum task}
+Given a frame $\bar{G} = (x_\text{CoM},[\mathcal{I}])$, we introduce the centroidal momentum task as in Section~\ref{sec:tsid_tasks}:
+\begin{equation}
+    \label{eq:tsid_centroidal_momentum_joint_flex}
+    \Psi_h = {}_{\bar{G}} \dot{{h}}^* - A_c \mathrm{f} - m\bar{g}.
+\end{equation}
+where $m$ is the robot mass, $\bar{g} = \begin{bmatrix} 0&0&-g&0&0&0 \end{bmatrix}^\top$ is the 6D gravity acceleration. $A_c$ is the matrix containing the co-adjoint transformations ${}_{\bar{G}} X^{\mathcal{C}_i[\mathcal{I}]}$, i.e.
+\begin{equation}
+    A_c = \begin{bmatrix}
+    {}_{\bar{G}} X ^{\mathcal{C}_1[\mathcal{I}]} & \hdots & {}_{\bar{G}} X^{\mathcal{C}_{n_c}[\mathcal{I}]}.
+    \end{bmatrix}
+\end{equation}
+${}_{\bar{G}} \dot{{h}}^*$ is chosen considering~\eqref{eq:tsid_h_p_star} and \eqref{eq:tsid_h_omega_star} as:
+\begin{equation}
+    \label{eq:tsid_h_star_flex_joints}
+    {}_{\bar{G}} \dot{{h}}^* = 
+    \begin{bmatrix}
+    m  \ddot{x}^\text{ref}_\text{CoM} \\ 
+    {}_{\bar{G}} \dot{{h}}^{\omega^\text{ref}} 
+    \end{bmatrix} +
+    \begin{bmatrix}
+    m K^d_\text{CoM}& 0_{3\times3}\\
+     0_{3\times3} & K_{h^\omega}
+    \end{bmatrix}
+    \begin{bmatrix}
+    \dot{x}^\text{ref}_\text{CoM} - \dot{x}_\text{CoM} \\ 
+    {}_{\bar{G}} {{h}}^{\omega^\text{ref}} - {}_{\bar{G}} {{h}}^{\omega}
+\end{bmatrix} 
+ +
+    \begin{bmatrix}
+    m K^p_\text{CoM} \\
+     0_{3\times3} 
+    \end{bmatrix}
+\left({x}^\text{ref}_\text{CoM} - {x}_\text{CoM}\right).
+\end{equation}
+In our scenario, the desired centroidal quantities ${x}^\text{ref}_\text{CoM}$ and ${}_{\bar{G}} {{h}}^{\omega}$ are provided by a high-level planner.
+
+\subsubsection{Cartesian task}
+Similar to what was discussed in Section~\ref{sec:tsid_tasks}, the Cartesian task is implemented as:
+\begin{equation}
+\label{eq:tsid_se3_task_flex_joint}
+    \Psi_{L_{\SE(3)}} =  {}^{L[\mathcal{I}]}\dot{\mathrm{v}}_{\mathcal{I},L}^* - J_{L} \dot{\nu} - \dot{J}_{L} {\nu}
+\end{equation}
+where $ {}^{L[\mathcal{I}]}\dot{\mathrm{v}}^*_{\mathcal{I},L} =\begin{bmatrix}
+\ddot{p}_L^{*^\top} & {}^\mathcal{I}\dot{\omega}^{*^\top}_{\mathcal{I},L}
+\end{bmatrix} ^\top $ is chosen as~\eqref{eq:tsid_se3_task_velocity}.
+Similarly, we recall that the positional and rotational tasks are given by
+Equations~\eqref{eq:tsid_r3_task} and \eqref{eq:tsid_so3_task}.
+As we discuss in more depth in Section~\ref{sec:joint_flex_optimal_control}, we apply this task
+to stabilize the orientation of the chest and the root and the pose of the feet.
+
+\subsubsection{Floating base dynamics task}
+If the robot is equipped with under-actuated flexible joints, the whole-body controller should consider the measured (or estimated) joint torques acting on the flexibility. To do so, we modify the floating base dynamics task presented in Section~\ref{sec:tsid_tasks}. 
+We project the dynamics~\eqref{eq:system_flex} into the base and joint subspaces, and we name the projection as \emph{base dynamics} and \emph{joint dynamics} -- see Section~\ref{sec:multi-body-dynamics}. We define the base dynamics constraint as~\eqref{eq:tsid_base_dyn_task}
+\begin{equation}
+    \label{eq:tsid_base_dyn_task_flex_joint}
+    \Psi_{\text{dyn}_\nu} =  h_{\nu} +  M_{\nu}\dot{\nu} - J_{\mathcal{C}_\nu}^\top \mathrm{f}.
+\end{equation}
+Equation~\eqref{eq:tsid_base_dyn_task_flex_joint} does not depend on the flexible joint state.
+The joint dynamics task is given by
+\begin{equation}
+    \label{eq:tsid_joint_dyn_task_flex_joint}
+    \Psi_{\text{dyn}_s} =  h_{s} +  M_{s}(q) \dot{\nu} - \begin{bmatrix}
+    I_{n_a} \\
+    0_{n_f \times n_a}
+    \end{bmatrix}
+    \tau^a -
+    \begin{bmatrix}
+    0_{n_a \times n_f} \\
+    I_{n_f}
+    \end{bmatrix}
+    \tau^f - J_{\mathcal{C}_s}^\top \mathrm{f}.
+\end{equation}
+The subscript $\nu$ refers to the first six rows of the matrix, while $s$ refers to the last $n_a + n_f$ rows. 
+We notice that the last $n_f$ rows of \eqref{eq:tsid_joint_dyn_task_flex_joint} represent the underactuated dynamics due to joint flexibility.
+
+\subsubsection{Joint position regularization task}
+To prevent the controller from computing solutions that generate a huge variation in joint acceleration, we introduce a joint regularization task for both the actuated and flexible joints, as
+\begin{IEEEeqnarray}{C}
+\phantomsection \label{eq:tsid_s_task_join_flex} \IEEEyesnumber \IEEEyessubnumber* 
+\Psi_{s_a} = \ddot{s}^*_a - \begin{bmatrix}
+    0_{n_a\times6} & I_{n_a} & 0_{n_a \times n_f} 
+    \end{bmatrix} \dot{\nu} \label{eq:tsid_s_task_join_flex_actuated} \\
+\Psi_{s_f} = \ddot{s}^*_f - \begin{bmatrix}
+    0_{n_f\times6}  & 0_{n_f \times n_a} & I_{n_f}
+    \end{bmatrix} \dot{\nu} \label{eq:tsid_s_task_join_flex_flex},
+\end{IEEEeqnarray}
+with $\ddot{s}^*_a$ is equal to
+\begin{equation}
+    \ddot{s}^*_a = \ddot{s}^\text{ref}_a + k_{s_a}^d (\dot{s}^\text{ref}_a - \dot{s}_a) + k_{s_a}^p (s^\text{ref}_a - s_a).
+\end{equation}
+where $s^\text{ref}_a$ is the desired joint trajectory provided by a high-level planner. $k_{s_a}^d$
+and $k_{s_a}^p$ are two positive-defined diagonal matrices.
+On the other hand, assuming that we estimate the state of the flexible joints, we ask for $\ddot{s}^*_f$ equal to
+\begin{equation}
+  \label{eq:flex_joint_position_regularization_flex}
+    \ddot{s}^*_f = - k_{s_f}^d \dot{s}_f - k_{s_f}^p  s_f.
+\end{equation}
+where $k_{s_f}^d$ and $k_{s_f}^p$ are two defined positive diagonal matrices. Thanks
+to~\eqref{eq:flex_joint_position_regularization_flex} the controller tries to stabilize the flexible
+joint position to zero.
+
+\subsubsection{Joint torque regularization task}
+In order to prevent the controller from providing solutions with large actuated joint torques, we introduce the following task:
+\begin{equation}
+    \label{eq:tsid_tau_regularization_task_flex_joint}
+    \Psi_\tau = \tau^\text{ref}_a - \tau_a,
+\end{equation}
+where, in our case, $\tau^\text{ref}_a$ is provided by a high-level planner.
+
+\subsubsection{Feasibile contact force task}
+The feasibility of the contact wrench ${}_{\mathcal{C}_j[\mathcal{I}]}\mathrm{f}_j$ is guaranteed by the set of inequalities introduced in Equation~\eqref{eq:tsid_contact_wrench_feasibility_constraint}:
+\begin{equation}
+  \Phi_{\mathrm{f}_j}: \;\;  \label{eq:tsid_contact_wrench_feasibility_constraint_flex}
+    A_{\mathcal{C}_j[\mathcal{I}]} \; {}_{\mathcal{C}_j[\mathcal{I}]}\mathrm{f}_j - b  \preceq 0.
+\end{equation}
+we recall that $A_{\mathcal{C}_j[\mathcal{I}]}$ depends on the robot generalized state $q\in \mathcal{Q}$.
+
+\subsection{Quadratic programming problem \label{sec:joint_flex_optimal_control}}
+Following the same approach as in Section~\ref{sec:tsid_optimal_control_problem}, we achieve the
+control objective by transcribing the control problem as a constrained quadratic programming problem. Here, we consider the contact forces ${}_{\mathcal{C}_j[\mathcal{I}]}\mathrm{f}_j$, the base acceleration ${}^{B[\mathcal{I}]} \dot{\mathrm{v}}_{\mathcal{I}, B}$, the actuated joint acceleration $\ddot{s}_a$, and the actuated joint torques $\tau_a$ as conditional variables.
+\par
+The tracking of the left and right feet are considered high-priority $\SE(3)$ tasks~\eqref{eq:tsid_se3_task_flex_joint} and they are denoted respectively as $\Psi_{L_{\SE(3)}}$ and $\Psi_{R_{\SE(3)}}$. We take into account the centroidal momentum tracking as a high priority task~\eqref{eq:tsid_centroidal_momentum_joint_flex}. The desired centroidal quantities $x_\text{CoM}^\text{ref}$ and $h_\omega^\text{ref}$ in \eqref{eq:tsid_h_star_flex_joints} are provided by a high-level planner that assumes that all robot joints are fully actuated. We also consider the base~\eqref{eq:tsid_base_dyn_task_flex_joint} and joints dynamics~\eqref{eq:tsid_joint_dyn_task_flex_joint} as high priority tasks. To prevent the controller from asking for a high motion of the upper body while stabilizing the CoM, we introduce two $\SO(3)$ tasks, one associated with the chest and the other with the waist orientations, respectively, denoted $\Psi_{T_{\SO(3)}}$ and $\Psi_{R_{\SO(3)}}$. In both cases, we ask to keep the z coordinates of the link frames parallel to the gravity vector $g$. The postural conditions of the actuated and flexible joints~\eqref{eq:tsid_s_task_join_flex} are considered low priority tasks.  We regularize the desired actuated joint torques as a low priority task $\Psi_\tau$~\eqref{eq:tsid_tau_regularization_task_flex_joint}. Here $\tau^\text{ref}_a$ is provided by a high-level planner. Finally, to guarantee feasible contact forces for the feet, we add the task~\eqref{eq:tsid_contact_wrench_feasibility_constraint_flex}, denoted respectively as $\Phi_{\mathrm{f}_L}$ and $\Phi_{\mathrm{f}_R}$.
+\par
+The above hierarchical control objectives can be cast into an optimization problem described by the
+following formulation:
+\begin{IEEEeqnarray}{CL}
+\phantomsection \label{eq:tsid_flex_joints_optimization} \IEEEyesnumber \IEEEyessubnumber*
+\;\minimize\limits_{{}^{B[\mathcal{I}]}\mathrm{v}_{\mathcal{I},B},\; \ddot{s}_a ,\; \tau_a, \;\mathrm{f}} \; & \Psi_{T_{\SO(3)}}^\top \Lambda_T \Psi_{T_{\SO(3)}} + \Psi_{R_{\SO(3)}}^\top \Lambda_R \Psi_{R_{\SO(3)}} \\
+& + \Psi_{s}^\top \Lambda_s \Psi_{s} + \Psi_{\tau}^\top \Lambda_\tau \Psi_{\tau} \label{eq:tsid_flex_joints_optimization_cost} \\
+\st & \Psi_{L_{\SE(3)}} = 0  \label{eq:tsid_flex_joints_optimization_costraint_lf} \\
+&  \Psi_{R_{\SE(3)}} = 0 \label{eq:tsid_flex_joints_optimization_costraint_rf} \\
+& \Psi_{h} = 0 \label{eq:tsid_flex_joints_optimization_costraint_com} \\
+& \Psi_{\text{dyn}_\nu} = 0 \label{eq:tsid_flex_joints_optimization_costraint_dyn_base} \\
+& \Psi_{\text{dyn}_s} = 0 \label{eq:tsid_flex_joints_optimization_costraint_dyn_s} \\
+&\Phi_{\mathrm{f}_L} \\
+&\Phi_{\mathrm{f}_R}
+\end{IEEEeqnarray}
+Following the same considerations as in Sections~\ref{sec:tsid_optimal_control_problem} and~\ref{sec:tsid_flex_optimal_control_problem}, we transcribe the optimization problem~\eqref{eq:tsid_flex_joints_optimization} into a quadratic programming problem (Section~\ref{sec:qp}) and we solve it via an off-the-shelf solver.

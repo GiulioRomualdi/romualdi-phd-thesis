@@ -1,0 +1,260 @@
+
+\ifsetCustomMargin
+  \RequirePackage[left=37mm,right=30mm,top=35mm,bottom=30mm]{geometry}
+  \setFancyHdr %
+\fi
+
+
+\usepackage{pdfpages}
+\usepackage{algpseudocode}
+
+\usepackage{tikz} %
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{shapes,arrows,automata}
+\usetikzlibrary{shadows.blur}
+\usetikzlibrary{shapes.multipart}
+
+
+\usepackage{setspace}
+\onehalfspacing %
+
+\raggedbottom
+
+\usepackage[final]{changes} %
+\definechangesauthor[name={Per cusse}, color=orange]{MS} %
+\definechangesauthor[name={Per cusse}, color=blue]{EB}
+\definechangesauthor[name={Per cusse}, color=green]{VS}
+
+
+
+
+\ifsetCustomFont
+
+\fi
+
+
+
+
+
+
+
+\RequirePackage[labelsep=space,tableposition=top]{caption}
+\renewcommand{\figurename}{Figure } %
+
+\usepackage{stackengine}
+
+\usepackage{epigraph}
+
+
+
+
+
+\usepackage{subcaption}
+
+\usepackage{xcolor}
+
+
+\usepackage{booktabs} %
+\usepackage{multirow}
+
+
+
+
+\usepackage{siunitx} %
+
+
+
+
+
+
+
+
+
+
+
+
+\ifuseCustomBib
+   \RequirePackage[square, sort, numbers, authoryear]{natbib} %
+
+
+
+\fi
+
+\renewcommand{\bibname}{References}
+\usepackage{hyperref}
+
+
+
+
+
+
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\usepackage{IEEEtrantools,amsmath}
+\numberwithin{equation}{section}
+\newcommand{\spatial}[1]{\mathrm{#1}}
+\newcommand{\lieAlgebra}[1]{\mathfrak{#1}}
+\newcommand{\lieGroup}[1]{\mathcal{#1}}
+\newcommand{\lieBracket}[2]{\left[ #1, #2 \right]}
+
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\so}{\mathfrak{so}}
+\newcommand{\SE}{{\mathrm{SE}}}
+\newcommand{\se}{\mathfrak{se}}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+
+\DeclareMathOperator{\Exp}{Exp}
+\DeclareMathOperator{\Log}{Log}
+\DeclareMathOperator{\Ad}{Ad}
+\DeclareMathOperator{\AdM}{\mathbf{Ad}}
+\DeclareMathOperator{\ad}{ad}
+\DeclareMathOperator{\adM}{\mathbf{ad}}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\fk}{\Pi}
+\DeclareMathOperator{\diff}{d}
+\DeclareMathOperator*{\minimize}{minimize}
+\DeclareMathOperator*{\maximize}{maximize}
+\DeclareMathOperator*{\st}{subj. to}
+\DeclareMathOperator*{\conv}{\textbf{conv}}
+\DeclareMathOperator*{\conic}{\textbf{conic}}
+\DeclareMathOperator*{\dom}{\textbf{dom}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand\blueColor[1]{\textcolor{MidnightBlue}{#1}}
+\newcommand\redColor[1]{\textcolor{BrickRed}{#1}}
+\newcommand\greenColor[1]{\textcolor{OliveGreen}{#1}}
+\newcommand\orangeColor[1]{\textcolor{Plum}{#1}}
+
+
+\newcommand\at[2]{\left.#1\right|_{#2}}
+
+\newcommand{\IdentityLie}{\mathcal{E}}
+\usepackage{tikzscale} %
+\usepackage{enumitem} %
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{colormaps}
+
+\DeclareUnicodeCharacter{FE20}{}
+\DeclareUnicodeCharacter{FE21}{}
+
+
+\usepackage{amsthm,mathtools}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\usepackage[skins]{tcolorbox}
+
+
+\newtcolorbox{myframe}[2][]{%
+  enhanced,colback=white,colframe=black,coltitle=black,
+  sharp corners,boxrule=0.4pt,left=0pt,right=0pt,top=0pt,bottom=0pt,
+  fonttitle=\itshape,
+  attach boxed title to top left={yshift=-0.3\baselineskip-0.4pt,xshift=2mm},
+  boxed title style={tile,size=minimal,left=0.5mm,right=0.5mm,
+  colback=white,before upper=\strut},
+  title={#2},#1
+}
+
+\newcommand*\justify{%
+  \fontdimen2\font=0.4em%
+  \fontdimen3\font=0.2em%
+  \fontdimen4\font=0.1em%
+  \fontdimen7\font=0.1em%
+  \hyphenchar\font=`\-%
+}
+
+\renewcommand{\texttt}[1]{%
+  \begingroup
+  \ttfamily
+  \begingroup\lccode`~=`/\lowercase{\endgroup\def~}{/\discretionary{}{}{}}%
+  \begingroup\lccode`~=`[\lowercase{\endgroup\def~}{[\discretionary{}{}{}}%
+  \begingroup\lccode`~=`.\lowercase{\endgroup\def~}{.\discretionary{}{}{}}%
+  \catcode`/=\active\catcode`[=\active\catcode`.=\active
+  \justify\scantokens{#1\noexpand}%
+  \endgroup
+}
+
+
+
+\usepackage{bibentry}
+\usepackage{framed}
+\newcommand{\fcite}[1]{
+	\begin{leftbar}
+		\begin{quote}%
+			\bibentry{#1}
+		\end{quote}
+	\end{leftbar}}
+	
+	
+\newcommand{\fciteWithVideo}[3]{
+	\begin{leftbar}
+		\begin{quote}%
+			\bibentry{#1} \vspace{5mm}\newline
+			\begin{tabular}{c p{10.0cm}}
+			     Video & \href{#2}{\texttt{#3}}
+			\end{tabular}
+		\end{quote}
+	\end{leftbar}}
+	
+\newcommand{\fciteWithCode}[3]{
+	\begin{leftbar}
+		\begin{quote}%
+			\bibentry{#1} \vspace{5mm}\newline
+			\begin{tabular}{cp{10.0cm}}
+			     GitHub & \href{#2}{\texttt{#3}}
+			\end{tabular}
+		\end{quote}
+	\end{leftbar}}
+	
+\newcommand{\fciteWithVideoAndCode}[5]{
+	\begin{leftbar}
+		\begin{quote}%
+			\bibentry{#1} \vspace{5mm}\newline
+			\begin{tabular}{c p{10.0cm}}
+			     Video & \href{#2}{\texttt{#3}} \\
+			     GitHub &  \href{#4}{\texttt{#5}}
+			\end{tabular}
+		\end{quote}
+	\end{leftbar}}	
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{bm}
+
+
+\usepackage[bottom]{footmisc}
+
+
+\usepackage[LGR,T1]{fontenc}
+\usepackage[utf8]{inputenc}   %
+
+\newcommand{\textgreek}[1]{\begingroup\fontencoding{LGR}\selectfont#1\endgroup}
+
+\DeclareMathOperator{\rank}{rank}
+\usepackage{epigraph} 
+\renewcommand{\epigraphflush}{flushright}

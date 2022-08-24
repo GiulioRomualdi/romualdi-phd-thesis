@@ -1,0 +1,44 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (301.14,194.02) -- (374.68,115.3) ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (270.61,115.27) .. controls (270.61,109.73) and (275.1,105.23) .. (280.65,105.23) .. controls (286.19,105.23) and (290.69,109.73) .. (290.69,115.27) .. controls (290.69,120.82) and (286.19,125.31) .. (280.65,125.31) .. controls (275.1,125.31) and (270.61,120.82) .. (270.61,115.27) -- cycle ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (458.67,115.32) .. controls (458.67,109.77) and (463.16,105.28) .. (468.71,105.28) .. controls (474.25,105.28) and (478.75,109.77) .. (478.75,115.32) .. controls (478.75,120.86) and (474.25,125.36) .. (468.71,125.36) .. controls (463.16,125.36) and (458.67,120.86) .. (458.67,115.32) -- cycle ;
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (552.7,115.34) .. controls (552.7,109.8) and (557.2,105.3) .. (562.74,105.3) .. controls (568.29,105.3) and (572.78,109.8) .. (572.78,115.34) .. controls (572.78,120.89) and (568.29,125.38) .. (562.74,125.38) .. controls (557.2,125.38) and (552.7,120.89) .. (552.7,115.34) -- cycle ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (197.03,39.66) .. controls (197.03,34.12) and (201.53,29.62) .. (207.07,29.62) .. controls (212.62,29.62) and (217.11,34.12) .. (217.11,39.66) .. controls (217.11,45.21) and (212.62,49.7) .. (207.07,49.7) .. controls (201.53,49.7) and (197.03,45.21) .. (197.03,39.66) -- cycle ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (103,39.64) .. controls (103,34.09) and (107.5,29.6) .. (113.04,29.6) .. controls (118.59,29.6) and (123.08,34.09) .. (123.08,39.64) .. controls (123.08,45.18) and (118.59,49.68) .. (113.04,49.68) .. controls (107.5,49.68) and (103,45.18) .. (103,39.64) -- cycle ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (384.72,115.3) -- (458.67,115.32) ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (478.75,115.32) -- (552.7,115.34) ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (123.08,39.64) -- (197.03,39.66) ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (217.11,39.66) -- (291.06,39.68) ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (301.1,39.68) -- (374.68,115.3) ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (291.06,39.68) .. controls (291.06,34.14) and (295.56,29.64) .. (301.1,29.64) .. controls (306.65,29.64) and (311.14,34.14) .. (311.14,39.68) .. controls (311.14,45.23) and (306.65,49.72) .. (301.1,49.72) .. controls (295.56,49.72) and (291.06,45.23) .. (291.06,39.68) -- cycle ;
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (364.64,115.3) .. controls (364.64,109.75) and (369.13,105.26) .. (374.68,105.26) .. controls (380.22,105.26) and (384.72,109.75) .. (384.72,115.3) .. controls (384.72,120.84) and (380.22,125.34) .. (374.68,125.34) .. controls (369.13,125.34) and (364.64,120.84) .. (364.64,115.3) -- cycle ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (290.69,115.27) -- (364.64,115.3) ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (196.66,115.25) -- (270.61,115.27) ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (176.58,115.25) .. controls (176.58,109.71) and (181.07,105.21) .. (186.62,105.21) .. controls (192.16,105.21) and (196.66,109.71) .. (196.66,115.25) .. controls (196.66,120.8) and (192.16,125.29) .. (186.62,125.29) .. controls (181.07,125.29) and (176.58,120.8) .. (176.58,115.25) -- cycle ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (291.1,194.02) .. controls (291.1,188.47) and (295.6,183.98) .. (301.14,183.98) .. controls (306.69,183.98) and (311.18,188.47) .. (311.18,194.02) .. controls (311.18,199.56) and (306.69,204.06) .. (301.14,204.06) .. controls (295.6,204.06) and (291.1,199.56) .. (291.1,194.02) -- cycle ;
+
+\draw (369.83,126.6) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$0$};
+\draw (462.5,126.6) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$1$};
+\draw (556.5,126.6) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$2$};
+\draw (294.5,51) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$3$};
+\draw (201.83,51) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$4$};
+\draw (107.16,51) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$5$};
+\draw (274.5,126.6) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$6$};
+\draw (181.16,126.6) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$7$};
+\draw (295.83,205.4) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$8$};
+\draw (414.58,88.65) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\textcolor[rgb]{0.29,0.29,0.29}{1}$};
+\draw (508.58,88.7) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\textcolor[rgb]{0.29,0.29,0.29}{2}$};
+\draw (320.58,88.7) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\textcolor[rgb]{0.29,0.29,0.29}{6}$};
+\draw (227.91,88.4) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\textcolor[rgb]{0,0,0}{7}$};
+\draw (330.58,134.99) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\textcolor[rgb]{0.29,0.29,0.29}{8}$};
+\draw (338.91,59.32) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\textcolor[rgb]{0.29,0.29,0.29}{3}$};
+\draw (248.58,12.65) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\textcolor[rgb]{0.29,0.29,0.29}{4}$};
+\draw (152.58,12.65) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\textcolor[rgb]{0.29,0.29,0.29}{5}$};
+
+
+\end{tikzpicture}

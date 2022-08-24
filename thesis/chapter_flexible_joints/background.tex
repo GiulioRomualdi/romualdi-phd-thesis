@@ -1,0 +1,92 @@
+\section{System modeling\label{sec:flex_joint_system_modeling}}
+
+TALOS's hip flexibility has a significant impact on its leg control and, as a result, its balance and locomotion~\citep{Ramuzat2021ComparisonTALOS}. In this section, we model the TALOS's hip flexibility by means of underactuated joints. The section also extends the humanoid robot model dynamics presented in Section~\ref{sec:multi-body-dynamics} to consider the robot's link visco-elasticity.
+
+\subsection{Model of the hip flexibility}
+
+Following the work of~\cite{Villa2022TorqueFlexibility}, we model the flexibility by introducing two passive virtual joints between the base link and each leg. The virtual joints simulate the motion caused by the visco-elastic deformation of the waist-leg connection, where the link cross section is reduced.
+Given the $i$-th passive joint, we assume that it exerts a torque $\tau^f_i$ that depends on the
+joint deflection $s^f_i$ and its velocity $\dot{s}^f_i$~\citep{Nakaoka2007Constraint-basedMechanisms} as
+\begin{equation}
+\label{eq:flexible_joint}
+\tau^f_i = -k_i s^f_i - d_i \dot{s}^f_i.
+\end{equation}
+where $k_i$ and $d_i$ are, respectively, the stiffness and damping coefficients of the flexible
+joint $i$. By assuming to model the link flexibility with $n_f$ joints, we can consider the robot to
+have $n$ joints where $n = n_a + n_f$ with $n_a$ are the actuated joints.
+\par
+In the specific case of the TALOS robot, the authors of \citep{Villa2022TorqueFlexibility} notice that
+the stiffness is due to the vertical linkage and, consequently, they model the flexibility along
+the pitch and roll axis, only. In this chapter, the same consideration holds, so we introduce two
+passive flexible joints for each leg. As a result $n_f = 4$ while $n_a = 32$ -- see Section~\ref{sec:talos}.
+\par
+Assuming that it is possible to estimate $\tau^f_i$, we approximate the flexible joint state by discretizing
+Equation~\eqref{eq:flexible_joint}, resulting in
+\begin{IEEEeqnarray}{C}
+\phantomsection \label{eq:flexibility_discretized} \IEEEyesnumber \IEEEyessubnumber*
+s^f_i[k] = \frac{d_i s^f_i[k-1] - \tau^f_i[k] \diff t}{k_i \diff t + d_i}, \label{eq:flexibility_discretized_position} \\
+\dot{s}^f_i[k] = \frac{s^f_i[k] - s^f_i[k-1]}{\diff t}.
+\end{IEEEeqnarray}
+Here $\diff t$ is the sampling time. $s^f_i[k] = s^f_i(t_0 + k \diff t)$ and $\dot{s}^f_i[k] = \dot{s}^f_i(t_0 + k \diff t)$.
+
+
+\subsection{Modeling of a floating base system with flexible joints}
+This section extends the floating base system model presented in Section~\ref{sec:multi-body-dynamics} to consider underactuated flexible joints.
+\par
+Let us consider an inertial frame $\mathcal{I}$ and a floating base system making $n_c$ contact with the environment. We recall:
+\begin{itemize}
+    \item $B = (p_B, [B])$ is the frame rigidly attached to the robot base. ${}^\mathcal{I} H _B \in \SE(3)$  describes the position and orientation of $B$ with respect to the inertial frame $\mathcal{I}$.
+    \item Hereafter the base velocity expressed in mixed representation ${}^{B[\mathcal{I}]}\mathrm{v}_{\mathcal{I}, B}$ such that  ${}^{B[\mathcal{I}]}\mathrm{v}_{\mathcal{I}, B}^\top = \begin{bmatrix}
+    {}^{\mathcal{I}} \dot{p}_B^\top & {}^{B[\mathcal{I}]}\dot{\omega}_{\mathcal{I}, B}^\top.
+    \end{bmatrix}$
+    \item The actuated and flexible joint positions are indicated, respectively, with $s^a \in \mathbb{R}^{n_a}$ and $s^f \in \mathbb{R}^{n_f}$;
+    \item the actuated and flexible joint torques are indicated, respectively, with $\tau^a \in \mathbb{R}^{n_a}$ and $\tau^f \in \mathbb{R}^{n_f}$.
+\end{itemize}
+We extend the robot configuration~\eqref{eq:robot_configuration_mixed} by introducing the flexible
+joint value as $q = ({}^{\mathcal{I}} p_B, {}^{\mathcal{I}} R_{B}, s^a, s^f)$. $q$ is an element
+of a Lie group $\lieGroup{Q} = \mathbb{R}^3 \times SO{(3)} \times \mathbb{R}^{n_a} \times
+\mathbb{R}^{n_f}$. The associated lie Algebra writes as $\lieAlgebra{q} = \mathbb{R}^3 \times \so(3)
+\times \mathbb{R}^{n_a} \times \mathbb{R}^{n_f}$. Here, we recall that $\lieAlgebra{q}$ is isomorphic to $\mathbb{R}^3 \times \mathbb{R}^3 \times \mathbb{R}^{n_a} \times \mathbb{R}^{n_f}$ -- see Appendix~\ref{sec:tangent_space_lie}.
+\par
+The \emph{velocity of the multi-body system} belongs to $\lieAlgebra{q}$ and we denote it with $\nu = \left({}^{\mathcal{I}} \dot{p}_B, {}^{B[\mathcal{I}]}{\omega}_{\mathcal{I}, B}, \dot{s}^a, \dot{s}^f\right)$.
+\par
+Slightly modifying~\eqref{eq:system}, we write the dynamics of a floating base system with flexible joints as follows 
+\begin{equation}
+\label{eq:system_flex}
+{M}({q})\dot{{\nu}} + h({q}, {\nu}) =  \begin{bmatrix}
+{0}_{6\times n_a} \\ I_{n_a} \\ 0_{n_f\times n_a}
+\end{bmatrix}{\tau}^a + 
+\begin{bmatrix}
+{0}_{6\times n_f} \\ 0_{n_a\times n_f} \\ I_{n_f} 
+\end{bmatrix}{\tau}^f +
+             {J}_{\mathcal{C}}(q)^\top \mathrm{f},
+\end{equation}
+where
+\begin{equation}
+	{J}_{\mathcal{C}}({q}) = 
+	\begin{bmatrix}{J}_{\mathcal{C}_1}({q}) \\ \vdots \\ {J}_{\mathcal{C}_{n_c}}({q})  \end{bmatrix}, \quad
+	\mathrm{f} = \begin{bmatrix}
+		{}_{\mathcal{C}_1[\mathcal{I}]}\mathrm{f}_1 \\
+		\vdots\\
+		{}_{\mathcal{C}_{n_c}[\mathcal{I}]}\mathrm{f}_{n_c}
+	\end{bmatrix}.
+\end{equation}
+Recalling that $n=n_a + n_f$, $M\in \mathbb{R}^{(n+6) \times (n+6)}$ is the mass matrix,
+$h \in \mathbb{R}^{(n+6)}$ accounts for Coriolis, the centrifugal effects and the gravity term.  ${}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k \in \mathbb{R}^{6}$ denotes the $k$-th external wrench applied by the environment on the robot expressed in mixed representation.
+The Jacobian $J_{\mathcal{C}_k}$ is the mixed velocity Jacobian of the contact $\mathcal{C}_k$.
+\par
+Following the same approach presented in Section~\ref{sec:multi-body-dynamics}, the
+dynamics~\eqref{eq:system_flex} is expressed by separating the first $6$ rows, which refers to the underactuated floating base, from the last rows $n_a + n_f$, which refers to the actuated and flexible joints as:
+\begin{IEEEeqnarray}{c}
+\IEEEyesnumber \phantomsection
+M_{\nu}(q) \dot{\nu} + h_{\nu} (q, \nu) =  J^\top_{{\mathcal{C}}_\nu}(q) \;  \mathrm{f},\label{eq:system_flex_base_projection} \IEEEyessubnumber \\
+M_{s}(q) \dot{\nu} + h_{s} (q, \nu) = \begin{bmatrix}
+I_{n_a} \\ 0_{n_f\times n_a}
+\end{bmatrix}{\tau}^a +
+\begin{bmatrix}
+ 0_{n_a\times n_f} \\ I_{n_f}
+\end{bmatrix}{\tau}^f +  J^\top_{{\mathcal{C}}_s}(q)  \; \mathrm{f}. \label{eq:system_flex_joint_projection} \IEEEyessubnumber
+\end{IEEEeqnarray}
+The subscript $\nu$ refers to the first $6$ rows of the matrix, while $s$ refers to the last $n$
+rows. Equation~\eqref{eq:system_flex_base_projection} is often denoted as the base projection of the floating base dynamics, while
+Equation~\eqref{eq:system_flex_joint_projection} is the joint space projection.

@@ -1,0 +1,24 @@
+\chapter{Optimal Control and Non-Linear Optimization Basics\label{chapter:optimization}}
+
+\ifpdf
+    \graphicspath{{ChapterOptimizationIntroduction/figures/Raster/}{ChapterOptimizationIntroduction/figures/PDF/}{ChapterOptimizationIntroduction/figures/}}
+\else
+    \graphicspath{{ChapterOptimizationIntroduction/figures/Vector/}{ChapterOptimizationIntroduction/figures/}}
+\fi
+
+In previous chapters, we investigated the tools for modeling a floating base system that establishes a set of contacts with the environment. This chapter introduces the basics and terminology of \emph{non-linear programming} and \emph{optimal control}. We then take advantage of the technique presented here to design the controllers analyzed in Part~\ref{part:wbc} and Part~\ref{part:simplified}.
+Non-linear programming is the mathematical process of finding a set of variables such that a non-linear function is minimized (or maximized). Once the theory of \emph{non-linear programming} is introduced, we apply it to the resolution of the \emph{optimal control} problems. 
+The \emph{optimal control theory} is a branch of control theory that aims at finding a control for a dynamic system over a period of time such that an objective function is optimized.
+\par
+The chapter will take an \emph{utilitaristic} approach to describe such frameworks, to this concern we decided to avoid focusing on the rigorous proofs. The reader who wants a more rigorous understanding of non-linear optimization theory should consult the extensive literature. Here, it is worth mentioning \citep{Boyd2004ConvexOptimization,Chachuat2007NonlinearPractice,diehl2009efficient} from which parts of this chapter took inspiration. On the other hand, complete and rigorous manuscripts on optimal control are \citep{Boyd2004ConvexOptimization,bemporad2002hybrid,Qin2000AnApplications,Biral2016NotesProblems,Allgower1999NonlinearOverview}.
+\par
+The chapter is organized as follows.
+Sections~\ref{sec:convex_set} and~\ref{sec:convex_function} give an overview of convex sets and convex functions, respectively. Section~\ref{sec:optionization_problem} introduces the optimization problem. Section~\ref{sec:qp} presents the Quadratic Programming problem as a special case of the optimization problem. The Quadratic Programming problem will be extensively exploited in the design of the whole-body controllers presented in Part~\ref{part:wbc}.  Section~\ref{sec:optimal_control} and \ref{sec:mpc} introduce some of the basics of Optimal Control and Model Predictive Control. The content of Section~\ref{sec:mpc} will be crucial to fully comprehend the design of the controllers detailed in Part~\ref{part:simplified}.
+
+
+\input{chapter_optimization_introduction/convex_set}
+\input{chapter_optimization_introduction/convex_function}
+\input{chapter_optimization_introduction/optimization_problem}
+\input{chapter_optimization_introduction/quadratic_programming}
+\input{chapter_optimization_introduction/optimal_control}
+\input{chapter_optimization_introduction/mpc}

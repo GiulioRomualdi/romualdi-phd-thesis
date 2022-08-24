@@ -1,0 +1,49 @@
+\section{Centroidal dynamics~\label{sec:centroidal-dynamics}}
+Let us introduce the \emph{articulated body momentum} as the sum of the 6D spatial momentum \eqref{eq:spatial_momentum-rigid_body} of each rigid body of the floating base system, i.e. 
+\begin{equation}
+    {}_B h = \sum _{j=1}^{n_c} \AdM^*_{{}^B H  _ j } {}_j \mathbb{M}_j {}^j \mathrm{v}_{\lieGroup{I}, j}.
+\end{equation}
+In some cases, it is convenient to introduce the \emph{articulated body centroidal momentum}. Let $\bar{G}$ be a frame whose origin is located on the CoM of the multi-body system, while the orientation is parallel to the inertial frame $\mathcal{I}$.
+The \emph{articulated body centroidal momentum}, often shortened to \emph{centroidal momentum} and denoted with ${}_{\bar{G}} h \in \mathbb{R}^6$ is given by
+\begin{IEEEeqnarray}{ll}
+\phantomsection \IEEEyesnumber \label{eq:centroidal_momentum} \IEEEyessubnumber*
+    {}_{\bar{G}} h  = \begin{bmatrix}
+    {}_{\bar{G}} h ^p \\ {}_{\bar{G}} h ^\omega
+    \end{bmatrix}:&= \AdM^*_{{}^{\bar{G}} H  _ B } {}_{B} h \\
+    &= \AdM^*_{{}^{\bar{G}} H  _ B } \sum _j \AdM^*_{{}^B H  _ j } {}_j \mathbb{M}_j {}^j \mathrm{v}_{\lieGroup{I}, j} \\
+    &=  {}_{\bar{G}} {X}^B \sum_j {}_{B}{X}^i {}_j \mathbb{M}_j {}^j \mathrm{v}_{\mathcal{I},j}.
+\end{IEEEeqnarray}
+It is worth recalling that the linear component of the centroidal momentum ${}_{\bar{G}} h ^p$ depends linearly on the CoM velocity
+\begin{equation}
+    {}_{\bar{G}} h ^p = m \dot{x}_\text{CoM}.
+\end{equation}
+\par
+Seeing that the link velocity linearly depends on the velocity of the multi-body system $\nu$ \eqref{eq:mixed-link-velocity}, Equation~\eqref{eq:centroidal_momentum} can be factorized as follows
+\begin{equation}\label{eq:cmm_intro}
+	{}_{\bar{G}} h = J_\text{CMM} \nu
+\end{equation}
+where ${J}_\text{CMM} \in \mathbb{R}^{6\times n}$ is the \emph{Centroidal Momentum Matrix} (CMM) \citep{orin08}.
+
+The centroidal momentum rate of change balances the external wrenches applied to the robot:
+\begin{IEEEeqnarray}{ll}
+\phantomsection \IEEEyesnumber \label{eq:centroidal_momentum_dynamics} \IEEEyessubnumber*
+	{}_{\bar{G}} \dot{{h}} &= \sum_{j = 1}^{n_c} {}_{\bar{G}}{X}^{\mathcal{C}_j} {}_{\mathcal{C}_j}\mathrm{f}_j + m \bar{{g}} \\
+	&= \sum_{j = 1}^{n_c} \begin{bmatrix}
+	{}^{\mathcal{I}}{R}_{\mathcal{C}_j} & {0}_{3\times 3} \\
+	\left[\left({}^{\mathcal{I}}{p}_j - {x}_\text{CoM}\right)\times\right] {}^{\mathcal{I}}{R}_{\mathcal{C}_j} & {}^{\mathcal{I}}{R}_{\mathcal{C}_j}
+	\end{bmatrix} {}_{\mathcal{C}_j}\mathrm{f}_j + m \bar{{g}} 
+\end{IEEEeqnarray}
+The adjoint matrix ${}_{\bar{G}}{X}^{\mathcal{C}_j} \in \mathbb{R}^{6 \times 6}$ transforms the contact wrench from the application frame (located in ${}^{\mathcal{I}}{p}_j$ with orientation ${}^{\mathcal{I}}{R}_j$) to $\bar{G}$. Finally, $\bar{{g}} = \left[\begin{smallmatrix} 0 & 0 & -g & 0 & 0 & 0\end{smallmatrix}\right]^\top$ is the 6D gravity acceleration vector.
+\par
+If the external wrenches are expressed in mixed representation, the centroidal momentum dynamics~\eqref{eq:centroidal_momentum_dynamics} becomes
+\begin{IEEEeqnarray}{ll}
+\phantomsection \IEEEyesnumber \label{eq:centroidal_momentum_dynamics_mixed} \IEEEyessubnumber*
+	{}_{\bar{G}} \dot{{h}} &= \sum_{j = 1}^{n_c} {}_{\bar{G}}{X}^{\mathcal{C}_j[\mathcal{I}]}\; {}_{\mathcal{C}_j[\mathcal{I}]}\mathrm{f} + m \bar{{g}} \\
+	&= \sum_{j = 1}^{n_c} \begin{bmatrix}
+	I_3 & {0}_{3\times 3} \\
+	\left({}^{\mathcal{I}}{p}_j - {x}_\text{CoM}\right)\times & I_3 
+	\end{bmatrix} {}_{\mathcal{C}_j[\mathcal{I}]}\mathrm{f}_j + m \bar{g}.
+\end{IEEEeqnarray}
+\par
+As will become evident later on in the manuscript, the centroidal momentum dynamics will play a crucial role in the design of the controller presented in Chapter~\ref{chapter:Centroidal_mpc}.
+

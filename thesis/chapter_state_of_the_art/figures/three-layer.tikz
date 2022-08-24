@@ -1,0 +1,50 @@
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw   (67,99) -- (177,99) -- (177,157.5) -- (67,157.5) -- cycle ;
+\draw   (213,99) -- (323,99) -- (323,157.5) -- (213,157.5) -- cycle ;
+\draw   (360.43,99) -- (470.43,99) -- (470.43,157.5) -- (360.43,157.5) -- cycle ;
+\draw    (177,128.25) -- (210,128.25) ;
+\draw [shift={(213,128.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (323,128.25) -- (356,128.25) ;
+\draw [shift={(359,128.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (470.43,128.25) -- (503.43,128.25) ;
+\draw [shift={(506.43,128.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (506.2,209.75) -- (415.43,209.75) -- (415.43,160.5) ;
+\draw [shift={(415.43,157.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=2.25]    (97,71) -- (455,71) ;
+\draw [shift={(460,71)}, rotate = 180] [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (16.07,-7.72) -- (0,0) -- (16.07,7.72) -- (10.67,0) -- cycle    ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=2.25]    (122,62.25) -- (122,80.25) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=2.25]    (415.43,62.25) -- (415.43,80.25) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=2.25]    (268,62.25) -- (268,80.25) ;
+\draw    (415.43,209.75) -- (268,209.75) -- (268,160.5) ;
+\draw [shift={(268,157.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (269.43,209.75) -- (122,209.75) -- (122,160.5) ;
+\draw [shift={(122,157.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw   (506.43,99) -- (616.43,99) -- (616.43,157.5) -- (506.43,157.5) -- cycle ;
+\draw   (506.43,180.6) -- (616.43,180.6) -- (616.43,239.1) -- (506.43,239.1) -- cycle ;
+\draw    (561.43,157.5) -- (561.43,177.6) ;
+\draw [shift={(561.43,180.6)}, rotate = 270] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+
+\draw (122.02,128.25) node   [align=left] {\begin{tabular}{c} Trajectory \\ Optimization \end{tabular}};
+
+\draw (266.77,128.25) node   [align=left] {\begin{tabular}{c} Simplified \\ Controller \end{tabular}};
+
+\draw (414.29,128.25) node   [align=left] {
+\begin{tabular}{c} Whole-Body \\ Controller \end{tabular}
+};
+
+\draw (560.37,128.25) node   [align=center] {
+\begin{tabular}{c} Humanoid \\ Robot \end{tabular}
+};
+
+\draw (231.5,41.25) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textcolor[rgb]{0.29,0.56,0.89}{Frequency}};
+\draw (561.43,209.85) node   [align=center] {
+\centering
+Perception
+};
+
+
+\end{tikzpicture}

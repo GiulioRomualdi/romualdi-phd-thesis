@@ -1,0 +1,23 @@
+
+\chapter{Simplified Models for Locomotion\label{chapter:simplified_model_for_locomotion}}  %
+
+\ifpdf
+    \graphicspath{{chapter_simplified_models/figures/Raster/}{chapter_simplified_models/figures/PDF/}{chapter_simplified_models/figures/}}
+\else
+    \graphicspath{{chapter_simplified_models/figures/Vector/}{chapter_simplified_models/figures/}}
+\fi
+
+In Chapter~\ref{chapter:floating_base_system_modeling} we present the kinematics and the dynamics of a floating base system. In this chapter, we present some approximations of the centroidal dynamics presented in Section~\ref{sec:centroidal-dynamics} by assuming some simplifying hypotheses. The tools introduced in this chapter will be considered in the design of the simplified model controllers presented in Chapter~\ref{chapter:simplified_benchmarking}.
+\par
+Assuming that a robot makes a single contact with the environment while keeping a constant center of mass height, the robot's centroidal dynamics can be approximated to the well-known Linear Inverted Pendulum (LIPM)~\citep{Kajita2001, Kajita2003} and the Capture Point model~\citep{Pratt2006}. These two models assume constant angular momentum and approximate the center of mass dynamics with a linear time-invariant dynamical system, making the study of a feasible trajectory for the center of mass simpler. The LIPM and the CP became very popular along with the Zero Moment Point (ZMP) as a contact feasibility criterion~\citep{Vukobratovic1969}. Similar to the ZMP, the centroidal moment pivot (CMP) has a widespread diffusion in the modeling and control of floating base system~\citep{Li2020Centroidal-momentum-basedLocomotion,Seyde2018InclusionWalking,Hopkins2015,Popovic2005,Shafiee-Ashtiani2017PushControl}. The definition of the CMP is pivotal in considering a variable centroidal angular momentum while generating a feasible CoM trajectory. Indeed, when the CMP corresponds to the ZMP the centroidal angular momentum remains constant. 
+\cite{Englsberger2011,Englsberger2015} extends the Capture Point in the 3D scenario, defining the \emph{Divergent Component of Motion} (DCM). The DCM is a linear combination of the center of mass position and velocity. By definition, the CoM can be indirectly
+stabilized by tracking an appropriate DCM trajectory. The DCM model assumes a constant natural frequency of the LIPM for trajectory planning. As a consequence, the ZMP can deviate from the desired reference when the vertical CoM dynamics does not match the time-invariant LIPM dynamics.
+\cite{Hopkins2015} attempt at loosening this assumption by extending the DCM to consider a time-varying natural frequency.
+\par
+In this chapter, we present a short overview of the simplified models that are often exploited by the robot locomotion community. In particular, Section~\ref{sec:lip} introduces the LIPM. Section~\ref{sec:zmp} and \ref{sec:cmp} present the ZMP and CMP, respectively. We introduce the DCM in Section~\ref{sec:dcm}. Finally, Section~\ref{sec:dcm-tv} extends the definition of DCM to the time-varying case. 
+
+\input{chapter_simplified_models/lipm}
+\input{chapter_simplified_models/zmp}
+\input{chapter_simplified_models/cmp}
+\input{chapter_simplified_models/dcm}
+\input{chapter_simplified_models/time_varying_dcm}

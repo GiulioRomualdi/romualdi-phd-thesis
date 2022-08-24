@@ -1,0 +1,155 @@
+\section{Kinematics based whole-body QP control layer\label{sec:ik_qp}}
+The goal of the kinematics-based whole-body QP control layer is to ensure the tracking of a set of kinematic quantities considering the robot's kinematics. The proposed controller computes the desired robot generalized mixed representation velocity ${}^{B[\mathcal{I}]}\nu$~\eqref{eq:mixed_generalized_robot_velocity}, where $B[\mathcal{I}] = (o_B, [\mathcal{I}])$ is a frame placed on the robot base and oriented as the inertial frame $\mathcal{I}$.
+ We formulate the control problem using the stack of tasks approach. We achieve the control objective by framing the controller as a constrained optimization problem where the low priority tasks are embedded in the cost function, while the high priority tasks are treated as constraints. A similar approach has also been presented in~\citep{Khudher2016QuadraticConstraints,Rapetti2020Model-BasedKinematics,Kanoun2011KinematicTask}, it is important to recall that other strategies are available to solve the kinematics control problem, in this context it is worth mentioning~\citep{Sciavicco1988,Goldenberg1985ARobots,Buss2005SelectivelyKinematics}.
+\par
+In the next section, we present the set of low and high priority tasks. For the sake of clarity, we denote the generalized mixed robot velocity ${}^{B[\mathcal{I}]}\nu$ as $\nu$.
+
+\subsection{Low and high priority tasks\label{sec:ik_tasks}}
+What follows presents the tasks required to evaluate the desired generalized robot velocity, $\nu$. We denote by $\Psi$ the equality task and by $\Phi$ the inequality task.
+
+\subsubsection{Centroidal momentum task}
+The centroidal momentum, denoted with ${}_{\bar{G}} h \in \mathbb{R}^6$, is the aggregate linear and angular momentum of each robot link referred to the center of mass (CoM) of the robot ${}_{\bar{G}} h^\top =\begin{bmatrix} {}_{\bar{G}} h^{p^\top} &{}_{\bar{G}} h^{\omega^\top} \end{bmatrix}$ -- Section~\ref{sec:centroidal-dynamics}. It is worth recalling that the centroidal momentum can be factorized as follows~\eqref{eq:cmm_intro}
+\begin{equation}\label{eq:wbc_cmm}
+	{}_{\bar{G}} h = J_\text{CMM} \nu,
+\end{equation}
+where $J_\text{CMM}$ is the centroidal momentum matrix~\citep{orin08,Orin2013}.
+In order to set a desired centroidal momentum trajectory, we specify the following task:
+\begin{equation}
+    \label{eq:ik_cm_task}
+    \Psi_h = {}_{\bar{G}} h^* - J_\text{CMM} \nu,
+\end{equation}
+where the desired linear centroidal momentum is often chosen to guarantee the tracking of the desired center of mass trajectory $x^\text{ref}_\text{CoM}(t)$
+\begin{equation}
+\label{eq:ik_h_p_star}
+    {}_{\bar{G}} h^{p^*} = m \left[\dot{x}^\text{ref}_\text{CoM} + K_\text{CoM} (x^\text{ref}_\text{CoM} - x_\text{CoM})\right].
+\end{equation}
+Here $K_\text{CoM}$ is a positive matrix.
+The desired angular momentum ${}_{\bar{G}} h^{\omega^*}$ is often set equal to zero, i.e., ${}_{\bar{G}} h^{\omega^*} = 0_{3\times1}$.
+\par
+The centroidal momentum task is often split into the linear and angular centroidal momentum tasks. The linear centroidal momentum task, denoted with $\Psi_\text{CoM}$, is:
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:ik_com_task} \IEEEyesnumber \IEEEyessubnumber*
+    \Psi_\text{CoM} &= \begin{bmatrix} I_3 & 0_{3\times3} \end{bmatrix} \Psi_h \\
+    &= {}_{\bar{G}} h^{p^*} - \begin{bmatrix} I_3 & 0_{3\times3} \end{bmatrix} J_\text{CMM} \nu \\
+     &= {}_{\bar{G}} h^{p^*} - J_{\text{CMM}_p} \nu
+\end{IEEEeqnarray}
+where ${}_{\bar{G}} h^{p^*}$ is chosen as~\eqref{eq:ik_h_p_star} and $J_{\text{CMM}_p}$ is the matrix composed of the first three rows of $J_{\text{CMM}}$. Similarly, we introduce the angular momentum task:
+\begin{IEEEeqnarray}{ll}
+\phantomsection \IEEEyesnumber \IEEEyessubnumber*
+\label{eq:ik_acm_task}
+    \Psi_{h^{\omega}} &= \begin{bmatrix}  0_{3\times3} & I_3  \end{bmatrix} \Psi_h \\
+    &= {}_{\bar{G}} h^{\omega^*} - \begin{bmatrix} 0_{3\times3} & I_3  \end{bmatrix} J_\text{CMM} \nu \\
+     &= {}_{\bar{G}} h^{\omega^*} - J_{\text{CMM}_\omega} \nu,
+\end{IEEEeqnarray}
+where $J_{\text{CMM}_\omega}$ is the matrix composed of the last three rows of $J_{\text{CMM}}$.
+
+\subsubsection{Cartesian task}
+While walking, we often require some of the robot link frames to have a specific position and orientation with respect to the inertial frame. To accomplish this task, we recall that given a frame $L$, its velocity expressed in mixed representation, denoted as ${}^{L[\mathcal{I}]}\mathrm{v}_{\mathcal{I},L}$, is given by
+\begin{equation}
+    {}^{L[\mathcal{I}]}\mathrm{v}_{\mathcal{I},L} = J_{L} \nu
+\end{equation}
+where $J_{L}$ is the mixed velocity Jacobian of the link $L$~\eqref{eq:mixed-link-velocity}.
+To ask for a desired Cartesian trajectory ${}^\mathcal{I} H_L^\text{ref} = (p_L^\text{ref}, {}^\mathcal{I} R_L^\text{ref}) \in \mathbb{R}^3 \times \SO(3)$, we specify the following task
+\begin{equation}
+\label{eq:ik_se3_task}
+    \Psi_{L_{\SE(3)}} = {}^{L[\mathcal{I}]}\mathrm{v}^*_{\mathcal{I},L} - J_{L} \nu
+\end{equation}
+where $ {}^{L[\mathcal{I}]}\mathrm{v}^*_{\mathcal{I},L} =\begin{bmatrix}
+\dot{p}_L^{*^\top} & {}^\mathcal{I}\omega^{*^\top}_{\mathcal{I},L}
+\end{bmatrix} ^\top $ is chosen as
+\begin{IEEEeqnarray}{c}
+\phantomsection \IEEEyesnumber \IEEEyessubnumber*
+\dot{p}_L^{*} = \dot{p}_L^\text{ref} + K_{L_p}(p_L^\text{ref} - p_L) \label{eq:ik_se3_task_velocity_R3} \\
+{}^\mathcal{I}\omega^{*}_{\mathcal{I},L} = {}^\mathcal{I}\omega^\text{ref}_{\mathcal{I},L} +  K_{L_\omega} \Log\left({}^\mathcal{I} R_L^\text{ref} \;\; {}^\mathcal{I} R_L^\top\right). \label{eq:ik_se3_task_velocity_so3}
+\end{IEEEeqnarray}
+Here $K_{L_p}$ and $K_{L_\omega}$ are two positive matrices.
+By such a particular choice of the desired velocity~\eqref{eq:ik_se3_task_velocity_so3}, it is possible to guarantee almost-global stability and convergence of ${}^\mathcal{I}R _{L}$ to ${}^\mathcal{I}R _{L}^\text{ref}$~\citep{Olfati-Saber:2001:NCU:935467}.
+\par
+Starting from the definition of the $\SE(3)$ task~\eqref{eq:ik_se3_task}, we introduce the positional and rotational tasks for the frame $L$, respectively, denoted as $\Psi_{L_{\mathbb{R}^3}}$ and $\Psi_{L_{\SO(3)}}$.
+The positional task $\Psi_{L_{\mathbb{R}^3}}$ is just a projection of the $\SE(3)$ task $\Psi_{L_{\SE(3)}}$ as:
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:ik_r3_task}
+ \IEEEyesnumber \IEEEyessubnumber*
+\Psi_{L_{\mathbb{R}^3}} &= \begin{bmatrix}
+    I_3 & 0_{3\times3} 
+    \end{bmatrix}\Psi_{L_{\SE(3)}} \\
+    &= \dot{p}^*_L - \begin{bmatrix}
+    I_3 & 0_{3\times3} 
+    \end{bmatrix} J_L \nu \\
+     &= \dot{p}^*_L -  J_{L_p} \nu,
+\end{IEEEeqnarray}
+where $\dot{p}^*_L$ is set as \eqref{eq:ik_se3_task_velocity_R3} and $J_{L_p}$ is the matrix composed of the first three rows of $J_{L}$.
+Similarly, we define the $\SO(3)$ task as follows:
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:ik_so3_task} \IEEEyesnumber \IEEEyessubnumber*
+\Psi_{L_{\SO(3)}} &= \begin{bmatrix}
+    0_{3\times3} & I_3 
+    \end{bmatrix}\Psi_{L_{\SE(3)}} \\
+    &= {}^\mathcal{I} \omega^*_{\mathcal{I},L} - \begin{bmatrix}
+    0_{3\times3} & I_3 
+    \end{bmatrix} J_L \nu \\
+     &= {}^\mathcal{I} \omega^*_{\mathcal{I},L} -  J_{L_\omega} \nu.
+\end{IEEEeqnarray}
+${}^\mathcal{I} \omega^*_{\mathcal{I},L}$ is set as \eqref{eq:ik_se3_task_velocity_so3} and $J_{L_\omega}$ is the matrix composed of the last three rows of $J_{L}$.
+
+\subsubsection{Joint regularization task}
+In order to prevent the controller from providing solutions with huge joint variations, we introduce a regularization task for the joint variables. The task is achieved by asking for a desired joint velocity that depends on the error between the desired and measured joint values, such as:
+\begin{equation}
+    \label{eq:ik_s_task}
+    \Psi_s = \dot{s}^* - \begin{bmatrix}
+    0_{n\times6} & I_n 
+    \end{bmatrix} \nu,
+\end{equation}
+where $n$ is equal to the robot actuated degrees of freedom and $\dot{s}^*$ is set equal to
+\begin{equation}
+    \dot{s}^* = \dot{s}^\text{ref} + K_s (s^\text{ref} - s).
+\end{equation}
+Here $s^\text{ref}$ is the desired joint configuration. $K_s$ is a positive define diagonal matrix.
+
+\subsubsection{Joint limits task}
+The feasibility of the joint position $s$ is generally guaranteed by means of a set of inequalities of the form 
+\begin{equation}
+\label{eq:ik_joint_limits}
+    s^- \le s \le s^+,
+\end{equation}
+where $s^-$ and $s^+$ are respectively the lower and upper joints position limits. 
+In the case of the kinematics-based whole-body controller, the joint values $s$ cannot be arbitrarily chosen. To overcome this issue, we substitute the joint position $s$ in~\eqref{eq:ik_joint_limits} with its discrete dynamics computed at time using the forward Euler method $t_0 + k \diff t$, i.e., $s(t_0 + (k+1) \diff t) = s_{k+1} = s_k + \diff t \dot{s}_k$:
+\begin{equation}
+\label{eq:ik_joint_limits_euler}
+    s^- \le  s_k + \diff t \dot{s}_k \le s^+.
+\end{equation}
+Rearranging~\eqref{eq:ik_joint_limits_euler} we obtain the final formulation of the joint limits task
+\begin{equation}
+   \Phi_s :  \;\; \frac{s^-  -s}{\diff t} \le   \dot{s} \le \frac{s^+  -s}{\diff t}.
+\end{equation}
+where we remove the time dependency $k$.
+
+\subsection{Quadratic programming problem\label{sec:ik_qp_problem}}
+The control objective is achieved by transcribing the control problem as a constrained optimization problem considering the tasks presented in Section~\ref{sec:ik_tasks}.
+We want to underline that given an equality task $\Psi$, it is always possible to consider it as a low or high priority task, or, in another word, as a term of the cost function or as an equality constraint. Consequently, this makes the kinematics based whole-body problem modular\footnote{The \texttt{QPInverseKinematics} class implemented in our framework exploits this modularity to customize the control problem: \href{https://github.com/ami-iit/bipedal-locomotion-framework/tree/v0.6.0/src/IK}{\texttt{https://github.com/ami-iit/bipedal-locomotion-framework/tree/v0.6.0/src/IK}}}. A different choice of the considered tasks and priorities allows one to obtain completely different robot behaviors. Given the above observation, we decide to present the specific implementation we consider in the experimental results -- Section~\ref{sec:wbc_experimental_results}.
+\par
+The tracking of the left and right foot poses are considered as high priority $\SE(3)$ tasks~\eqref{eq:ik_se3_task} and are denoted respectively as $\Psi_{L_{\SE(3)}}$ and $\Psi_{R_{\SE(3)}}$. We take into account the CoM tracking as a high priority task~\eqref{eq:ik_com_task}.
+The torso orientation is considered as a low priority task $\SO(3)$ task~\eqref{eq:ik_so3_task} and we denote it with $\Psi_{T_{\SO(3)}}$. Furthermore, the joint postural condition~\eqref{eq:ik_s_task} is also added as a low priority task. Finally, we ask for a joint velocity $\dot{s}$ such that the inequality joint limits task~\eqref{eq:ik_joint_limits_euler} is satisfied.
+\par
+The above hierarchical control objectives can be cast into a whole-body optimization problem:
+\begin{IEEEeqnarray}{CL}
+\phantomsection \label{eq:ik_optimization} \IEEEyesnumber \IEEEyessubnumber*
+\;\minimize\limits_{\nu} \; & \Psi_{T_{\SO(3)}}^\top \Lambda_T \Psi_{T_{\SO(3)}} + \Psi_{s}^\top \Lambda_s \Psi_{s} \label{eq:ik_optimization_cost} \\
+\st & \Psi_{L_{\SE(3)}} = 0  \label{eq:ik_optimization_costraint_lf} \\
+&  \Psi_{R_{\SE(3)}} = 0 \label{eq:ik_optimization_costraint_rf} \\
+& \Psi_{\text{CoM}} = 0 \label{eq:ik_optimization_costraint_com} \\
+& \Phi_s. \label{eq:ik_optimization_costraint_s}
+\end{IEEEeqnarray}
+Since the decision variable is the robot velocity $\nu$ and the tasks depend linearly on $\nu$, we transcribe the optimization problem~\eqref{eq:ik_optimization} into a quadratic programming problem (Section~\ref{sec:qp}) of the form: 
+\begin{IEEEeqnarray}{CLL}
+\phantomsection \IEEEyesnumber \IEEEyessubnumber*
+\;\minimize\limits_{\nu} \;& \IEEEeqnarraymulticol{2}{C}{\nu ^\top H \nu + 2 g^\top \nu} \\
+\st & A \nu \preceq b
+\end{IEEEeqnarray}
+The Hessian matrix $H$ and the gradient vector $g$ are evaluated from \eqref{eq:ik_optimization_cost}.
+The constraint matrix and vector $A$ and $b$ are obtained from \eqref{eq:ik_optimization_costraint_lf},  \eqref{eq:ik_optimization_costraint_rf},  \eqref{eq:ik_optimization_costraint_com} and  \eqref{eq:ik_optimization_costraint_s}.
+Using this formulation, the optimization problem can be solved using a standard numerical QP solver.
+
+\subsection{Position and velocity controlled robot}
+\label{subsubsec-pos-vel-control}
+It is important to notice that the outcome of~\eqref{eq:ik_optimization} is (also) the robot joint velocity. When a robot velocity controller is available, one can set these joint velocities to the low-level robot controller. In this case, the \emph{*} quantities in the tasks (Section~\ref{sec:ik_tasks}) can be evaluated using the feedback from the robot sensors, and the robot is said to be \emph{velocity controlled}. On the other hand, if the robot velocity control is not available, one may integrate the outcome of~\eqref{eq:ik_optimization} to obtain desired joint position to be set to a low-level robot position controller. In this case, the \emph{*} quantities in~\eqref{eq:ik_optimization} can be evaluated using the desired integrated quantities instead of the sensor feedback, and~\eqref{eq:ik_optimization} behaves as an inverse kinematics module. Consequently, the robot is said to be \emph{position controlled}.

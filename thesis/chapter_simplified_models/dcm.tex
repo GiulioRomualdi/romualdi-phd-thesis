@@ -1,0 +1,105 @@
+\section{The divergent component of motion}\label{sec:dcm}
+Given a multi-body system making $n_c$ contacts with the environment and having a mass equal to $m$. Let us consider an inertial frame $\mathcal{I}:=(o_\mathcal{I}, [\mathcal{I}])$. Let $\bar{G};=(x_\text{CoM}, [\mathcal{I}])$ a frame whose origin is located on the CoM of the multi-body system, while the orientation is parallel to the inertial frame $\mathcal{I}$. The CoM acceleration is given by:
+\begin{equation}
+    \label{eq:com_dynamics_dcm}
+    \ddot{x}_\text{CoM} =  m g + {}_{\bar{G}} f,
+\end{equation}
+where ${}_{\bar{G}} f$ is the sum of all the external forces acting on the robot CoM.
+The divergent component of motion (DCM)~\citep{Englsberger2011, Englsberger2013, Englsberger2015}, often denoted with $\xi$, is a linear transformation of the Center of Mass state:
+\begin{equation}
+  \label{eq:3d_dcm}
+  \xi = x_\text{CoM} + b \dot{x}_\text{CoM},
+\end{equation}
+where $b \in \mathbb{R}_+$ is a strictly positive constant.
+
+By reordering Equation \eqref{eq:3d_dcm} the CoM dynamics can be derived as
+\begin{equation}
+  \label{eq:com_3d_dcm}
+  \dot{x}_\text{CoM} = -\frac{1}{b} (x_\text{CoM} - \xi).
+\end{equation}
+The CoM position is governed by a stable first-order system. 
+It is worth noticing that given a desired DCM set-point $\xi(t) = \bar{\xi}$, the CoM position will converge to it, Indeed let us define the error $e$ as $e = x_\text{CoM} - \xi$, the error dynamics is $\dot{e} = - e / b$ which is an asymptotically stable system. 
+\par
+By differentiating \eqref{eq:com_3d_dcm} and combining it with \eqref{eq:3d_dcm} and \eqref{eq:com_dynamics_dcm}, the DCM dynamics holds:
+\begin{IEEEeqnarray}{LL}
+\IEEEyesnumber \phantomsection \label{eq:3d_dcm_dynamics_F}
+    \dot{\xi} &= -\frac{1}{b}(x_\text{CoM} - \xi) + b \ddot{x}_\text{CoM} \IEEEyessubnumber\\
+    &= -\frac{1}{b}(x_\text{CoM} - \xi) + \frac{b}{m} ( {}_{\bar{G}} f + m g)\IEEEyessubnumber.
+  \end{IEEEeqnarray}
+
+The main idea is to design the external forces to be appropriate for the robot's walking task while the feasibility constraints are satisfied (i.e., the center of pressure inside the support polygon).
+For the sake of simplicity, a force-to-point transformation is used to express the external
+forces:
+\begin{equation}
+    \label{eq:3d_dcm_external_force}
+    {}_{\bar{G}} f = \gamma (x_\text{CoM} - x_\text{eCMP}),
+\end{equation}
+where $\gamma$ is a positive constant and eCMP is the enhanced centroidal moment pivot point
+\citep{Englsberger2013, Englsberger2015}. It is important to point out that the eCMP
+is related to the CMP \citep{Popovic2005}. The first one could not belong to the ground plane.
+The second is the intersection point between the ground surface and the line between the CoM
+and the eCMP.
+Combining Equation \eqref{eq:3d_dcm_dynamics_F} with \eqref{eq:3d_dcm_external_force}, we rewrite the DCM as:
+\begin{equation}
+    \label{eq:3d_dcm_dynamics_com}
+\dot{\xi} = \left(\frac{b\gamma}{m} - \frac{1}{b}\right)x_\text{CoM} + \frac{1}{b} \xi - \frac{b\gamma}{m} x_\text{eCMP} +  b g,
+\end{equation}
+this shows that the states $x_\text{CoM}$ and $\xi$ are in general coupled, however choosing the parameter $\gamma$ equal to $m/b^2$ the DCM dynamics~\eqref{eq:3d_dcm_dynamics_com} becomes independent of the CoM position
+\begin{equation}
+  \label{eq:3d_dcm_dynamics_eCMP}
+  \dot{\xi} = \frac{1}{b} \xi - \frac{1}{b} x_\text{eCMP} +  b g.
+\end{equation}
+Let us introduce the virtual repellent point (VPR) as 
+\begin{equation}
+\label{eq:vrp}
+x_\text{VRP} = x_\text{eCMP} + b^2 g,
+\end{equation}
+the DCM dynamics can be simplified as:
+\begin{equation}
+  \label{eq:3d_dcm_dynamics_vrp}
+  \dot{\xi} = \frac{1}{b} (\xi - x_\text{VRP}).
+\end{equation}
+This shows that the 3D-DCM dynamic equation is a first-order unstable dynamic system $\forall b > 0$.
+\par
+Combining Equation~\eqref{eq:cmp_definition_explicit} with \eqref{eq:3d_dcm_external_force}, we can express the CMP in terms of the eCMP and the ground reaction force as:
+\begin{IEEEeqnarray}{RCL}
+	\IEEEyesnumber \phantomsection \label{eq:cmp_definition_explicit_ecmp}
+	{}^B x_{\text{CMP}_x} &=& {}^B x_{\text{eCMP}_x} + \frac{b^2}{m} {}_{G[B]} f_x - \frac{{}_{G[B]} f_x}{{}_{G[B]} f_z} \left( x_{\text{eCMP}_z} + \frac{b^2}{m} {}_{G[B]} f_z \right) , \IEEEyessubnumber\\
+	{}^B x_{\text{CMP}_y} &=& {}^B x_{\text{eCMP}_y} + \frac{b^2}{m} {}_{G[B]} f_y - \frac{{}_{G[B]} f_y}{{}_{G[B]} f_z} \left( x_{\text{eCMP}_z} + \frac{b^2}{m} {}_{G[B]} f_z \right) , \IEEEyessubnumber\\
+	{}^B  x_{\text{CMP}_z} &=& 0. \IEEEyessubnumber
+\end{IEEEeqnarray}
+
+Finally, it is worth to notice that while moving the z coordinate of the eCMP will change, indeed combining~\eqref{eq:cmp_definition_explicit} with the CoM dynamics~\eqref{eq:com_dynamics_dcm} and projecting it on the z coordinate we obtain:
+\begin{equation}
+    \label{eq:ecmpz-comz}
+    x_{\text{eCMP}_z} = x_{\text{CoM}_z} - b^2 \left(\ddot{x}_{\text{CoM}_z} + |g| \right).
+\end{equation}
+In other words, if the height of the CoM varies, the height of the eCMP will change accordingly. 
+\subsection{Connection between the DCM and the LIPM \label{sec:2D-DCM}}
+Let us assume that the motion of the multi-body system is approximated by the LIPM, i.e., the hypothesis in Section~\ref{sec:lip} holds, and $b$ is equal to the inverse of the LIPM time constant, that is, $b = 1/\zeta$, then it is possible to prove that:
+\begin{enumerate}
+    \item the position of the eCMP coincides with the CMP and the ZMP;
+    \item the $z$ coordinate of the VRP and the DCM coincides with the CoM height.
+\end{enumerate}
+To prove the first statement, it is worth noticing that we should prove that the eCMP and the CMP coincide, indeed in Section~\ref{sec:cmp}, we already show that when the model is approximated by the LIPM the CMP and ZMP coincide. In the LIPM regime, the z component of the CoM acceleration is forced to be zero. So subsisting the assumption in \eqref{eq:ecmpz-comz} and making explicit $b$ we obtain:
+\begin{equation}
+    \label{eq:ecmpz-comz-lipm}
+    x_{\text{eCMP}_z} = x_{\text{CoM}_z} - \frac{|g|}{\zeta} =  x_{\text{CoM}_z} - \frac{|g|}{|g|} x_{\text{CoM}_z} = 0.
+\end{equation}
+Now, substituting \eqref{eq:ecmpz-comz-lipm} into \eqref{eq:cmp_definition_explicit_ecmp}, we obtain that ${}^B x_{\text{CMP}} = {}^B x_{\text{eCMP}}$.
+\par
+To prove the second statement we can consider the CoM dynamics~\eqref{eq:com_3d_dcm} projected on the $z$ coordinate, since $\dot{x}_{\text{CoM}_z} = 0$, it becomes evident that $\xi_z = x_{\text{CoM}_z} = h$. By projecting \eqref{eq:3d_dcm_dynamics_vrp} on the $z$ coordinate, we have $\dot{\xi}_z = \frac{1}{b}(\xi_z - x_{\text{VRP}_z}) = 0$, hence $\xi_z = x_{\text{VRP}_z}$.
+\par
+Since the DCM dynamics is different from zero only in the planar coordinates, we define
+\begin{equation}
+	\xi_\text{LIP} = \begin{bmatrix}
+	e_1^\top \\
+	e_2^\top
+	\end{bmatrix}\xi, \quad \xi_\text{LIP} \in \mathbb{R}^2,
+\end{equation}
+We then obtain the CoM and DCM dynamics if the LIP hypotheses are satisfied:
+\begin{IEEEeqnarray}{LL}
+\phantomsection \label{eq:dcm_dynamics_lipm}  \IEEEyesnumber  \IEEEyessubnumber*
+    \dot{x}_\text{LIP} &= -\zeta\left(x_\text{LIP} - \xi_\text{LIP}\right), \label{eq:dcm_dynamics_lipm_com} \\
+    \dot{\xi}_\text{LIP} &= \zeta\left(\xi_\text{LIP} - x_\text{ZMP}\right) \label{eq:dcm_dynamics_lipm_dcm}.
+\end{IEEEeqnarray}

@@ -1,0 +1,52 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ,draw opacity=1 ][fill={rgb, 255:red, 246; green, 231; blue, 208 }  ,fill opacity=1 ][dash pattern={on 4.5pt off 4.5pt}] (18.33,55.83) -- (254,55.83) -- (254,175.83) -- (18.33,175.83) -- cycle ;
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (161,97) -- (246.5,97) -- (246.5,155.5) -- (161,155.5) -- cycle ;
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (21.13,96.93) -- (106.67,96.93) -- (106.67,155.43) -- (21.13,155.43) -- cycle ;
+\draw  [fill={rgb, 255:red, 219; green, 235; blue, 254 }  ,fill opacity=1 ] (343.76,96.93) -- (429.26,96.93) -- (429.26,155.43) -- (343.76,155.43) -- cycle ;
+\draw    (107.33,126.18) -- (157.33,126.18) ;
+\draw [shift={(160.33,126.18)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (246.33,126.25) -- (341,126.25) ;
+\draw [shift={(344,126.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (429.26,126.25) -- (534.33,126.25) ;
+\draw [shift={(537.33,126.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (566.55,155.43) -- (566.55,200.6) -- (386.51,200.6) -- (386.51,158.43) ;
+\draw [shift={(386.51,155.43)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (391.85,200.6) -- (206.75,200.6) -- (206.75,158.43) ;
+\draw [shift={(206.75,155.43)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw   (537.43,96.93) -- (605.67,96.93) -- (605.67,155.43) -- (537.43,155.43) -- cycle ;
+
+\draw (63.9,126.18) node   [align=left] {\begin{tabular}{c}
+{\footnotesize Trajectory}\\{\footnotesize Optimization}
+\end{tabular}};
+\draw (203.75,126.18) node   [align=left] {\begin{tabular}{c}
+{\footnotesize Simplified}\\{\footnotesize Controller}
+\end{tabular}};
+\draw (383.51,126.25) node   [align=left] {\begin{tabular}{c}
+{\footnotesize Whole-body}\\{\footnotesize Controller}
+\end{tabular}};
+\draw (571.55,126.25) node   [align=left] {\begin{tabular}{c}
+{\footnotesize Robot}
+\end{tabular}};
+\draw (100,107.25) node [anchor=north west][inner sep=0.75pt]   [align=left] {\begin{tabular}{c}
+{\footnotesize Desired} \\
+{\footnotesize DCM}
+\end{tabular}};
+\draw (240,107.25) node [anchor=north west][inner sep=0.75pt]   [align=left] {\begin{tabular}{c}
+{\footnotesize Desired CoM}\\{\footnotesize Velocity / ZMP}
+\end{tabular}};
+\draw (429.21,107.25) node [anchor=north west][inner sep=0.75pt]   [align=left] {\begin{tabular}{c}
+{\footnotesize Joint positions}\\{\footnotesize velocities or } \\ {\footnotesize torques}
+\end{tabular}};
+\draw (383.88,180.6) node [anchor=north west][inner sep=0.75pt]   [align=left] {\begin{tabular}{c}
+{\footnotesize Contact Wrenches} \\
+{\footnotesize Joint and CoM Position/Velocity}
+\end{tabular}};
+\draw (102.87,62.67) node [anchor=north west][inner sep=0.75pt]   [align=left] {Chapter~\ref{chapter:simplified_benchmarking}};
+
+
+\end{tikzpicture}

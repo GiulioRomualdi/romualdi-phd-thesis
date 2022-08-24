@@ -1,0 +1,34 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [fill={rgb, 255:red, 244; green, 244; blue, 244 }  ,fill opacity=1 ] (111.56,278.03) -- (111.56,204.47) -- (152.94,204.47) -- (152.94,278.03) -- cycle ;
+\draw  [fill={rgb, 255:red, 244; green, 244; blue, 244 }  ,fill opacity=1 ] (231.09,178.2) -- (231.09,104.64) -- (272.47,104.64) -- (272.47,178.2) -- cycle ;
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (132.25,241.25) -- (227.72,101.26) ;
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (251.78,141.42) -- (188,36.25) ;
+\draw  [fill={rgb, 255:red, 254; green, 4; blue, 34 }  ,fill opacity=1 ] (227.72,105.21) .. controls (225.54,105.21) and (223.77,103.44) .. (223.77,101.26) .. controls (223.77,99.09) and (225.54,97.32) .. (227.72,97.32) .. controls (229.89,97.32) and (231.66,99.09) .. (231.66,101.26) .. controls (231.66,103.44) and (229.89,105.21) .. (227.72,105.21) -- cycle ;
+\draw  [fill={rgb, 255:red, 80; green, 227; blue, 194 }  ,fill opacity=1 ] (251.78,145.36) .. controls (249.6,145.36) and (247.84,143.6) .. (247.84,141.42) .. controls (247.84,139.24) and (249.6,137.48) .. (251.78,137.48) .. controls (253.96,137.48) and (255.72,139.24) .. (255.72,141.42) .. controls (255.72,143.6) and (253.96,145.36) .. (251.78,145.36) -- cycle ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (211.88,124.43) .. controls (225.49,105.39) and (224.79,97.16) .. (211.22,74.03) ;
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ][line width=1.5]    (156.42,205.71) -- (211.88,124.43) ;
+\draw [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,draw opacity=1 ][line width=1.5]    (211.22,74.03) -- (188,36.25) ;
+\draw  [fill={rgb, 255:red, 80; green, 227; blue, 194 }  ,fill opacity=1 ] (132.25,245.19) .. controls (130.08,245.19) and (128.31,243.42) .. (128.31,241.25) .. controls (128.31,239.07) and (130.08,237.31) .. (132.25,237.31) .. controls (134.43,237.31) and (136.19,239.07) .. (136.19,241.25) .. controls (136.19,243.42) and (134.43,245.19) .. (132.25,245.19) -- cycle ;
+\draw  [fill={rgb, 255:red, 254; green, 4; blue, 34 }  ,fill opacity=1 ] (149.11,220.25) .. controls (146.93,220.25) and (145.17,218.48) .. (145.17,216.31) .. controls (145.17,214.13) and (146.93,212.37) .. (149.11,212.37) .. controls (151.29,212.37) and (153.05,214.13) .. (153.05,216.31) .. controls (153.05,218.48) and (151.29,220.25) .. (149.11,220.25) -- cycle ;
+\draw  [fill={rgb, 255:red, 248; green, 231; blue, 28 }  ,fill opacity=1 ] (211.88,128.37) .. controls (209.7,128.37) and (207.94,126.61) .. (207.94,124.43) .. controls (207.94,122.26) and (209.7,120.49) .. (211.88,120.49) .. controls (214.05,120.49) and (215.82,122.26) .. (215.82,124.43) .. controls (215.82,126.61) and (214.05,128.37) .. (211.88,128.37) -- cycle ;
+\draw  [fill={rgb, 255:red, 139; green, 87; blue, 42 }  ,fill opacity=1 ] (211.22,77.97) .. controls (209.04,77.97) and (207.28,76.2) .. (207.28,74.03) .. controls (207.28,71.85) and (209.04,70.08) .. (211.22,70.08) .. controls (213.39,70.08) and (215.16,71.85) .. (215.16,74.03) .. controls (215.16,76.2) and (213.39,77.97) .. (211.22,77.97) -- cycle ;
+\draw  [fill={rgb, 255:red, 244; green, 244; blue, 244 }  ,fill opacity=1 ] (231.09,278.03) -- (231.09,204.47) -- (272.47,204.47) -- (272.47,278.03) -- cycle ;
+\draw  [fill={rgb, 255:red, 80; green, 227; blue, 194 }  ,fill opacity=1 ] (251.78,245.19) .. controls (249.6,245.19) and (247.84,243.42) .. (247.84,241.25) .. controls (247.84,239.07) and (249.6,237.31) .. (251.78,237.31) .. controls (253.96,237.31) and (255.72,239.07) .. (255.72,241.25) .. controls (255.72,243.42) and (253.96,245.19) .. (251.78,245.19) -- cycle ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (191.88,241.25) .. controls (149,238.75) and (140,230.25) .. (156.42,205.71) ;
+\draw  [fill={rgb, 255:red, 139; green, 87; blue, 42 }  ,fill opacity=1 ] (156.42,209.65) .. controls (154.25,209.65) and (152.48,207.88) .. (152.48,205.71) .. controls (152.48,203.53) and (154.25,201.77) .. (156.42,201.77) .. controls (158.6,201.77) and (160.36,203.53) .. (160.36,205.71) .. controls (160.36,207.88) and (158.6,209.65) .. (156.42,209.65) -- cycle ;
+\draw  [fill={rgb, 255:red, 248; green, 231; blue, 28 }  ,fill opacity=1 ] (191.88,245.19) .. controls (189.7,245.19) and (187.94,243.42) .. (187.94,241.25) .. controls (187.94,239.07) and (189.7,237.31) .. (191.88,237.31) .. controls (194.05,237.31) and (195.82,239.07) .. (195.82,241.25) .. controls (195.82,243.42) and (194.05,245.19) .. (191.88,245.19) -- cycle ;
+
+\draw (162.55,192) node [anchor=north west][inner sep=0.75pt]    {$\xi _{1}^{\text{eos}_{\text{DS}}}$};
+\draw (231.09,145.54) node [anchor=north west][inner sep=0.75pt]    {$x_{\text{ZMP}_{2}}$};
+\draw (111.9,245.65) node [anchor=north west][inner sep=0.75pt]    {$x_{\text{ZMP}_{1}}$};
+\draw (219.54,52.21) node [anchor=north west][inner sep=0.75pt]    {$\xi _{2}^{\text{eos}_{\text{DS}}}$};
+\draw (166.59,104.72) node [anchor=north west][inner sep=0.75pt]    {$\xi _{2}^{\text{ios}_{\text{DS}}}$};
+\draw (173.55,245.65) node [anchor=north west][inner sep=0.75pt]    {$\xi _{1}^{\text{ios}_{\text{DS}}}$};
+
+
+\end{tikzpicture}

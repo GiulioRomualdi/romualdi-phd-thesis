@@ -1,0 +1,12 @@
+\begin{abstract}
+The complexity of robot dynamics and contact model are only a few of the challenges that increase the online threat to the locomotion problem. During the DARPA Robotics Challenge, a typical strategy to solve the humanoid movement challenge was to construct hierarchical systems made of numerous layers linked in cascade. Each layer computes its output taking into account the information received from the outer layer, the environment, the robot data, and a specific model of the robot and its interaction with the environment.
+\par
+This thesis investigates several model-based controllers for time-critical humanoid robot motion control. Taking into account the layered control architecture, we vary the control models in a crescendo of complexity. Having in mind the importance of designing an online architecture for locomotion, we suggest a framework composed of three layers. The inner layer takes into account the entire robot model, whether kinematic or dynamic. The intermediate and outer layers take into account simpler or reduced models.
+\par
+Given the inner layer, we first develop a controller that takes into account the entire rigid robot dynamical model in the situation of rigid contact with the environment. Second, we remove the rigid contact assumption and design a controller that accounts for compliant walking surfaces. Finally, we eliminate the rigid body hypothesis in some of the robot linkages and propose a controller that takes into account the robot's mechanical flexibility.
+\par
+Considering the outer layers, we first describe a controller that assumes the robot behaves as a simplified model. Then, we seek to eliminate these simplifications while keeping the problem manageable online, by designing a controller that considers only a subset of the robot dynamics.
+\par
+The proposed strategies are tested on real and simulated humanoid robots: the iCub and the TALOS humanoid robots.
+
+\end{abstract}

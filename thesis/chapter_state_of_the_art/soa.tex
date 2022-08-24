@@ -1,0 +1,157 @@
+\section{State of the Art \label{sec:soa}}
+Despite the efforts of researchers in the field of humanoid robotics, bipedal locomotion remains an open problem. The complexity of the robot dynamics, the unpredictability of its surrounding environment, and the low efficiency of the robot actuation system are only few problems that complexify the achievement of robust robot locomotion. In the wide variety of robot controllers for bipedal locomotion, the Divergent-Component-of-Motion (DCM) is a ubiquitous concept used for generating walking patterns. Unlike quadrupeds \citep{Poulakakis2005} or wheeled robots \citep{Borst2009}, maintaining the upright position is a complex task for a bipedal robot due to several factors, including, but not limited to the instability due to the bipedal posture, complexity in modeling, control in real time, and the actuation system to guarantee fast and efficient motions \citep{Kaneko2011, Tsagarakis2017}.
+To guarantee stable bipedal locomotion, feedback control plays an important role, where common approaches are based on simplified models to achieve fast feedback.
+\par
+During the DARPA Robotics Challenge, a common approach to humanoid robot control consisted of defining a hierarchical architecture composed of several layers~\citep{feng2015optimization}. Each layer generates references for the layer below by processing inputs from the robot, the environment, and the output of the previous layer.
+The inner layer, the shorter the time horizon used to evaluate the output. In addition, lower layers usually employ more complex models to evaluate output, but a shorter time horizon often results in faster computations to obtain these outputs. From top to bottom, these layers are here called:
+\emph{trajectory optimization}, \emph{simplified model control}, and \emph{whole-body quadratic programming (QP) control} -- Figure~\ref{fig:three-layer}.  When an external disturbance acts on the robot, it may be necessary to consider the robot's state up to the trajectory optimization layer, recomputing the contact location to avoid the robot from falling.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics{chapter_state_of_the_art/figures/three-layer.tikz}
+    \caption[The three layer controller architecture]{The three layer controller architecture. Inner the loop, the higher the frequency. Each layer gathers the outcome of the outer layer, the information from the robot through the perception block and generates the references for the inner layer.}
+    \label{fig:three-layer}
+\end{figure}
+
+\subsection{Trajectory optimization layer}
+The \emph{trajectory optimization} layer aims to compute a sequence of contacts' location and timings while considering the robot state. This layer often exploits optimization techniques to
+consider the feasibility of the contact location. To do so, both kinematic and dynamical robot models can be
+considered~\citep{dai2014whole, Herzog2015TrajectoryControl}. More generally, when planning locomotion trajectories, the choice of the robot description plays a crucial role. In fact, the simpler the model, the simpler the problem. However, on the other hand, too simple models prevent the robot from performing highly dynamic motions. For instance, flat terrain allows one to model the robot as a simple
+unicycle~\citep{PascalHandbook,flavigne2010reactive} which enables fast solutions to the optimization
+problem for the walking pattern generation~\citep{8594277}.
+\par
+When an external disturbance acts on the robot, the trajectory optimization layer should be in charge
+of recompiling the contact location to avoid the robot from falling.
+In recent years, several attempts have been made in this direction.
+The new contact locations can be optimized assuming a constant step duration~\citep{Feng2016RobustOptimization,Shafiee-Ashtiani2017a,Stephens2010PushJoints} or adaptive step timing~\citep{Khadiv2016StepGaits, Shafiee2019OnlineRobots, Griffin2017WalkingAtlas,Scianca2020MPCFeasibility}.
+Approximating the robot with a simplified model allows for solving the footsteps adjustment problem
+online. However, simplified model-based controller architectures often treat the
+contact adjustment strategy separately from the main control loop~\citep{Shafiee2019OnlineRobots,Mesesan2021OnlineLocomotion,Griffin2016DisturbanceRecovery} or apply heuristic-based strategies~\citep{DiCarlo2018DynamicControl}.
+Furthermore, approaches based on simplified models require hand-crafted models for the task at hand~\citep{Kajita2001,Poulakakis2009TheHopper,Englsberger2015}, thus making the transition between different tasks, i.e., from locomotion to running, often very complex.
+\par
+At the planning level, several attempts have been made to consider the centroidal dynamics~\citep{Orin2013} and robot kinematics to plan the desired motion trajectories~\citep{Herzog2015TrajectoryControl,Fernbach2018CROC:Problem,Dafarra2020Whole-BodyApproach,Dafarra2022DynamicLocomotion,dai2014whole}.
+These methods can be split into five categories depending on the amount of a priori information on the
+contact location and timings they require. From the more general (and also computationally greedy) to the more contact information dependent, we have:
+\emph{Complementary-free methods}, \emph{Mixed-integer methods}, \emph{predefined contact sequence}, \emph{predefined contact location and timings}  and \emph{Offline library-based methods}.
+
+\paragraph{Complementary-free methods}
+These methods consider the definition of contacts explicitly within the planner. Hence, contact location,
+timing, and sequence are decided directly by the planner, allowing
+to generate complex motions~\citep{Dafarra2020Whole-BodyApproach,Dafarra2022DynamicLocomotion,dai2014whole}.
+With this approach, no prior knowledge is injected into the system to generate walking trajectories
+(i.e., the definition of the contact is explicitly considered inside the planner),
+but the whole-body motions result from a particular choice of the cost function.
+Although providing enhanced planning capabilities, given its complexity, a whole-body planner may
+take several minutes to compute a feasible solution. This prevents their usage online.
+
+\paragraph{Mixed-integer methods}
+These approaches attempt to reduce the computational burden of the \emph{complementary-free methods} by using an integer variable to determine where a contact should be established~\citep{Deits2015,Mason2018} and in
+which instant~\citep{Ibanez2014EmergenceControl,Aceituno-Cabezas2018}. These approaches generally require mixed integer programming tools~\citep{GurobiOptimization2022GurobiManual,Stellato2018EmbeddedSolver,Axehill2006AMPC}. Mixed-integer programming methods provide enhanced modeling capabilities. However, the exploitation of integer variables strongly affects the computational performances, especially in case several contacts can be established.
+
+\paragraph{Predefined contact sequence}
+A common approach to reducing the computational demand is to assume a predefined contact
+sequence~\citep{Caron2017,carpentier2016versatile,Winkler2018GaitParameterization} while keeping the
+contact location and timings as the output of the planner. For instance, for a bipedal robot, we can
+assume that a contact with the right foot will be followed by another one with the left foot.
+Even if such a choice simplifies the planning problem, the computational effort still prevents the use of the planner in a closed-loop controller.
+
+\paragraph{Predefined contact location and timings}
+Taking into account a predefined contact location and timings, the planning problem can finally be solved
+online. Since the contact sequence is predefined, this kind of planner generally aims to generate only the
+centroidal quantities~\citep{Orin2013} and~\citep[Section~3.9.3]{Traversaro2017ModellingDynamics}. To keep the problem treatable online, the non-linear non-convex angular momentum dynamics (see Section~\ref{sec:centroidal-dynamics}) is often neglected. For instance, \cite{Caron2016Multi-contactAccelerations} consider only the CoM dynamics to generate feasible locomotion patterns. \cite{Ponton2016AGeneration} propose a convex relaxation of the angular momentum dynamics that allowed to efficiently compute momentum trajectories and contact forces while considering the angular momentum minimization. This relaxation is then extended to include an explicit target momentum in the cost function~\citep{Ponton2018}.
+\par
+\emph{Differential Dynamic Programming} (DDP) techniques have also been exploited to generate feasible whole-body trajectories given a set of predefined contact locations and timings. \cite{Budhiraja2018DifferentialDynamics} design a whole-body trajectory planner based on Differential Dynamic Programming (DDP). The proposed method produces locomotion motions by exploiting the centroidal angular momentum. Recently, \citep{Dantec2021WholeTalos} has taken advantage of the DDP framework to design a whole-body model predictive control with state feedback on a torque-controlled humanoid robot.
+\par
+These methods need to rely on external contact planners. However, in some
+applications, where multiple contacts can be established in several regions,
+this approach may be the most viable solution.
+Furthermore, since the optimization problem can be
+treated online, the contact location and timings can be adjusted to avoid the robot from falling in
+case of unstructured interaction with the environment.
+
+\paragraph{Offline library-based methods}
+Finally, another common approach to reduce the computational complexity is to use an offline constructed gait library~\citep{Nguyen2020DynamicFunctions,Guo2021}. This approach simplifies the problem and allows the planner to run online. However, the offline gait can generate only a finite set of motions, making the task of adding a new behavior to the library of motions more complex.
+
+
+
+\subsection{Simplified model control layer\label{sec:soa_simplified_model_control_layer}}
+The \emph{simplified model control} layer is responsible for finding feasible robot center-of-mass (CoM) trajectories. However, the computational burden of finding feasibility regions usually calls for simplified models to characterize the robot dynamics. Indeed, assuming a constant height of the center of mass while walking and a constant angular momentum, it is possible to design a simple control strategy based on the well-known Linear Inverted Pendulum Model (LIPM)~\citep{Kajita2001} -- See
+Section~\ref{sec:lip}. 
+Taking into account the LIPM dynamics, several authors propose the idea of decomposing the CoM dynamics into a stable and an unstable component~\citep{Pratt2006,Hof2008,koolen2012capturability,pratt2012capturability,Englsberger2011,Takenaka2009RealGeneration-}. \cite{Hof2008} denotes the unstable part of the dynamics as \emph{Extrapolated Center of Mass}. While, authors of~\citep{pratt2012capturability} and \citep{koolen2012capturability} name it \emph{(instantaneous) Capture
+Point} (ICP). The term \emph{Divergent Component of Motion} (DCM) was finally coined by \cite{Takenaka2009RealGeneration-}. Initially presented for a 2D scenario, the DCM has been extended in the 3D case, too~\citep{Englsberger2013,Englsberger2015}.
+By definition, the DCM model assumes a constant natural frequency of the LIPM. 
+\par
+The LIPM and the DCM models have a widespread diffusion in both position-based control robots~\citep{Ramuzat2021ComparisonTALOS,Shafiee-Ashtiani2017a,Leng2020UniversalProgramming,Kamioka2018SimultaneousMotion} and torque-controlled robots~\citep{Hopkins2015,Stephens2010PushJoints,koolen2012capturability,pratt2012capturability, Dafarra2016Torque-controlledRobot,Griffin2016, Englsberger2018,Englsberger2019}.
+Both the LIPM and the DCM are linear models; their linearity is based on the assumption of constant
+CoM height and constant centroidal angular momentum. The model time constant depends on the desired
+CoM height. \cite{Englsberger2013} shows that the linearity of the DCM model can be preserved even in the case
+of varying the CoM height. However, assuming a constant natural frequency, the desired DCM reference can
+deviate from the time-invariant LIPM dynamics when the vertical CoM varies.
+\cite{Hopkins2015} attempt at loosening this assumption by extending the DCM to consider a time-varying
+natural frequency.  By varying the natural frequency of the DCM, the authors of \citep{Hopkins2015}
+can achieve generic CoM height trajectories during stepping.
+By relaxing the hypothesis of constant CoM height, the LIPM dynamics can be extended to a
+\emph{variable-height inverted pendulum} (VHIP) model~\citep{Koolen2016BalanceContact}. The author of \citep{Caron2020BipedModel} proposes a simplified model controller based on the linear feedback of the VHIP. This approach is based on a dynamical extension of the DCM. Here, the VHIP time parameter is considered in the DCM state.
+
+The simplified models have become very popular thanks to the combination with the Zero Moment Point
+(ZMP) as a contact feasibility criterion~\citep{Vukobratovic1969} in the case of complanar contact
+scenarios and indefinitely high friction between the feet and the environment.
+\cite{Caron2017ZMPConstraints} generalize the ZMP contact stability in the case of multiple non-complanar
+contacts while considering frictional constraints.
+
+
+
+
+
+
+
+By exploiting these simplified models, several instantaneous controllers
+~\citep{Hopkins2015,Englsberger2015,Englsberger2018,Englsberger2019} and on-line model predictive
+controller (MPC)
+\citep{wieber2006trajectory,diedam2008online, Naveau2017AControl,
+  Griffin2016, bombile2017capture,8594277} have been designed. \cite{Englsberger2015}
+propose a simple proportional controller to stabilize the unstable linear DCM dynamics.
+Similarly~\cite{Hopkins2015} present a proportional-integral controller that guarantees the tracking
+of the desired time-varying DCM trajectory. On the other hand, MPC frameworks often provide
+references for the footstep locations~\citep{diedam2008online,Feng2016RobustOptimization,Joe2018BalanceRobot,Shafiee-Ashtiani2017a} and timings~\citep{Khadiv2016StepGaits,Griffin2017WalkingAtlas} in the form of small adjustments with respect to desired values. 
+\par
+Finally, using the LIPM model, it is also possible to derive MPC schemes that are guaranteed to produce \emph{stable} CoM trajectories~\citep{Scianca2016IntrinsicallyGeneration,Scianca2020MPCFeasibility}
+
+
+
+\subsection{Whole-Body control layer\label{sec:wbc_soa}}
+The \emph{whole-body control} layer generates robot positions, velocities, or torques depending on the available control modes of the underlying robot. These outputs aim at stabilizing the references generated by the previous layers. It considers the whole-body kinematic or dynamical models and very often instantaneous optimization techniques: no MPC methods are here employed. Furthermore, the associated optimization problem is often framed as a hierarchical stack-of-tasks, with strict or weighted hierarchies~\citep{Stephens2010PushJoints,nava16}. 
+The optimization problem depends linearly on the decision variables. As a consequence, the whole-body control layer often implements a quadratic programming problem (see Section~\ref{sec:qp}).
+The authors of \citep{Herzog2016} solve the whole-body control problem by designing hierarchical inverse dynamics that consider the centroidal momentum of the robot. The authors transcribe the problem in a cascade of Quadratic Programming problems. 
+\par
+In recent years, due to the increased development of humanoid robots exposing the torque control interface \citep{Stasse2017TALOS:Applications,Englsberger2015OverviewTORO,Kaneko2019HumanoidJoints}, the scientific community has been interested in the possibility of using torque control-based algorithms to perform locomotion tasks~ \citep{stephens2010,Lee2016,Feng2015a,Kuindersma2016,koolen2012capturability,Ramuzat2021ComparisonTALOS,Englsberger2018,Ramuzat2022PassiveMulti-Contact}. Indeed, torque-controlled robots have several advantages over position or velocity-controlled ones. A torque-controlled robot is, in fact, intrinsically compliant in the case of unexpected external interactions~\citep{Fahmi2019PassiveTerrain,Mesesan2019,Henze2016}, and thus it can be used to perform cooperative tasks with humans~\citep{Romano2018,Tirupachuri2020TowardsInteractions,Sheridan2016HumanRobotInteraction}.
+In the whole-body QP control layer, the interaction between the environment and the robot is often modeled using the \emph{rigid contact} assumption~\citep{nava16,Hopkins2015b,Herzog2016}. Under this hypothesis, the controller can instantly change the contact forces to guarantee the tracking of desired quantities. 
+If the robot interacts on a \emph{visco-elastic} surface, the \emph{rigid contact} assumption no longer holds, and the whole-body QP controller cannot arbitrarily change the contact forces.
+\par 
+At the modeling level, when a robot interacts with a \emph{visco-elastic} surface, it is pivotal to design models that characterize the interaction properties, such as compliance and damping. Remark that the term \emph{contact} describes situations where two bodies come in touch with each other at specific locations~\citep{Gilardi2002}. Then, contact models can be classified into two main categories: \emph{rigid} and \emph{compliant}. When the contact is rigid, the bodies' mechanical structure does not change substantially, and the velocities of the system are often subject to discontinuities~\citep{Whittaker1988}. Although they enable instantaneous feedback controllers for a large variety of robots~\citep{Englsberger2018}, rigid contact models may lead to poorly reproducible simulation results in the presence of static frictions and multi-body systems \citep{Mason1988a,Stronge1991}. Therefore, the use of \emph{compliant} contact models is a valid alternative to solve the limitations due to the rigid contact formulation. 
+\par
+The contact between a rigid body and a compliant environment can be defined as a linear or a non-linear function. The \emph{Kelvin-Voigt} model is a linear model that describes the contact with a purely viscous damper and a purely elastic spring connected in parallel~\citep{Hajikarimi2021MechanicalViscoelasticity}. The \emph{Maxwell} model assumes a purely viscous damper and a purely elastic spring connected in series~\citep{Hajikarimi2021MechanicalViscoelasticity}. Both the \emph{Kelvin-Voigt} and the \emph{Maxwell}  models are characterized by only two parameters that depend on the mechanical properties of contact surfaces.
+\par
+On the other hand, the literature on the non-linear modeling of compliant contacts is extensive. Originally, compliant contact models considered the contact between two spheres or between a sphere and a flat plate~\citep{Falcon1998BehaviorGround,Hunt1975CoefficientVibroimpact,Lankarani1990,Marhefka1999ASystems}. For instance, \cite{Hunt1975CoefficientVibroimpact} characterize the ground as a non-linear spring-damper pair whose intrinsic parameters are chosen to satisfy Hertz’s theory~\citep[Chapter~4]{Johnson1985ContactMechanics}. This model has become
+well known in the robotics community and is often denoted as the \emph{Hunt-Crossley} model. \cite{Lankarani1990} extends the \emph{Hunt-Crossley} model to consider the impact within multi-body systems. 
+\par
+On the other hand, the authors of ~\citep{Azad2014} slightly modify the \emph{Hunt-Crossley} model to consider the coefficient of restitution between spheres and plates of various materials. 
+
+
+
+
+
+At the control level, when the contact between a robot and its surrounding environment is \emph{sufficiently} stiff, controllers based on the \emph{rigid contact} assumption may still lead to \emph{acceptable} robot performances. 
+
+In this case, a possibility is to design contact-model-free passivity-based control strategies~\citep{Henze2016,Mesesan2019}. 
+When contact compliance impairs robot performance, it is pivotal to design contact models that take into account contact stiffness and damping, which can then be incorporated into feedback controllers.
+
+Pure stiffness (no damping) linear lumped models of the soft contact can, for instance, be considered to design whole-body controllers in the presence of visco-elastic contact surfaces~\citep{Raibert1981,Flayols2020,Catalano2020}. 
+
+Damping components can also be added to the contact model~\citep{Chiaverini1994Force/positionManipulators,Fahmi2020STANCE:Terrain,Azad2016},
+but the main assumption remains that the robot makes contact with the environment at isolated points, not on surfaces. 
+
+
+
+Still using lumped parameters, another approach to modeling soft contact surfaces consists in assuming that the contact interaction can be characterized by equivalent springs and rotational dampers, which can then be employed for robot control~\citep{Li2019,Sygulla2020AFootholds:}. This approach leads to the problem of giving a physical meaning to the contact parameters associated with the torque in the contact wrench. Furthermore, springs and rotational dampers are inherently ill-posed: they make use of the three-angle SO(3) minimal representation to model foot rotations (e.g. the roll-pitch-yaw convention).
+At the planning level, the finite element method (FEM) can also be used to model the static equilibrium of a body in contact with a soft environment~\citep{Bouyarmane2011FEM-basedSupport}. While providing enhanced modeling capabilities, FEM methods demand heavy computational time, which usually forbids their use in time-critical feedback control applications.

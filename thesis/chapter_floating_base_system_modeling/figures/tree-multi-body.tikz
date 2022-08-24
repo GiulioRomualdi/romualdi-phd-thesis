@@ -1,0 +1,31 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (100,48.33) .. controls (100,42.79) and (104.5,38.29) .. (110.04,38.29) .. controls (115.59,38.29) and (120.08,42.79) .. (120.08,48.33) .. controls (120.08,53.88) and (115.59,58.37) .. (110.04,58.37) .. controls (104.5,58.37) and (100,53.88) .. (100,48.33) -- cycle ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (120.08,48.33) -- (179.45,48.33) ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (179.45,48.33) .. controls (179.45,42.79) and (183.95,38.29) .. (189.49,38.29) .. controls (195.04,38.29) and (199.53,42.79) .. (199.53,48.33) .. controls (199.53,53.88) and (195.04,58.37) .. (189.49,58.37) .. controls (183.95,58.37) and (179.45,53.88) .. (179.45,48.33) -- cycle ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (199.53,48.33) -- (258.91,48.33) ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (258.91,48.33) .. controls (258.91,42.79) and (263.4,38.29) .. (268.95,38.29) .. controls (274.49,38.29) and (278.99,42.79) .. (278.99,48.33) .. controls (278.99,53.88) and (274.49,58.37) .. (268.95,58.37) .. controls (263.4,58.37) and (258.91,53.88) .. (258.91,48.33) -- cycle ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (278.99,48.33) -- (390.82,48.33) ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (390.82,48.33) .. controls (390.82,42.79) and (395.32,38.29) .. (400.86,38.29) .. controls (406.41,38.29) and (410.9,42.79) .. (410.9,48.33) .. controls (410.9,53.88) and (406.41,58.37) .. (400.86,58.37) .. controls (395.32,58.37) and (390.82,53.88) .. (390.82,48.33) -- cycle ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (470.28,48.33) .. controls (470.28,42.79) and (474.77,38.29) .. (480.32,38.29) .. controls (485.86,38.29) and (490.36,42.79) .. (490.36,48.33) .. controls (490.36,53.88) and (485.86,58.37) .. (480.32,58.37) .. controls (474.77,58.37) and (470.28,53.88) .. (470.28,48.33) -- cycle ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ]   (410.9,48.33) -- (470.28,48.33) ;
+\draw [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,draw opacity=1 ][fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ]   (490.36,48.33) -- (549.73,48.33) ;
+\draw  [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ] (549.73,48.33) .. controls (549.73,42.79) and (554.22,38.29) .. (559.77,38.29) .. controls (565.31,38.29) and (569.81,42.79) .. (569.81,48.33) .. controls (569.81,53.88) and (565.31,58.37) .. (559.77,58.37) .. controls (554.22,58.37) and (549.73,53.88) .. (549.73,48.33) -- cycle ;
+
+\draw (104.16,59.7) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 245; green, 166; blue, 35 }  ,opacity=1 ]  {$0$};
+\draw (184.58,59.7) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.29,0.56,0.89}{1}$};
+\draw (263.2,59.7) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.29,0.56,0.89}{2}$};
+\draw (553.04,59.7) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.29,0.56,0.89}{n_{j}}$};
+\draw (456.06,59.7) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.29,0.56,0.89}{n_{j} \ -\ 1}$};
+\draw (376.62,59.7) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.29,0.56,0.89}{n_{j} \ -\ 2}$};
+\draw (144.25,20.8) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 74; blue, 74 }  ,opacity=1 ]  {$\textcolor[rgb]{0.29,0.29,0.29}{1}$};
+\draw (223.69,20.8) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$\textcolor[rgb]{0.29,0.29,0.29}{2}$};
+\draw (511.81,20.84) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$\textcolor[rgb]{0.29,0.29,0.29}{n_{j}}$};
+\draw (418.01,20.84) node [anchor=north west][inner sep=0.75pt]  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,opacity=1 ]  {$\textcolor[rgb]{0.29,0.29,0.29}{n_{j} \ -\ 1}$};
+
+
+\end{tikzpicture}

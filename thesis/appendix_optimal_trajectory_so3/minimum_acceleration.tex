@@ -1,0 +1,102 @@
+\section{Minimum acceleration trajectory in $\SO(3)$}
+Given a fixed initial rotation $(t_0, R_0)$ and a final rotation $(t_f, R_f)$ and the associated right trivialized angular velocities, $(t_0, \omega_0)$ and $(t_f, \omega_f)$,  we want to compute a trajectory $R : \mathbb{R}_+ \rightarrow \SO(3)$ such that $R(t_0) = R_0$, $R(t_f) = R_f$,  $\omega(t_0) = \omega_0$, $\omega(t_f) = \omega_f$ such that right trivialized angular acceleration is minimized. More formally, we seek a trajectory $R(t)$ such that it is a stationary point of the action~\eqref{eq:hamilton_R_epsilon_definition_optimization} with a Lagrangian function defined as
+\begin{equation}
+    \label{eq:hamiltonin_lagrangian_minimum_acceleration_R}
+    \mathcal{L}(\dot{\omega}) = \dot{\omega}^\top \dot{\omega}.
+\end{equation}
+\par
+By substituting~\eqref{eq:hamiltonin_lagrangian_minimum_acceleration_R} into~\eqref{eq:hamilton_principle_so3_explicit} we have
+\begin{IEEEeqnarray}{lcl}
+\phantomsection \label{eq:hamilton_principle_so3_explicit_min_acc} \IEEEyesnumber \IEEEyessubnumber*
+    \delta\mathfrak{G} &=& \int_{t_0}^{t_f}   \left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, \delta \dot{\omega} \right\rangle \diff t = \int_{t_0}^{t_f}   \left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}},\ddot{\eta} + \dot{\omega}\times\eta + \omega\times\dot{\eta}  \right\rangle \diff t \\
+    &=& \int_{t_0}^{t_f}   \left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, \ddot{\eta} \right\rangle \diff t  \label{eq:hamilton_principle_so3_explicit_min_acc_ddnu}\\
+    &&+ \int_{t_0}^{t_f}   \left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, \dot{\omega}\times\eta \right\rangle \diff t  \label{eq:hamilton_principle_so3_explicit_min_acc_domega_nu}\\
+    &&+ \int_{t_0}^{t_f}   \left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, \omega\times\dot{\eta} \right\rangle \diff t \label{eq:hamilton_principle_so3_explicit_min_acc_omega_dnu}.
+\end{IEEEeqnarray}
+We now analyze each term of~\eqref{eq:hamilton_principle_so3_explicit_min_acc} explicitly.
+By integrating~\eqref{eq:hamilton_principle_so3_explicit_min_acc_ddnu} by parts, we obtain the following:
+\begin{IEEEeqnarray}{lcl}
+\phantomsection \label{eq:hamilton_principle_so3_explicit_min_acc_ddnu_explicit} \IEEEyesnumber \IEEEyessubnumber*
+\int_{t_0}^{t_f}   \left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, \ddot{\eta} \right\rangle \diff t &=& \at{\left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, \dot{\eta}\right \rangle}{t_0}^{t_f} \\
+&& - \at{\left\langle \frac{\diff }{\diff t}\frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, {\eta}\right \rangle}{t_0}^{t_f} \\
+&&+ \int_{t_0}^{t_f}   \left\langle \frac{\diff^2 }{\diff t^2} \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, {\eta} \right\rangle \diff t.
+\end{IEEEeqnarray}
+Recalling the fact that the infinitesimal variations $\eta$ and $\dot{\eta}$ vanish at $t_0$ and $t_f$, Equation~\eqref{eq:hamilton_principle_so3_explicit_min_acc_ddnu_explicit} can be simplified as follows:
+\begin{equation}
+    \label{eq:hamilton_principle_so3_explicit_min_acc_ddnu_final} 
+    \int_{t_0}^{t_f}   \left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, \ddot{\eta} \right\rangle \diff t = \int_{t_0}^{t_f}   \left\langle \frac{\diff^2 }{\diff t^2} \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, {\eta} \right\rangle \diff t .
+\end{equation}
+\par
+Applying the properties \emph{scalar triple product}, \eqref{eq:hamilton_principle_so3_explicit_min_acc_domega_nu} writes as 
+\begin{equation}
+    \label{eq:hamilton_principle_so3_explicit_min_acc_domega_nu_final} 
+    \int_{t_0}^{t_f}   \left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, \dot{\omega}\times\eta \right\rangle \diff t = \int_{t_0}^{t_f}   \left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}} \times\dot{\omega}, \eta \right\rangle \diff t .
+\end{equation}
+\par
+Similarly, we rewrite \eqref{eq:hamilton_principle_so3_explicit_min_acc_omega_dnu} applying the properties of the scalar triple product and integrating it by parts:
+\begin{IEEEeqnarray}{lcl}
+\phantomsection  \IEEEyesnumber \IEEEyessubnumber*
+\int_{t_0}^{t_f}   \left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}, \omega \times \dot{\eta} \right\rangle \diff t &=& \int_{t_0}^{t_f}   \left\langle \frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}} \times \omega,  \dot{\eta} \right\rangle \diff t \\
+&=&- \int_{t_0}^{t_f}   \left\langle\frac{\diff }{\diff t} \left(\frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}} \times \omega\right),  {\eta} \right\rangle \diff t \label{eq:hamilton_principle_so3_explicit_min_acc_ddnu_explicit_vanish},
+\end{IEEEeqnarray}
+where in~\eqref{eq:hamilton_principle_so3_explicit_min_acc_ddnu_explicit_vanish}, we use the fact that $\eta(t_0) = \eta(t_f) = 0$.
+\par
+By substituting \eqref{eq:hamilton_principle_so3_explicit_min_acc_ddnu_final}, \eqref{eq:hamilton_principle_so3_explicit_min_acc_domega_nu_final} and \eqref{eq:hamilton_principle_so3_explicit_min_acc_ddnu_explicit_vanish} into~\eqref{eq:hamilton_principle_so3_explicit_min_acc}, we obtain the final formulation of the infinitesimal variation of the action functional:
+\begin{equation}
+    \delta\mathfrak{G} = \int_{t_0}^{t_f} \left\langle 
+  \frac{\diff^2}{\diff t^2}\frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}
+    -\frac{\diff}{\diff t} \left(\frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}} \times \omega\right)
+    +\frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}} \times \dot{\omega}, 
+    \eta \right\rangle \diff t.
+\end{equation}
+\par
+We now recall that Hamilton's principle must be valid for all possible variations $\eta$, and consequently $\delta \mathfrak{G} = 0$ implies that
+\begin{equation}
+    \label{eq:hamilton_pde_so3}
+    \frac{\diff^2}{\diff t^2}\frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}}
+    -\frac{\diff}{\diff t} \left(\frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}} \times \omega\right)
+    +\frac{\partial \mathcal{L}(\dot{\omega})} {\partial \dot{\omega}} \times \dot{\omega} = 0.
+\end{equation}
+\par
+Combining the Lagrangian definition~\eqref{eq:hamiltonin_lagrangian_minimum_acceleration_R} with the partial differential equation~\eqref{eq:hamilton_pde_so3} we obtain
+\begin{equation}
+\label{eq:min_acc_so3_final_ode}
+\dddot{\omega}+ \omega \times \ddot{\omega} = 0.
+\end{equation}
+Finally, we can conclude that a trajectory $R(t)$ that satisfies \eqref{eq:min_acc_so3_final_ode} is a minimum acceleration trajectory.
+\par
+It is worth noting that~\eqref{eq:min_acc_so3_final_ode} does not admit an analytic solution for arbitrary boundary conditions.
+However, in the case of zero initial and final velocity $\omega$, it is possible to show that  
+\begin{IEEEeqnarray}{c}
+\phantomsection \label{eq:hamilton_so3_min_acc_close_solution} \IEEEyesnumber \IEEEyessubnumber*
+    R(t) = \exp{\left(s(t-t_0) \log\left(R_f R_0^\top  \right) \right)} R_{0} \\ s(\tau) = \frac{3}{(t_f - t_0)^2} \tau^2 - \frac{3}{(t_f - t_0)^3} \tau^3,
+\end{IEEEeqnarray}
+satisfies condition~\eqref{eq:min_acc_so3_final_ode}.
+To prove the latest statement, we first compute the right trivialized angular velocity as
+\begin{IEEEeqnarray}{ll}
+\phantomsection \IEEEyesnumber \IEEEyessubnumber*
+    \hskip-1.5cm\omega^\wedge &= R^\top \dot{R} \\
+    \hskip-1.5cm&= \dot{s}R_{0} ^\top \exp{\left(-s\log\left(R_f R_0^\top  \right) \right)}
+    \log\left(R_f R_0^\top  \right) 
+    \exp{\left(s\log\left(R_f R_0^\top  \right) \right)} R_{0} \\
+    \hskip-1.5cm&= \dot{s}R_{0} ^\top \exp{\left(-s\log\left(R_f R_0^\top  \right) \right)}
+   R_{0} \log\left( R_0^\top R_f \right)  R_{0}^\top
+    \exp{\left(s\log\left(R_f R_0^\top  \right) \right)} R_{0} \\
+        \hskip-1.5cm&= \dot{s}\exp{\left(-s\log\left(R_0^\top R_f  \right) \right)}
+ \log\left( R_0^\top R_f \right)  
+    \exp{\left(s\log\left( R_0^\top R_f  \right) \right)}\\
+          \hskip-1.5cm&= \dot{s}\exp{\left(-s\log\left(R_0^\top R_f  \right) \right)}
+    \exp{\left(s\log\left( R_0^\top R_f  \right) \right)}  \log\left( R_0^\top R_f \right)   \\
+\hskip-1.5cm&= \dot{s} \log\left( R_0^\top R_f \right).
+\end{IEEEeqnarray}
+Here, we exploit the exponential and the adjoint maps properties -- Equation~\eqref{eq:adjoint_action_def} and Section~\ref{sec:exp_and_log_maps}.
+We notice that $\omega$ satisfies the constraint~\eqref{eq:min_acc_so3_final_ode}:
+\begin{IEEEeqnarray}{lcl}
+\phantomsection \IEEEyesnumber \IEEEyessubnumber*
+\dddot{\omega}+ \omega \times \ddot{\omega} &=& \frac{\diff ^4}{\diff t ^4} s \Log\left( R_0^\top R_f \right)\\
+&&+ \left(\frac{\diff}{\diff t} s \Log\left( R_0^\top R_f \right) \right)\times \left(\frac{\diff ^3}{\diff t ^3} s \Log\left( R_0^\top R_f \right)\right) \\ 
+&=&\frac{\diff ^4}{\diff t ^4} s \Log\left( R_0^\top R_f \right)  \\
+&=&0.
+\end{IEEEeqnarray}
+Furthermore, the trajectory~\eqref{eq:hamilton_so3_min_acc_close_solution} satisfies the boundary conditions: namely $R(t_0) = R_0$, $R(t_f) = R_f$, $\omega(t_0) = \omega(t_f) = 0$. 
+To conclude, the trajectory~\eqref{eq:hamilton_so3_min_acc_close_solution} is a minimum acceleration trajectory in the interval $[t_0, t_f]$.

@@ -1,0 +1,22 @@
+\begin{figure}[h]
+\centering
+    \includegraphics{chapter_optimization_introduction/figures/mpc.tikz}
+	\caption[Receding horizon principle.]{Receding horizon principle. At each sampling time, starting at the current state, an open-loop optimal control problem is solved over a finite horizon. The computed optimal manipulated input signal is applied to the process only during the following sampling interval $i, i+1$. At the next time step $i+1$, a new optimal control problem based on new measurements of the state is solved over a shifted horizon.}
+	\label{fig:mpc}
+\end{figure}
+\section{Model predictive control} \label{sec:mpc}
+When solving the optimal control problem~\eqref{eq:oc_bolza} using a direct method, the output is a sequence of control input $u_i$. Indeed, given $x_0$, we obtain $u_k$, with $k$ from $0$ to $N-1$. The application of all these control inputs would result in an \emph{open-loop} control. Alternatively, we can apply $u_0$ only and discard all other control inputs. Let the system evolve to retrieve a new feedback. The time horizon is shifted by an amount equal to $\diff t$ and the optimal control problem~\eqref{eq:mc_oc} is solved again with a different initial condition. This method of discarding the control values except the first and shifting the time horizon is called \emph{receding horizon} principle \citep{Mayne90MPC,Shahriar2013ComparisonSystem}. It provides the basis for the so-called \emph{model predictive control} (MPC) \citep{bemporad2002hybrid,Garcia1989ModelSurvey}. 
+\par
+We identify with $x_{k|i}$ the state vector at time $k+i$ predicted at time $i$ by starting from the current state $x_{0|i} = x(t_0 + i \diff t)$. Similarly, $u_{k|i}$ is the optimal control strategy that should be applied at $k+i$ and computed at time $i$. Given the optimal control sequence, denoted as $\mathcal{U}^*_i = \{ u^*_{0|i}, u^*_{1|i}, \hdots, u^*_{N|i} \}$. We apply only the first element of $\mathcal{U}^*_i$ to the dynamical system~\eqref{eq:oc_dynamical_system}
+\begin{equation}
+    u(t) = u^*_{0|i}.
+\end{equation}
+Then the optimization problem is solved at time $i+1$ considering the new state $x_{0|i+1}$ -- Figure~\ref{fig:mpc}. 
+In the end, applying the receding horizon principle, we can formulate the optimal control problem~\eqref{eq:mc_oc} as follows:
+\begin{IEEEeqnarray}{cll}
+\phantomsection \label{eq:mc_oc_rh} \IEEEyesnumber \IEEEyessubnumber*
+\; \; \minimize\limits_{x_{0|i}, \hdots, x_{N|{i}}, u_{0|i}, \hdots, u_{{N-1}|i}} \; \;   &  \IEEEeqnarraymulticol{2}{l}{\beta\left(x_{N|i}\right) + \sum_k^{N - 1} \ell \left(x_{k|i}, u_{k|i}\right) \diff t} \\ 
+\st &  x_{{k+1}|i} - \Gamma(x_{k|i}, u_{k|i}) = 0 & \quad \quad k = 0\hdots N-1 \\
+& c(x_{k|i}, u_{k|i}) \le 0_{n_c \times 1} & \quad \quad k = 0\hdots N-1 \\
+&  x_{0|i} = x(t_0 + i \diff t).
+\end{IEEEeqnarray}

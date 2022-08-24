@@ -1,0 +1,31 @@
+\chapter{Whole-Body Control of Humanoid Robots with Link Flexibility\label{chapter:flexible_joints}}
+
+In Chapter~\ref{chapter:benchmarking_wbc}, we presented a whole-body controller for humanoid robots in contact with a rigid environment. We then extended the controller in the case of visco-elastic walking surface -- Chapter~\ref{chapter:wbc_visco_elastic}. However, both architectures assume that the links of the robot do not deform during the locomotion task. This hypothesis is generally valid; however, it may happen that one of the links of the system flexes while walking. In this chapter, we attempt to loosen the rigid body hypothesis that has been considered in Chapters~\ref{chapter:benchmarking_wbc} and \ref{chapter:wbc_visco_elastic}. More specifically, we extend the whole-body controller introduced in Section~\ref{sec:dynamics_QP} in the case of a humanoid robot affected by undesired link flexibility.
+\par
+We characterize the link flexibility by introducing equivalent passive joints where the link
+deflection is concentrated~\citep{Nakaoka2007Constraint-basedMechanisms}. We extend the robot state to consider the
+underactuated flexible joints in the model. Thanks to this choice, we are able to design a
+whole-body controller that implicitly considers the deformation of the joints.
+Since in our case the deflection is not directly measurable, we design an observer aiming at
+estimating the flexible joint state, namely position, velocity, and torque, only considering the
+measured contact force and the actuated joint state.
+We validate the overall approach on a simulated version of the humanoid robot TALOS, since its hip
+flexibility has a significant impact when performing a locomotion
+task~\citep{Villa2022TorqueFlexibility}. To address the elasticity of the robot link, the authors of
+\citep{Villa2022TorqueFlexibility} locally compensate the effect of deflections by modifying the
+measured position and velocity of some actuated joints considered in the whole-body controller. By
+extending the robot state with passive joints, our approach automatically considers the link
+flexibility in the control stabilization problem.
+\par
+To further test the proposed strategy, we compare the whole-body control presented in this chapter with the approach discussed in Section~\ref{sec:dynamics_QP}. In this respect, we investigate the flexibility of the link that makes classical approaches fail. Finally, we analyze the performance of the presented control design with respect to different values of the stiffness parameter.
+\par
+The chapter is organized as follows. Section~\ref{sec:flex_joint_system_modeling} details the model used to characterize the flexibility of the link and extends the humanoid robot model to account for it. Section~\ref{sec:wbc_tsid_flex_joints} discusses the whole-body controller. Section~\ref{sec:flexible_joint_observer} contains the design of an observer to estimate the flexible joint state online. Section~\ref{sec:flexible_joint_result} presents the simulation results on the TALOS humanoid robot. Finally, Section~\ref{sec:conclusions_flexible_joint} concludes the chapter.
+The content of this chapter has been carried out during my Ph.D. secondment in the \emph{Gepetto} laboratory of the \emph{LAAS-CNRS Laboratory for Analysis and Architecture of Systems} in Toulouse, France.
+The control architecture presented in this chapter is the subject of a publication to be submitted:
+\fcite{Romualdi2022ControlControl}
+
+\input{chapter_flexible_joints/background}
+\input{chapter_flexible_joints/wbc}
+\input{chapter_flexible_joints/flexibile_joint_state_observer}
+\input{chapter_flexible_joints/results}
+\input{chapter_flexible_joints/conclusions}

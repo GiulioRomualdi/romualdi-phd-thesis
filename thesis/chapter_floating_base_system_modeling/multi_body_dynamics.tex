@@ -1,0 +1,60 @@
+\section{Multi-body dynamics}
+\label{sec:multi-body-dynamics}
+As mentioned in Section~\ref{sec:muti-body-kinematics}, the robot configuration space is characterized by the \emph{position} and the \emph{orientation} of the base frame $B$ with respect to the inertial frame $\mathcal{I}$, and the joints' position coordinates $s$. Hereafter, we indicate the robot configuration with the following triplet $q = ({}^{\mathcal{I}} p_B, {}^{\mathcal{I}} R_{B}, s)$. $q$ is an element of a Lie group, $\lieGroup{Q} = \mathbb{R}^3 \times \SO(3) \times \mathbb{R}^n$. The associated Lie algebra is denoted as $\lieAlgebra{q} = \mathbb{R}^3 \times \so(3) \times \mathbb{R}^n$, where $\lieAlgebra{q}$ is isomorphic to $\mathbb{R}^3 \times \mathbb{R}^3 \times \mathbb{R}^n$, i.e. $\lieAlgebra{q} \approx\mathbb{R}^3 \times \mathbb{R}^3 \times \mathbb{R}^n$. The \emph{velocity of the multi-body system} belongs to $\lieAlgebra{q}$. We define it as the following triplet $\nu = \left({}^{\mathcal{I}} \dot{p}_B, {}^{B[\mathcal{I}]}\dot{\omega}_{\mathcal{I}, B}, \dot{s}\right)$.
+From here on, we assume that the multi-body system interacts with the environment, exchanging $n_c$ distinct 6D spatial forces -- see Section~\ref{sec:6d-spatial-force}. Since the configuration space is not a vector space, we cannot apply the classical Euler-Lagrange equations. This is solved by employing the Euler-Poincar\'e formalism \citep[Chapter 13.5]{Marsden2010}, obtaining as a final result:
+\begin{equation}
+\label{eq:system_initial}
+M(q)\dot{\nu} + C(q, \nu)\nu + G(q) =  \begin{bmatrix}
+0_{6\times n} \\ I_n
+\end{bmatrix}\tau_s + \sum_{k = 1}^{n_c} J^\top_{\mathcal{C}_k} \; {}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k.
+\end{equation}
+Here $M\in \mathbb{R}^{(n+6) \times (n+6)}$ is the mass matrix, $C \in \mathbb{R}^{(n+6) \times (n+6)}$ accounts for Coriolis and centrifugal effects, and $G \in \mathbb{R}^{n+6}$ contains the gravity term. $\tau_s \in \mathbb{R}^{n}$ is a vector representing the internal actuation torques, ${}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k \in \mathbb{R}^{6}$ denotes the $k$-th external wrench applied by the environment on the robot expressed in mixed representation.
+The Jacobian $J_{\mathcal{C}_k}$ is the mixed velocity Jacobian of the contact frame $\mathcal{C}_k$.
+Equation~\eqref{eq:system_initial} is strictly related to the rigid body dynamics presented in Section~\ref{sec:rigid-body-dynamics}. In fact, we introduce the \emph{left-tirvialized Lagrangian of the multi-body system} $\mathcal{L}(q,\nu)$ as 
+\begin{equation}
+    \label{eq:lagrangian_multi-body}
+    \mathcal{L}(q,\nu) = \mathcal{K}(\nu) - \mathcal{U}(q)
+\end{equation}
+where $\mathcal{K}$ and $\mathcal{U}$ represent the \emph{kinetic} and \emph{potential} energy of the multi-body system and they are described in ~\cite[Section~3.5]{Traversaro2017ModellingDynamics}.
+It is possible to prove that Equation~\eqref{eq:system_initial} is the solution of \emph{Hamilton's Variational Principle} considering the Lagrangian function~\eqref{eq:lagrangian_multi-body}.
+
+By stacking all the Jacobians and contact wrenches, we can rewrite Equation~\eqref{eq:system_initial} as follows:
+\begin{equation}
+\label{eq:system}
+{M}({q})\dot{{\nu}} + {C}({q}, {\nu}){\nu} + {G}({q}) =  \begin{bmatrix}
+{0}_{6\times n} \\ I_n
+\end{bmatrix}{\tau}_s + {J}_{\mathcal{C}}^\top \mathrm{f},
+\end{equation}
+where
+\begin{equation}
+	{J}_{\mathcal{C}}({q}) = 
+	\begin{bmatrix}{J}_{\mathcal{C}_1}({q}) \\ \vdots \\ {J}_{\mathcal{C}_{n_c}}({q})  \end{bmatrix}, \quad
+	\mathrm{f} = \begin{bmatrix}
+		{}_{\mathcal{C}_1[\mathcal{I}]}\mathrm{f}_1 \\
+		\vdots\\
+		{}_{\mathcal{C}_{n_c}[\mathcal{I}]}\mathrm{f}_{n_c}
+	\end{bmatrix}.
+\end{equation}
+In the case of rigid contacts between the robot and environment, we consider a set of holonomic constraints represented as
+\begin{equation}\label{eqn:constraintsAll}
+{}^\mathcal{I} H _{\mathcal{C}_{i}} \equiv {}^\mathcal{I} \bar{H} _{\mathcal{C}_{i}}.
+\end{equation}
+In other words, we require that the position and orientation of the frame associated with each contact link to be constant and equal to ${}^\mathcal{I} \bar{H} _{\mathcal{C}_{i}}$.
+By time differentiating Equation~\eqref{eqn:constraintsAll} and recalling that $\mathrm{v} = J_{C_i} \nu$~\eqref{eq:mixed-link-velocity}, we rewrite the rigid contact constraint in the \emph{Pfaffian form}~\citep[Section~8.7]{Lynch2017ModernControl} as
+\begin{equation}
+\label{eqn:constraintsAll_velocity}
+    {J}_{\mathcal{C}_i}(q) {\nu} = 0.
+\end{equation}
+Here, we prescribe the spatial velocity associated with each link in contact equal to zero. Since the Jacobian matrix is a smooth mapping from $\lieGroup{Q}$ to $\mathbb{R}^{6\times (6 + n)}$, Equation~\eqref{eqn:constraintsAll_velocity} can be differentiated
+\begin{equation}\label{eq:holonomic_constraint}
+	{J}_{\mathcal{C}_i} \dot{{\nu}} + \dot{{J}}_{\mathcal{C}_i} {\nu} = 0,
+\end{equation}
+obtaining a dependency on $\dot{{\nu}}$. Equations \eqref{eq:system} and \eqref{eq:holonomic_constraint} together are the dynamical equations that describe the motion of a floating-base system that instantiates rigid contacts with the environment.
+\par
+The dynamics~\eqref{eq:system_initial} is often expressed by separating the first $6$ rows, referring to the non-actuated floating base, from the last $n$ rows referring to the actuated joints as:
+\begin{IEEEeqnarray}{c}
+\IEEEyesnumber \phantomsection
+M_{\nu}(q) \dot{\nu} + h_{\nu} (q, \nu) = \sum_{k = 1}^{n_c} J^\top_{{\mathcal{C}_k}_\nu}(q) \;  {}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k, \IEEEyessubnumber \label{eq:robot_dynamics_base}\\
+M_{s}(q) \dot{\nu} + h_{s} (q, \nu) = \tau_s + \sum_{k = 1}^{n_c} J^\top_{{\mathcal{C}_k}_s}(q)  \; {}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k, \IEEEyessubnumber \label{eq:robot_dynamics_joints}
+\end{IEEEeqnarray}
+where $h(q,\nu) = C(q,\nu) + G (q)$, the subscript $\nu$ refers to the first $6$ rows of the matrix, while $s$ refers to the last $n$ rows. 

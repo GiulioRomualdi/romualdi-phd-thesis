@@ -1,0 +1,46 @@
+
+
+  
+\tikzset {_qq32lll9i/.code = {\pgfsetadditionalshadetransform{ \pgftransformshift{\pgfpoint{89.1 bp } { -108.9 bp }  }  \pgftransformscale{1.32 }  }}}
+\pgfdeclareradialshading{_8llrl4nwy}{\pgfpoint{-72bp}{88bp}}{rgb(0bp)=(1,1,1);
+rgb(0bp)=(1,1,1);
+rgb(25bp)=(0,0,0);
+rgb(400bp)=(0,0,0)}
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [fill={rgb, 255:red, 244; green, 244; blue, 244 }  ,fill opacity=1 ] (578.59,305.39) -- (665.56,349.69) -- (466.35,394) -- (379.37,349.69) -- cycle ;
+\path  [shading=_8llrl4nwy,_qq32lll9i] (526.86,112.05) .. controls (526.86,104.15) and (533.26,97.75) .. (541.15,97.75) .. controls (549.05,97.75) and (555.45,104.15) .. (555.45,112.05) .. controls (555.45,119.94) and (549.05,126.34) .. (541.15,126.34) .. controls (533.26,126.34) and (526.86,119.94) .. (526.86,112.05) -- cycle ; %
+ \draw   (526.86,112.05) .. controls (526.86,104.15) and (533.26,97.75) .. (541.15,97.75) .. controls (549.05,97.75) and (555.45,104.15) .. (555.45,112.05) .. controls (555.45,119.94) and (549.05,126.34) .. (541.15,126.34) .. controls (533.26,126.34) and (526.86,119.94) .. (526.86,112.05) -- cycle ; %
+
+\draw  [fill={rgb, 255:red, 255; green, 222; blue, 167 }  ,fill opacity=1 ] (504.38,328.59) -- (532.87,343.1) -- (467.6,357.62) -- (439.11,343.1) -- cycle ;
+\draw    (475.08,345.2) -- (514.03,365.62) ;
+\draw    (427.72,355.57) -- (475.08,345.2) ;
+\draw    (475.08,345.2) -- (475.08,298.75) ;
+\draw    (475.08,345.2) -- (445.35,263.02) ;
+\draw [shift={(444.33,260.2)}, rotate = 70.12] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw  [draw opacity=0] (456.18,284.62) .. controls (458.61,283.8) and (460.47,283.6) .. (460.74,284.24) .. controls (461.1,285.11) and (458.41,287.17) .. (454.72,288.86) .. controls (451.04,290.54) and (447.76,291.21) .. (447.4,290.34) .. controls (447.15,289.76) and (448.31,288.62) .. (450.22,287.43) -- (454.07,287.29) -- cycle ; \draw   (456.18,284.62) .. controls (458.61,283.8) and (460.47,283.6) .. (460.74,284.24) .. controls (461.1,285.11) and (458.41,287.17) .. (454.72,288.86) .. controls (451.04,290.54) and (447.76,291.21) .. (447.4,290.34) .. controls (447.15,289.76) and (448.31,288.62) .. (450.22,287.43) ;
+\draw    (541.15,112.05) -- (541.84,212.29) ;
+\draw [shift={(541.86,215.29)}, rotate = 269.61] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw [color={rgb, 255:red, 208; green, 2; blue, 27 }  ,draw opacity=1 ]   (475.08,345.2) -- (541.15,112.05) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ]   (475.08,345.2) -- (518.73,340.86) ;
+\draw [color={rgb, 255:red, 139; green, 87; blue, 42 }  ,draw opacity=1 ]   (541.15,112.05) -- (582.7,66.11) ;
+\draw [shift={(584.72,63.89)}, rotate = 132.13] [fill={rgb, 255:red, 139; green, 87; blue, 42 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw [shift={(562.93,87.97)}, rotate = 132.13] [fill={rgb, 255:red, 139; green, 87; blue, 42 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw  [fill={rgb, 255:red, 255; green, 255; blue, 255 }  ,fill opacity=1 ] (515.63,341.55) .. controls (514.24,340.81) and (514.5,339.91) .. (516.22,339.53) .. controls (517.93,339.15) and (520.45,339.44) .. (521.84,340.18) .. controls (523.23,340.92) and (522.96,341.82) .. (521.25,342.2) .. controls (519.53,342.58) and (517.02,342.29) .. (515.63,341.55) -- cycle ;
+\draw    (475.08,345.2) -- (517.12,196.69) ;
+\draw [shift={(517.93,193.8)}, rotate = 105.81] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (432,389.5) -- (475,351.5) ;
+
+\draw (437,354.98) node [anchor=north west][inner sep=0.75pt]    {$B$};
+\draw (535.74,334.68) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.29,0.56,0.89}{x}\textcolor[rgb]{0.29,0.56,0.89}{_{\text{ZMP}}}\textcolor[rgb]{0,0,0}{=}\textcolor[rgb]{0.29,0.56,0.89}{\ }\textcolor[rgb]{0.25,0.46,0.02}{x}\textcolor[rgb]{0.25,0.46,0.02}{_{\text{CMP}}}$};
+\draw (490.26,139.99) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.82,0.01,0.11}{x}\textcolor[rgb]{0.82,0.01,0.11}{_{\text{CoM}}}$};
+\draw (484.59,203.88) node [anchor=north west][inner sep=0.75pt]    {$_{B} f$};
+\draw (416.93,257.6) node [anchor=north west][inner sep=0.75pt]    {$_{B} \mu $};
+\draw (544.63,170.8) node [anchor=north west][inner sep=0.75pt]    {$mg$};
+\draw (583.26,75.89) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.55,0.34,0.16}{_{G[ B]}}\textcolor[rgb]{0.55,0.34,0.16}{\dot{h}}\textcolor[rgb]{0.55,0.34,0.16}{^{p}}$};
+\draw (414,393.4) node [anchor=north west][inner sep=0.75pt]    {$\Omega $};
+
+
+\end{tikzpicture}

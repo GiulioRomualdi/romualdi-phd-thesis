@@ -1,0 +1,85 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [draw opacity=0][fill={rgb, 255:red, 237; green, 244; blue, 229 }  ,fill opacity=1 ] (124.68,164.63) -- (402.01,214.68) -- (440.18,126.18) -- (472.5,126.18) -- (472.5,271.83) -- (73.67,271.83) -- (73.92,126.18) -- (107.18,126.18) -- cycle ;
+\draw  (30.4,271.83) -- (491.67,271.83)(73.67,104.21) -- (73.67,290.46) (484.67,266.83) -- (491.67,271.83) -- (484.67,276.83) (68.67,111.21) -- (73.67,104.21) -- (78.67,111.21)  ;
+\draw  [fill={rgb, 255:red, 255; green, 217; blue, 153 }  ,fill opacity=1 ] (130.59,131.89) -- (407.92,181.94) -- (402.01,214.68) -- (124.68,164.63) -- cycle ;
+\draw   (298.55,186.82) -- (266.3,181.08) -- (272.54,146.03) ;
+\draw  [dash pattern={on 4.5pt off 4.5pt}]  (73.92,126.18) -- (472.5,126.18) ;
+\draw  [fill={rgb, 255:red, 237; green, 237; blue, 237 }  ,fill opacity=1 ] (123.73,92.33) -- (404.3,92.33) -- (404.3,126.18) -- (123.73,126.18) -- cycle ;
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]  (396.56,215.2) -- (396.56,225.5) -- (401.19,227.79) -- (391.92,232.37) -- (401.19,236.94) -- (391.92,241.52) -- (401.19,246.1) -- (391.92,250.68) -- (401.19,255.25) -- (391.92,259.83) -- (396.56,262.12) -- (396.56,272.42) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (362.18,238.36) -- (378.44,238.36) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (377.46,238.36) -- (377.46,249.76) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (363.07,238.36) -- (363.07,249.76) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (366.53,246.48) -- (374.3,246.48) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (370.31,224.97) -- (370.31,238.36) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (370.31,246.48) -- (370.31,259.88) ;
+
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]  (324.56,206.78) -- (324.56,217.08) -- (329.19,219.37) -- (319.92,223.95) -- (329.19,228.52) -- (319.92,233.1) -- (329.19,237.68) -- (319.92,242.26) -- (329.19,246.83) -- (319.92,251.41) -- (324.56,253.7) -- (324.56,264) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (290.18,229.95) -- (306.44,229.95) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (305.46,229.95) -- (305.46,241.34) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (291.07,229.95) -- (291.07,241.34) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (294.53,238.06) -- (302.3,238.06) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (298.31,216.55) -- (298.31,229.95) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (298.31,238.06) -- (298.31,251.46) ;
+
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]  (221.56,199.28) -- (221.56,209.58) -- (226.19,211.87) -- (216.92,216.45) -- (226.19,221.02) -- (216.92,225.6) -- (226.19,230.18) -- (216.92,234.76) -- (226.19,239.33) -- (216.92,243.91) -- (221.56,246.2) -- (221.56,256.5) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (187.18,222.45) -- (203.44,222.45) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (202.46,222.45) -- (202.46,233.84) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (188.07,222.45) -- (188.07,233.84) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (191.53,230.56) -- (199.3,230.56) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (195.31,209.05) -- (195.31,222.45) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (195.31,230.56) -- (195.31,243.96) ;
+
+\draw  [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]  (159.56,189.28) -- (159.56,199.58) -- (164.19,201.87) -- (154.92,206.45) -- (164.19,211.02) -- (154.92,215.6) -- (164.19,220.18) -- (154.92,224.76) -- (164.19,229.33) -- (154.92,233.91) -- (159.56,236.2) -- (159.56,246.5) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (125.18,212.45) -- (141.44,212.45) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (140.46,212.45) -- (140.46,223.84) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (126.07,212.45) -- (126.07,223.84) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (129.53,220.56) -- (137.3,220.56) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (133.31,199.05) -- (133.31,212.45) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (133.31,220.56) -- (133.31,233.96) ;
+
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (133.31,165.75) -- (133.31,199.05) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (133.31,233.96) -- (133.31,271.84) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (159.56,246.5) -- (159.56,271.84) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (159.56,171) -- (159.56,191.17) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (195.31,243.96) -- (195.31,271.84) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (195.31,177.55) -- (195.31,209.05) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (221.56,256.45) -- (221.56,272.42) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (221.56,182.09) -- (221.56,205.55) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (298.31,195.91) -- (298.31,222.64) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (298.31,249.91) -- (298.31,272.42) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (324.56,263.18) -- (324.56,272.42) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (324.56,200.67) -- (324.56,209.91) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (370.31,256.85) -- (370.31,272.42) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (370.31,209.07) -- (370.31,227.18) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ][line width=1.5]    (396.56,213.58) -- (396.56,222.82) ;
+\draw    (73.5,126.18) -- (107.18,126.18) ;
+\draw    (107.18,126.18) -- (124.68,164.63) ;
+\draw    (440.18,126.18) -- (402.01,214.68) ;
+\draw    (440.18,126.18) -- (472.5,126.18) ;
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (263.18,181.08) .. controls (263.18,179.35) and (264.57,177.95) .. (266.3,177.95) .. controls (268.03,177.95) and (269.43,179.35) .. (269.43,181.08) .. controls (269.43,182.81) and (268.03,184.2) .. (266.3,184.2) .. controls (264.57,184.2) and (263.18,182.81) .. (263.18,181.08) -- cycle ;
+\draw   (297.16,115.9) -- (264.4,115.9) -- (264.4,80.3) ;
+\draw  [fill={rgb, 255:red, 128; green, 128; blue, 128 }  ,fill opacity=1 ] (261.28,115.9) .. controls (261.28,114.18) and (262.67,112.78) .. (264.4,112.78) .. controls (266.13,112.78) and (267.53,114.18) .. (267.53,115.9) .. controls (267.53,117.63) and (266.13,119.03) .. (264.4,119.03) .. controls (262.67,119.03) and (261.28,117.63) .. (261.28,115.9) -- cycle ;
+\draw [color={rgb, 255:red, 239; green, 0; blue, 0 }  ,draw opacity=1 ][line width=1.5]    (124.68,164.63) -- (402.01,214.68) ;
+\draw    (125.33,169.5) -- (104.67,186.5) ;
+\draw [color={rgb, 255:red, 189; green, 16; blue, 224 }  ,draw opacity=1 ][line width=1.5]    (124.33,126.18) -- (404.3,126.18) ;
+\draw    (73.5,272.42) -- (259.36,119.61) ;
+\draw [shift={(261.68,117.7)}, rotate = 140.57] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (73.3,271.84) -- (260.88,183.77) ;
+\draw [shift={(263.6,182.5)}, rotate = 154.85] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (349.67,130.17) -- (366.67,147.17) ;
+
+\draw (227.49,102.58) node [anchor=north west][inner sep=0.75pt]    {$\overline{o}_{B}$};
+\draw (57,276.82) node [anchor=north west][inner sep=0.75pt]    {$\mathcal{I}$};
+\draw (232.82,166.4) node [anchor=north west][inner sep=0.75pt]    {$o_{B}$};
+\draw (272,163.73) node [anchor=north west][inner sep=0.75pt]    {$B$};
+\draw (270,93.07) node [anchor=north west][inner sep=0.75pt]    {$\overline{B}$};
+\draw (86.33,184.73) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.82,0.01,0.11}{\Omega }$};
+\draw (375.67,142.73) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.74,0.06,0.88}{\overline{\mathcal{\textcolor[rgb]{0.74,0.06,0.88}{X}}}}$};
+
+
+\end{tikzpicture}

@@ -1,0 +1,48 @@
+
+\section{Thesis Context\label{sec:thesis-context}}
+
+Taking into account the three-layer controller architecture of locomotion -- Figure~\ref{fig:three-layer}, a natural question arises about the choice of the specific implementation of each block. Indeed, we humbly believe that different tasks can be accomplished while keeping a cascade control structure and changing the models considered in the specific layer.  
+\par
+Having in mind the research question, we now detail the context of the thesis contributions. Considering the three-layer controller architecture -- Figure~\ref{fig:three-layer} we split the contributions into two parts. Part~\ref{part:wbc} is related to the whole-body-control layer. While Part~\ref{part:simplified} concerns the trajectory optimization and the simplified model control layer. The first chapter of each part presents a benchmarking of the associated state-of-the-art algorithms. The remaining chapters attempt to loosen some of the hypotheses and limitations of the state-of-the-art controllers.
+
+
+
+\subsection{Part~\ref{part:wbc}: \nameref{part:wbc}}
+
+This part presents the design of three whole-body controllers for humanoid robot locomotion. The content of each chapter follows.
+
+\subsubsection{Chapter~\ref{chapter:benchmarking_wbc}: \nameref{chapter:benchmarking_wbc}}
+In this chapter we present a comparison of whole-body controllers for locomotion on rigid contact. Assuming the three-layer architecture in Figure~\ref{fig:three-layer}, we propose a kinematics-based and a dynamics-based whole-body controller. The former considers the kinematics of the robot to generate the desired joint positions/velocities. The latter is based on the entire robot dynamics and its output is the desired joint torques. Thanks to the modularity of the two control problems, it is possible to exchange the two implementations depending on the low-level controller currently available on the robot, namely \emph{position}, \emph{velocity} or \emph{torque} controller.
+\par
+We compare the two whole-body controllers in the three-layer architecture. In particular, the \emph{trajectory optimization} layer is kept fixed with a unicycle-based planner that generates the desired DCM and foot trajectories, and the \emph{simplified model control} layer, instead, implements an instantaneous controller for the DCM tracking.
+The several combinations of the control architecture are tested on the iCub humanoid robot v2.7 -- see Section~\ref{sec:icub2.7}. While discussing the results, we underline the strengths and weaknesses of the two approaches.
+
+\subsubsection{Chapter~\ref{chapter:wbc_visco_elastic}: \nameref{chapter:wbc_visco_elastic}}
+This chapter contributes towards the modeling of compliant contacts for robot motion control. More precisely, the main contributions follow. $i)$ A new contact model that characterizes the stiffness and damping properties of a visco-elastic material that exerts forces and torques on rigid surfaces in contact with it. Differently from classical state-of-the-art models used for robot control~\citep{Li2019,Flayols2020,Fahmi2020STANCE:Terrain}, 
+the presented model considers the environment as a continuum of spring-damper systems, thus allowing us to compute the equivalent contact force and torque by computing surface integrals over the contact surface. As a consequence, we avoid using linear rotational springs and dampers to describe the interaction between robot and environment. We show that the model we propose extends and encompasses these linear models. $ii)$ A whole-body controller that allows humanoid robots to walk on visco-elastic floors, which are modeled using the proposed compliant contact model. The robot controller estimates the model parameters on-line, so there is no prior knowledge of the contact parameters. $iii)$ A validation of the approach on the simulated torque-controlled humanoid robot iCub v2.7 (Section~\ref{sec:icub2.7}), with an extensive comparison between the proposed methods and classical state of the art techniques.  
+Furthermore, we analyze the robustness capability of the presented controller with respect to non-parametric uncertainty in the contact model.
+Finally, we present the contact parameter estimation performance in the case of an anisotropic environment.
+
+\subsubsection{Chapter~\ref{chapter:flexible_joints}: \nameref{chapter:flexible_joints}}
+In this chapter, we propose an extension of the state-of-the-art whole-body torque controller in the case of the robot affected by inner link flexibility. More precisely, the main contributions are threefold. $i)$ A whole-body controller that allows humanoid robots affected by undesired link deflection to walk on rigid floors. Similarly to the Authors of~\citep{Villa2022TorqueFlexibility} we model the link flexibility with undeactuated passive joints. Our controller implicitly considers the joint deformation and, differently from \citep{Villa2022TorqueFlexibility}, our design does not perform any local compensation for the deflections.
+$ii)$ An observer whose objective is to estimate the state of the flexible joint, specifically the position, the velocity and the torque, using only the measured contact force and the actuated joint state
+$iii)$ The approach was validated on the simulated torque-controlled humanoid robot TALOS (Section~\ref{sec:talos}), with extensive comparisons between the proposed methods and classical state-of-the-art techniques.
+
+\subsection{Part~\ref{part:simplified}: \nameref{part:simplified}}
+
+This part discusses the design of the trajectories and the simplified model control layers. We also try to move from the simplified to reduced models to compute the desired trajectories for the whole-body control layer.
+
+\subsubsection{Chapter~\ref{chapter:simplified_benchmarking}: \nameref{chapter:simplified_benchmarking}}
+
+This chapter presents and compares several DCM based implementations of the kinematic-based three-layer controller architecture~\ref{fig:three-layer}
+In particular, the \emph{trajectory optimization} layer is kept fixed with a unicycle-based planner that generates the desired DCM and foot trajectories. The \emph{simplified model control} layer, instead, implements two controllers for the DCM tracking: an \emph{instantaneous} and a \emph{MPC controller}. 
+In the same layer, we also present a controller that ensures the tracking of the CoM and the ZMP, which exploits 6-axes Force Torque sensors (F/T).
+Finally, the \emph{whole-body QP control} ensures the tracking of the desired CoM and feet trajectories. 
+\par
+We test and compare the two implementations of the simplified model control layer on the iCub humanoid robot v2.7 -- see Section~\ref{sec:icub2.7}. We show that one of the proposed implementations allows the iCub robot to achieve a walking velocity of~0.3372 meters per second, which is the highest walking velocity ever achieved by the iCub robot.
+
+
+\subsubsection{Chapter~\ref{chapter:Centroidal_mpc}: \nameref{chapter:Centroidal_mpc}}
+This chapter presents the design of a non-linear Model Predictive Controller (MPC) that aims at generating online feasible contact locations and wrenches for humanoid robot locomotion. More precisely, different from classical control architectures based on simplified models, the presented approach considers the reduced centroidal dynamics model while keeping the problem still treatable online. By modeling the system using a reduced model instead of a simplified one, we achieve highly dynamic robot motions to be performed online. The contact location adjustment is considered in the centroidal dynamics stabilization problem; thus, it is not required to design an ad-hoc block for this feature. Furthermore, unlike existing work~\citep{Shafiee-Ashtiani2017a,Jeong2019AStrategies}, the controller we propose automatically considers double support phases; thus the contact adaptation feature is continuously active during both single and double support phases. On the other hand, considering only the reduced centroidal dynamics model keeps the problem at a low complexity and allows us to test the controller in a close-loop architecture. This, except in a few cases~\citep{Dantec2022FirstFeedback,Dantec2021WholeTalos}, is almost impossible if the complete robot model is taken into account~\citep{Herzog2015TrajectoryControl,Fernbach2018CROC:Problem,Dafarra2016Torque-controlledRobot}.
+\par
+We validate the proposed control strategy on a simulation of one-leg and two-leg systems performing jumping and running tasks, respectively. Results show that, differently from the simplified model controllers, the proposed centroidal MPC generalizes on the number of contacts and the adjustment is automatically performed by the controller in the case of external disturbance acting on the system. Furthermore, we embed the MPC controller into the three-layer controller architecture (Figure~\ref{fig:three-layer}) as a reduced model control layer. The entire approach is also validated on the position-controlled Humanoid Robot iCub v3 -- see Section~\ref{sec:iCub3}. We show that the proposed strategy prevents the robot from falling while walking and being pushed with external forces up to 40 Newton lasting 1 second when applied to the robot's arm.

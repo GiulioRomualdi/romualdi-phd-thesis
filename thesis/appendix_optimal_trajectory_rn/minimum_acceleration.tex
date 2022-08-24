@@ -1,0 +1,63 @@
+\section{Minimum acceleration trajectory in $\mathbb{R}^n$\label{appendix:min_acc}}
+Given a set of points, also denoted as knots, associated to a scalar parameter $t$ representing the time, i.e., $(t_0, x_0)$, $(t_1, x_1)$, ..., $(t_N, x_N)$ such that $t_i \ge 0$ and $x_i  \in \mathbb{R}^n$ and given a desired initial and final velocity, $(t_0, \dot{x}_0)$ and $(t_N, \dot{x}_N)$. We aim to compute a trajectory $x : \mathbb{R}_+ \rightarrow \mathbb{R}^n$ passing to knots having the desired initial and final velocity such that the second order derivative of $x(t)$ with respect to the time, i.e., the acceleration, is minimized.
+\par
+More formally, we seek for a trajectory $x^*(t)$ such that is a stationary point of the action~\eqref{eq:hamilton_x_epsilon_definition_optimization} with a Lagrangian function defined as
+\begin{equation}
+    \label{eq:hamiltonin_lagrangian_minimum_acceleration}
+    \mathcal{L}(\ddot{x}) = \ddot{x}^\top \ddot{x}.
+\end{equation}
+Considering the set of points $\{(t_i, x_i)\}$ and the Lagrangian function~\eqref{eq:hamiltonin_lagrangian_minimum_acceleration}, the action functional $\mathfrak{G}$~\eqref{eq:hamilton_x_epsilon_definition_optimization} writes as
+\begin{equation}
+    \label{eq:minimum_acceleration_general_sum}
+    \mathfrak{G}_{\ddot{x}} = \sum^{N-1}_{i = 0}\int_{t_{i}}^{t_{i+1}} \ddot{x}^\top \ddot{x} \diff t.
+\end{equation}
+Since all the terms within the sum of~\eqref{eq:minimum_acceleration_general_sum} are positive, the minimization of $\mathfrak{G}_{\ddot{x}}$ is equivalent to the minimization of each integral term in~\eqref{eq:minimum_acceleration_general_sum}.
+\par
+Substituting~\eqref{eq:hamiltonin_lagrangian_minimum_acceleration} into~\eqref{eq:hamilton_dae}, we obtain
+\begin{equation}
+    \label{eq:hamilton_min_acc_ode}
+    x^{(4)}(t) = 0,
+\end{equation}
+we can conclude that a trajectory $x(t)$ that satisfies~\eqref{eq:hamilton_min_acc_ode} minimizes
+\begin{equation}
+    \int_{t_{i}}^{t_{i+1}} \ddot{x}^\top \ddot{x} \diff t,
+\end{equation}
+and consequently it is a minimum acceleration trajectory in the interval $t_{i}$, $t_{i+1}$. One of the infinite solutions of~\eqref{eq:hamilton_min_acc_ode} is given by the family of the 3$^{\text{rd}}$-order polynomial functions
+\begin{equation}
+    \label{eq:hamilton_3rd_poly}
+    x(t) = a_3 t^3 + a_2 t^2 + a_1 t + a_0.
+\end{equation}
+\par
+The optimal trajectory that minimizes~\eqref{eq:minimum_acceleration_general_sum} is given by the concatenation of the 3$^{\text{rd}}$-order polynomial functions \eqref{eq:hamilton_3rd_poly}, where the coefficients $a_i$ are chosen to satisfy the boundary conditions of position and velocity
+\begin{IEEEeqnarray}{cc}
+\phantomsection   \IEEEyesnumber \IEEEyessubnumber*
+  \quad x(t_i) = x_i \quad & \dot{x}(t_i) = \dot{x}_i \\
+   \quad x(t_{i+1}) = x_{i+1} \quad & \dot{x}(t_{i+1}) = \dot{x}_{i+1}.
+\end{IEEEeqnarray}
+Given a subtrajectory 
+\begin{equation}
+\label{eq:min_acc_subtraj}
+    s_i: x(t) = a_{i,3} (t-t_i)^3 + a_{i,2} (t-t_i)^2 + a_{i,1} (t-t_i) + a_{i,0},
+\end{equation}
+defined in the closed domain $[t_{i}, t_{i+1}]$, the coefficients $a_{i,j}$ are equal to:
+\begin{IEEEeqnarray}{c}
+\label{eq:min_acc_subtraj_coef} \phantomsection   \IEEEyesnumber \IEEEyessubnumber*
+  a_{i,0} = x_i \\ a_{i,1} = \dot{x}_i \\
+  a_{i,2} = -\frac{3x_i - 3 x_{i+1} + 2 \delta_i \dot{x}_i + \delta_i \dot{x}_{i+1} }{\delta_i^2} \\ a_{i,3} = \frac{2x_i - 2 x_{i+1} + \delta_i \dot{x}_i + \delta_i \dot{x}_{i+1} }{\delta_i^3},
+\end{IEEEeqnarray}
+where $\delta_i = t_{i+1} - t_i$. Given a knot $(t_i, x_i)$ such that $i \ne 0$ and $i \ne N$, we compute the velocity $\dot{x}_i$ by asking for continuous acceleration at the knots, i.e., 
+\begin{equation}
+    \label{eq:min_acc_constraint}
+    \at{\frac{\diff ^2}{\diff t^2} s_{i-1}}{t=t_i}
+ = \at{\frac{\diff ^2}{\diff t^2} s_i}{t=t_i}
+\end{equation}
+By substituting~\eqref{eq:min_acc_subtraj_coef} into~\eqref{eq:min_acc_subtraj} applying the constraint~\eqref{eq:min_acc_constraint} and imposing the continuity at $t_i$, we obtain the following linear equation
+\begin{equation}
+\label{eq:min_acc_constraint_explict}
+\frac{3 x_{i-1} - 3 x_i + 2 \delta_{i-1} \dot{x}_{i} + \delta_{i-1} \dot{x}_{i-1}}{\delta_{i-1}^2} 
++ \frac{3 x_{i} - 3 x_{i+1} + 2 \delta_{i} \dot{x}_{i} + \delta_{i} \dot{x}_{i+1}}{\delta_{i}^2} = 0.
+\end{equation}
+We note that for $i=1$ and $i=N-1$ the terms $\dot{x}_{i-1}$ and $\dot{x}_{i+1}$ are, respectively, known. In fact, when $i=1$, $\dot{x}_{i-1} = \dot{x}_{0}$, whether $i=N-1$, $\dot{x}_{i+1} = \dot{x}_{N}$.
+By stacking Equation \eqref{eq:min_acc_constraint_explict} for all the points $(t_i, x_i)$ such that $i \ne 0$ and $i \ne N$, we obtain a sparse linear system which can be easily solved online.
+\par
+Once the velocity of all the knots has been determined, the coefficients~\eqref{eq:min_acc_subtraj_coef} can be evaluated and, consequently, the minimum acceleration trajectory is completely defined. 

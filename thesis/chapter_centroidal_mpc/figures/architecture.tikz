@@ -1,0 +1,40 @@
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw   (67,99) -- (177,99) -- (177,157.5) -- (67,157.5) -- cycle ;
+\draw   [fill={rgb, 255:red, 74; green, 144; blue, 226 }  ,fill opacity=1 ]  (213,99) -- (323,99) -- (323,157.5) -- (213,157.5) -- cycle ;
+\draw   (360.43,99) -- (470.43,99) -- (470.43,157.5) -- (360.43,157.5) -- cycle ;
+\draw    (177,128.25) -- (210,128.25) ;
+\draw [shift={(213,128.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (323,128.25) -- (356,128.25) ;
+\draw [shift={(359,128.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (470.43,128.25) -- (503.43,128.25) ;
+\draw [shift={(506.43,128.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (561.43,157.5) -- (561.43,192) -- (415.43,192) -- (415.43,160.5) ;
+\draw [shift={(415.43,157.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+
+
+
+\draw    (415.43,192) -- (268,192) -- (268,160.5) ;
+\draw [shift={(268,157.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw   (506.43,99) -- (616.43,99) -- (616.43,157.5) -- (506.43,157.5) -- cycle ;
+
+\draw (122.03,128.25) node   [align=left] {
+\begin{tabular}{c} Trajectory \\ Optimization \end{tabular}
+};
+
+\draw (266.77,128.25) node   [align=left] {
+\begin{tabular}{c} \textcolor[rgb]{1,1,1}{\textbf{Centroidal}}\\ \textcolor[rgb]{1,1,1}{\textbf{MPC}} \end{tabular}
+};
+
+\draw (414.29,128.25) node   [align=left] {
+\begin{tabular}{c} Whole-Body \\ Controller \end{tabular}
+};
+
+\draw (560.37,128.25) node   [align=left] {
+\begin{tabular}{c} Humanoid \\ Robot \end{tabular}
+};
+
+
+\end{tikzpicture}

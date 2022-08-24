@@ -1,0 +1,21 @@
+
+\chapter{Modeling of Floating Base Multi-Body Systems \label{chapter:floating_base_system_modeling}}  %
+
+\ifpdf
+    \graphicspath{{ChapterFloatingBaseSystemModeling/figures/Raster/}{ChapterFloatingBaseSystemModeling/figures/PDF/}{ChapterFloatingBaseSystemModeling/figures/}}
+\else
+    \graphicspath{{ChapterFloatingBaseSystemModeling/figures/Vector/}{ChapterFloatingBaseSystemModeling/figures/}}
+\fi
+
+In the previous chapter, we introduced the rotation and the rototranslation matrix Lie Group and the associated rigid body dynamics. We now exploit these concepts to describe the kinematics and the dynamics of a floating base system. 
+What is presented in this chapter is crucial to fully understand the design of the controllers and the estimators presented in Part~\ref{part:wbc} and Part~\ref{part:simplified}.
+The chapter is organized as follows. In Section~\ref{sec:floating-base-multi-body-system}, we describe a multi-body system in terms of interaction between links and joints. Such a description is often denoted \emph{system model}~\citep{Featherstone2014}. Section~\ref{sec:muti-body-kinematics} discusses the kinematics of the multi-body system. Here, we present the \emph{minimum set of coordinates} $q$ as an element of a Lie group $\lieGroup{Q}$. We also introduce the \emph{velocity of the multi-body system} $\nu$ as an element of the Lie algebra $\lieAlgebra{q}$. Section~\ref{sec:muti-body-kinematics} also contains the definition of the \emph{forward kinematics} function and the relation between the link velocity and the velocity of the multi-body system $\nu$. Section~\ref{sec:multi-body-dynamics} presents the dynamics equation of the multi-body system, since the multi-body configuration space is not a vector space, the dynamics is obtained by extending the Euler-Poincar\'e presented in Section~\ref{sec:rigid-body-dynamics} to case of multi-body systems~\citep{Marsden2010}.
+Finally, Section~\ref{sec:centroidal-dynamics} discusses the centroidal dynamics~\citep{Orin2013} as the aggregate linear and angular momentum of each link of the robot referred to the center of mass of the robot.
+
+
+
+\input{chapter_floating_base_system_modeling/floating_base_multi_body_system}
+\input{chapter_floating_base_system_modeling/multi_body_kinematics}
+\input{chapter_floating_base_system_modeling/multi_body_dynamics}
+\input{chapter_floating_base_system_modeling/centroidal_dynamics}
+

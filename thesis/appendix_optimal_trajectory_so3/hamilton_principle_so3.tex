@@ -1,0 +1,146 @@
+\section{Hamilton's Variational Principle in $\SO(3)$}
+Given a fixed initial rotation $R(t_0) = R_0 \in \SO(3)$ and a final rotation $R(t_f) = R_f \in \SO(3)$ we aim to compute the trajectory $R(t)$ such that it is a \emph{stationary point} of the \emph{action functional}:
+\begin{equation}
+    \label{eq:hamilton_R_epsilon_definition_optimization}
+   \mathfrak{G} = \int_{t_0}^{t_f} \mathcal{L}\left(R,{\omega},\dot{\omega}\right) \diff t,
+\end{equation}
+where $\mathcal{L}\left(R,{\omega},\dot{\omega}\right)$ is the Lagrangian function and depends on the trajectory $R$, on the angular velocity $\omega$, and on the angular acceleration $\dot{\omega}$. In this appendix, we assume that the angular velocity is left trivialized, i.e. $\dot{R} = R \omega \times$. The angular acceleration is the time differentiation of the angular velocity~\citep[Section~2.4.2]{Traversaro2017ModellingDynamics}
+The optimization problem can be solved by applying \emph{Hamilton's Variational Principle}~\citep[Section~6.3.1]{Lee2018GlobalManifolds}. Similarly to~Appendix~\ref{appendix:hamilton} we introduce the concept of variations on $\SO(3)$.
+\par
+Suppose that a curve $R:[t_0, t_f] \rightarrow \SO(3)$ describes a trajectory in $\SO(3)$. We now introduce the variation of the curve $R(t)$, which is the $\epsilon$-parameterized family of curves $R_\epsilon(t)$ taking values in $\SO(3)$, where $\epsilon \in (-c, c)$ with $c>0$, $R_0(t) = R(t)$ and the endpoints are fixed, that is, $R_\epsilon(t_0) = R(t_0)$ and $R_\epsilon(t_{f}) = R(t_{f})$.
+We describe the variation of the rotational motion by means of the exponential map
+\begin{equation}
+    \label{eq:hamilton_R_variation}
+    R_\epsilon(t) = R(t) \exp\left(\epsilon \eta(t) ^\wedge \right).
+\end{equation}
+The variation of the angular velocity $\omega_\epsilon$ is given by
+\begin{IEEEeqnarray}{ll}
+\phantomsection  \label{eq:hamilton_omega_variation} \IEEEyesnumber \IEEEyessubnumber*
+    \omega_\epsilon &= R_\epsilon^\top \dot{R}_\epsilon \\
+    &= \exp\left(- \epsilon \eta ^\wedge \right) R^\top \frac{\diff }{\diff t} \left[R \exp\left(\epsilon \eta ^\wedge \right) \right],
+\end{IEEEeqnarray}
+where, for the sake of clarity, we suppress the time dependency.
+The variation in angular acceleration derives from the time differentiation of~\eqref{eq:hamilton_omega_variation} as:
+\begin{IEEEeqnarray}{ll}
+\phantomsection  \label{eq:hamilton_domega_variation} \IEEEyesnumber \IEEEyessubnumber*
+    \dot{\omega}_\epsilon &= \frac{\diff}{\diff t} \left(R_\epsilon^\top \dot{R}_\epsilon \right) \\
+    &= \frac{\diff}{\diff t} \left\{\exp\left(- \epsilon \eta ^\wedge \right) R^\top \frac{\diff }{\diff t} \left[R \exp\left(\epsilon \eta ^\wedge \right) \right]\right\}.
+\end{IEEEeqnarray}
+\par
+We now determine the infinitesimal variation of \eqref{eq:hamilton_R_variation} \eqref{eq:hamilton_omega_variation} \eqref{eq:hamilton_domega_variation}.
+The infinitesimal variation of $R$, denoted with $\delta R$, is given by
+\begin{IEEEeqnarray}{ll}
+\phantomsection  \label{eq:hamilton_deltaR}\IEEEyesnumber \IEEEyessubnumber*
+    \delta R &= \at{\frac{\diff}{\diff \epsilon}R_\epsilon}{\epsilon = 0} \\
+    &= \at{R \frac{\diff}{\diff\epsilon}\exp\left(\epsilon \eta ^\wedge \right)}{\epsilon = 0} \\
+    &= \at{R \eta ^\wedge \exp\left(\epsilon \eta ^\wedge \right)}{\epsilon = 0} \label{eq:hamilton_d_epsilon_R_epsilon} \\ 
+    &= R \eta^\wedge.
+\end{IEEEeqnarray}
+The infinitesimal variation of $\omega$, denoted with $\delta \omega$ derives from Equation~\eqref{eq:hamilton_omega_variation} as
+
+
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:hamilton_delta_omega_initial}  \IEEEyesnumber \IEEEyessubnumber*
+    \delta \omega &= \at{\frac{\diff}{\diff \epsilon}\omega_\epsilon}{\epsilon = 0} \\
+    &= \at{\frac{\diff}{\diff \epsilon}\left(R_\epsilon^\top \dot{R}_\epsilon\right)}{\epsilon = 0}  \\
+    &= \at{\frac{\diff}{\diff \epsilon}R_\epsilon^\top \dot{R}_\epsilon}{\epsilon = 0}  + \at{R_\epsilon^\top \frac{\diff}{\diff \epsilon} \dot{R}_\epsilon}{\epsilon = 0}.
+\end{IEEEeqnarray}
+We now notice that $\dot{R}_\epsilon$ is given by
+\begin{IEEEeqnarray}{ll}
+\phantomsection  \IEEEyesnumber \IEEEyessubnumber*
+    \dot{R}_\epsilon &= \frac{\diff }{\diff t} \left( R \exp\left(\epsilon \eta ^\wedge \right) \right) \\
+    &= R \omega^\wedge \exp\left(\epsilon \eta ^\wedge \right) + R \frac{\diff }{\diff t} \exp\left(\epsilon \eta ^\wedge \right) \\
+    &= R \omega^\wedge \exp\left(\epsilon \eta ^\wedge \right) + R \frac{\diff }{\diff t} \left( I_3 + \epsilon\eta^\wedge + \mathcal{O}(\epsilon^2)\right) \\
+    & = R \omega^\wedge \exp\left(\epsilon \eta ^\wedge \right) + R  \left(\epsilon\dot{\eta}^\wedge + \mathcal{O}(\epsilon^2)\right). \label{eq:hamilton_dot_R_epsilon}
+\end{IEEEeqnarray}
+By substituting~\eqref{eq:hamilton_dot_R_epsilon} into~\eqref{eq:hamilton_delta_omega_initial} and recalling that $\frac{\diff}{\diff \epsilon} R_\epsilon = R \eta ^\wedge \exp\left(\epsilon \eta ^\wedge \right)$ \eqref{eq:hamilton_d_epsilon_R_epsilon}, we have the following:
+\begin{IEEEeqnarray}{lll}
+\phantomsection \label{eq:hamilton_delta_omega_cont}  \IEEEyesnumber \IEEEyessubnumber*
+    \delta \omega^\wedge &=& \at{\blueColor{\frac{\diff}{\diff \epsilon}R_\epsilon^\top} \redColor{\dot{R}_\epsilon}}{\epsilon = 0}  + \at{\greenColor{R_\epsilon^\top} \orangeColor{\frac{\diff}{\diff \epsilon} \dot{R}_\epsilon}}{\epsilon = 0} \\
+    & =& \at{\blueColor{\left[-\exp\left(-\epsilon \eta ^\wedge \right)\eta ^\wedge R^\top\right]}\redColor{\left[R \omega^\wedge \exp\left(\epsilon \eta ^\wedge \right) + R  \left(\epsilon\dot{\eta}^\wedge + \mathcal{O}(\epsilon^2)\right)\right]}}{\epsilon = 0}\\
+    &&+\at{\greenColor{\left[ \exp\left(-\epsilon \eta ^\wedge \right) R^\top\right]}\orangeColor{\frac{\diff }{\diff \epsilon}\left[R \omega^\wedge \exp\left(\epsilon \eta ^\wedge \right) + R  \left(\epsilon\dot{\eta}^\wedge + \mathcal{O}(\epsilon^2)\right)\right]}}{\epsilon = 0} \\
+    &=&\blueColor{-\eta^\wedge R^\top}\redColor{R\omega^\wedge} \\
+    && + \at{\greenColor{\left[ \exp\left(-\epsilon \eta ^\wedge \right) R^\top\right]}\orangeColor{\left[R \omega^\wedge\eta ^\wedge \exp\left(\epsilon \eta ^\wedge \right) + R  \left(\dot{\eta}^\wedge + \mathcal{O}(\epsilon)\right)\right]}}{\epsilon = 0} \label{eq:hamilton_d_epsilon_dR_epsilon} \\ 
+    &=& \blueColor{-\eta^\wedge R^\top}\redColor{R\omega^\wedge} + \greenColor{ R^\top}\orangeColor{\left[R \omega^\wedge\eta ^\wedge  + R  \dot{\eta}^\wedge \right]} \\
+    &=& \dot{\eta}^\wedge  + \omega^\wedge\eta^\wedge - \eta^\wedge \omega^\wedge.
+\end{IEEEeqnarray}
+Here, for the sake of clarity, we use the colors to simplify the reader in following the passages.
+Applying the \emph{vee} operator (Equation~\eqref{eq:vee_operator}) to $\delta\omega^\wedge$ \eqref{eq:hamilton_delta_omega_cont}, we obtain the infinitesimal variation of the angular velocity
+\begin{equation}
+\label{eq:hamilton_deltaOmega}
+    \delta \omega =\dot{\eta} + \omega\times\eta.
+\end{equation}
+\par
+The infinitesimal variation of the angular acceleration $\dot{\omega}$, denoted by $\delta \dot{\omega}$, is
+\begin{IEEEeqnarray}{lll}
+\phantomsection \label{eq:hamilton_ddelta_omega_initial}  \IEEEyesnumber \IEEEyessubnumber*
+    \delta \dot{\omega}^\wedge &= \at{\frac{\diff}{\diff \epsilon}\dot{\omega}_\epsilon}{\epsilon = 0} \\
+    &= \at{\frac{\diff}{\diff \epsilon}\frac{\diff}{\diff t}\left(R_\epsilon^\top \dot{R}_\epsilon\right)}{\epsilon = 0}  \\
+    &= \at{\frac{\diff}{\diff \epsilon}\left[\dot{R}_\epsilon^\top \dot{R}_\epsilon  + R_\epsilon^\top \frac{\diff}{\diff t} \dot{R}_\epsilon\right]}{\epsilon = 0} \\
+    & = \at{\frac{\diff}{\diff \epsilon}\dot{R}_\epsilon^\top\dot{R}_\epsilon }{\epsilon = 0}
+    + \dot{R}_\epsilon^\top  \at{\frac{\diff}{\diff \epsilon} \dot{R}_\epsilon}{\epsilon = 0}
+    +\at{\frac{\diff}{\diff \epsilon}R_\epsilon^\top  \ddot{R}_\epsilon}{\epsilon = 0} 
+    + \at{ R_\epsilon^\top \frac{\diff}{\diff \epsilon}  \ddot{R}_\epsilon}{\epsilon = 0}.
+\end{IEEEeqnarray}
+We now notice that $\ddot{R}_\epsilon$ can be written as 
+\begin{IEEEeqnarray}{lcl}
+\phantomsection  \IEEEyesnumber \IEEEyessubnumber*
+    \ddot{R}_\epsilon &=& \frac{\diff }{\diff t} \dot{R}_\epsilon\\ 
+    &=&\frac{\diff }{\diff t} \left(R \omega^\wedge \exp\left(\epsilon \eta ^\wedge \right) + R  \left(\epsilon\dot{\eta}^\wedge + \mathcal{O}(\epsilon^2)\right) \right) \\
+    &=&\blueColor{\frac{\diff }{\diff t} \left(R \omega^\wedge \exp\left(\epsilon \eta ^\wedge \right)\right)} +\redColor{\frac{\diff }{\diff t} \left( R  \left(\epsilon\dot{\eta}^\wedge + \mathcal{O}(\epsilon^2)\right) \right)} \\
+    &=& \blueColor{R(\omega^\wedge)^2\exp(\epsilon\eta^\wedge) + R(\dot{\omega}^\wedge)\exp(\epsilon\eta^\wedge) + R \omega^\wedge \left(\epsilon\dot{\eta}^\wedge + \mathcal{O}(\epsilon^2)\right)}\\
+    && + \redColor{R\omega^\wedge \left(\epsilon\dot{\eta}^\wedge + \mathcal{O}(\epsilon^2)\right) + R \left(\epsilon\ddot{\eta}^\wedge + \mathcal{O}(\epsilon^2)\right)} \\ 
+    &=&R\left[ \left( \dot{\omega}^\wedge + \left(\omega^\wedge\right)^2  \right) \exp(\epsilon \eta^\wedge) + 2 \epsilon \omega^\wedge \dot{\eta}^\wedge  + \epsilon\ddot{\eta}^\wedge  + \mathcal{O}(\epsilon^2) \right] . \label{eq:hamilton_ddot_R_epsilon}
+\end{IEEEeqnarray}
+By substituting~\eqref{eq:hamilton_ddot_R_epsilon} into~\eqref{eq:hamilton_ddelta_omega_initial}, recalling that $\frac{\diff}{\diff \epsilon} R_\epsilon = R \eta ^\wedge \exp\left(\epsilon \eta ^\wedge \right)$~\eqref{eq:hamilton_d_epsilon_R_epsilon}, and $\frac{\diff}{\diff \epsilon} \dot{R}_\epsilon = R \left[ \omega^\wedge\eta ^\wedge \exp\left(\epsilon \eta ^\wedge \right) + \dot{\eta}^\wedge + \mathcal{O}(\epsilon)\right]$~\eqref{eq:hamilton_d_epsilon_dR_epsilon} we have:
+\begin{IEEEeqnarray}{lll}
+\phantomsection \label{eq:hamilton_ddelta_omega_cont}  \IEEEyesnumber \IEEEyessubnumber*
+    \delta \dot{\omega}^\wedge &=& \at{\blueColor{\frac{\diff}{\diff \epsilon}\dot{R}_\epsilon^\top\dot{R}_\epsilon }}{\epsilon = 0}
+    +   \at{\redColor{\dot{R}_\epsilon^\top \frac{\diff}{\diff \epsilon} \dot{R}_\epsilon}}{\epsilon = 0}
+    +\at{\greenColor{\frac{\diff}{\diff \epsilon}R_\epsilon^\top  \ddot{R}_\epsilon}}{\epsilon = 0} 
+    + \at{\orangeColor{ R_\epsilon^\top \frac{\diff}{\diff \epsilon}  \ddot{R}_\epsilon}}{\epsilon = 0} \\
+    &=&  \blueColor{\left( -\dot{\eta}^\wedge +\eta^\wedge\omega^\wedge\right) \omega^\wedge}  \redColor{-\omega^\wedge \left( \dot{\eta}^\wedge +\eta^\wedge\omega^\wedge\right)} \\
+    &&\greenColor{-\eta^\wedge\left(\dot{\omega}^\wedge + (\omega^\wedge)^2\right)}+\orangeColor{\dot{\omega}^\wedge\eta^\wedge + (\omega^\wedge)^2 \eta^\wedge + 2\omega^\wedge\dot{\eta}^\wedge +\ddot{\eta}^\wedge} \\
+    &=& \ddot{\eta}^\wedge +(\dot{\omega}^\wedge \eta^\wedge - \eta^\wedge \dot{\omega}^\wedge) + ({\omega}^\wedge \dot{\eta}^\wedge - \dot{\eta}^\wedge {\omega}^\wedge).
+\end{IEEEeqnarray}
+Finally, by applying the \emph{vee} operator (Equation~\eqref{eq:vee_operator}) to $\delta\dot{\omega}^\wedge$ \eqref{eq:hamilton_ddelta_omega_cont}, we obtain the infinitesimal variation of the angular acceleration
+\begin{equation}
+\label{eq:hamilton_deltadOmega}
+    \delta \dot{\omega} =\ddot{\eta} + \dot{\omega}\times\eta + \omega\times\dot{\eta}.
+\end{equation}
+\par
+We now introduce the \emph{action functional} along a variation of a motion $\mathfrak{G}_\epsilon$ as
+\begin{equation}
+    \label{eq:hamilton_R_epsilon_definition_optimization_epsilon}
+  \mathfrak{G}_\epsilon = \int_{t_0}^{t_f} \mathcal{L}\left(R_\epsilon,{\omega}_\epsilon,\dot{\omega}_\epsilon\right)  \diff t,
+\end{equation}
+then, the first-order Taylor expansion of the $\mathfrak{G}_\epsilon$ is given by
+\begin{equation}
+      \mathfrak{G}_\epsilon = \mathfrak{G} + \epsilon \delta \mathfrak{G} + \mathcal{O}\left(\epsilon^2\right),
+\end{equation}
+where the infinitesimal variation of the action functional is given by 
+\begin{equation}
+    \delta \mathfrak{G}  = \at{\frac{\diff}{\diff \epsilon} \mathfrak{G}_\epsilon}{\epsilon = 0}.
+\end{equation}
+\par
+Hamilton's principle states that the infinitesimal variation of the action integral along any rotational motion is zero
+\begin{equation}
+    \label{eq:hamilton_principle_so3}
+    \delta \mathfrak{G}  = \at{\frac{\diff}{\diff \epsilon} \mathfrak{G}_\epsilon}{\epsilon = 0} = 0,
+\end{equation}
+for all possible infinitesimal variations $\eta$ with fixed endpoints, i.e., $\eta(t_0) = 0$ and $\eta(t_f) = 0$.
+To conclude, combining Hamilton's principle \eqref{eq:hamilton_principle_so3} with the functional \eqref{eq:hamilton_R_epsilon_definition_optimization} we have the following 
+\begin{equation}
+    \label{eq:hamilton_principle_so3_explicit}
+    \delta\mathfrak{G} = \int_{t_0}^{t_f} \left\{ \left\langle \frac{\partial \mathcal{L}} {\partial R}, \delta R \right\rangle 
+    +  \left\langle \frac{\partial \mathcal{L}} {\partial \omega}, \delta \omega \right\rangle
+    +  \left\langle \frac{\partial \mathcal{L}} {\partial \dot{\omega}}, \delta \dot{\omega} \right\rangle\right\} \diff t = 0,
+\end{equation}
+where $\delta R$, $\delta \omega$, and $\delta \dot{\omega}$ are defined in \eqref{eq:hamilton_deltaR}, \eqref{eq:hamilton_deltaOmega} and \eqref{eq:hamilton_deltadOmega}, respectively. Here $\left\langle ., . \right\rangle$ is the scalar product operator.
+\par
+In the next section, we apply Hamilton's principle to design a minimum acceleration trajectory in $\SO(3)$.
+
+
+
+
+

@@ -1,0 +1,21 @@
+\section{Notation}\label{sec:notation}
+Throughout the thesis we will use the following notation.
+\begin{itemize}
+	\item The $i_{th}$ component of a vector ${x}$ is denoted as $x_i$. 
+	\item The transpose operator is denoted by $(\cdot)^{\top}$.
+	\item Given a function of time $f(t)$ the dot notation denotes the time derivative, i.e.
+		$\dot{f} := \frac{\diff f}{\diff t}$. Higher-order derivatives are denoted by a corresponding amount of dots.
+	\item $I_n \in \mathbb{R}^{n \times n}$ denotes the identity matrix of dimension $n$.
+	\item ${0}_{n \times n} \in \mathbb{R}^{n \times n}$ denotes a zero matrix, while ${0}_n = {0}_{n \times 1}$ is a zero column vector of size $n$.
+	\item ${e}_i$ is the canonical base in $\mathbb{R}^n$, i.e., ${e}_i = [0, 0, \dots, 1, 0, \dots, 0]^\top \in \mathbb{R}^n$, where the only unitary element is in position $i$. Throughout the thesis, $n$ will be 3 or 6 depending on the context. 
+	\item The operator $\times$ defines the cross product in $\mathbb{R}^3$. 
+	\item The weighted L2-norm of a vector ${v} \in \mathbb{R}^n$ is denoted by $\|{v}\|_{{\Gamma}}$, where ${\Gamma} \in \mathbb{R}^{n\times n}$ is a positive define matrix.
+	\item $\mathcal{I} = (o_\mathcal{I}, [\mathcal{I}])$ is a fixed inertial frame with respect to (w.r.t.) 
+	which the robot's absolute pose is measured. Its $z$ axis is supposed to point against gravity, while the $x$ direction defines the forward direction. $o_\mathcal{I}$ denotes the origin of the frame and $[\mathcal{I}]$ its orientation.
+    \item Given the inertial frame $\mathcal{I}= (o_\mathcal{I}, [\mathcal{I}])$  and a frame $B= (o_B, [B])$, we define $B[\mathcal{I}] =(o_B, [\mathcal{I}])$ as the frame having its origin in $o_B$ and the orientation as the inertial frame. 
+	\item $^{A}{R}_{B} \in SO(3)$ and $^{A}{H}_{B} \in SE(3)$ denote the rotation and transformation matrices that transform a vector expressed in the $B$ frame, $^B {x}$, into a vector expressed in the $A$ frame, $^A {x}$.
+	\item ${}^D\mathrm{v}_{A,D} \in \mathbb{R}^6$ is the relative velocity between frame $A$ and $D$,  whose coordinates are expressed in frame $D$.
+	\item ${}_D\mathrm{f}\in \mathbb{R}^6$ is the 6D force applied in $D$,  whose coordinates are expressed in $D$.
+	\item ${x}_\text{CoM} \in  \mathbb{R}^3$ is the position of the center of mass relative to $\mathcal{I}$.
+	
+\end{itemize}

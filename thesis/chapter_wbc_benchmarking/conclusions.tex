@@ -1,0 +1,5 @@
+\section{Conclusion\label{sec:wbc_conclusion}}
+This chapter presents and compares several whole-body controllers for locomotion in a rigid environment, namely a kinematics-based whole-body controller and a controller that takes into consideration the dynamics of the system. Thanks to the modularity of the proposed controller, it is possible to exchange the two implementations depending on the low-level control interfaces available on the robot.
+The chapter also presents an extensive benchmarking of the different whole-body controller implementations in a three-layer controller architecture. We carry on the test on the Humanoid Robot iCub v2.7 -- see Section~\ref{sec:icub2.7}.
+\par
+It is worth mentioning that the presented controllers rely on the assumption of rigid contacts. In the next chapter, we will attempt to loosen this hypothesis by modeling the contact between the robot and the environment as a continuous spring-damper system. The presented contact model will then be considered in the design of a whole-body controller that allows a simulated version of the humanoid robot iCub to walk on compliant terrain.

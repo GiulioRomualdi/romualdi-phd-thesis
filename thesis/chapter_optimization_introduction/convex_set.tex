@@ -1,0 +1,184 @@
+\section{Convex set\label{sec:convex_set}}
+
+\subsection{Affine and convex sets\label{sec:affine_convex_sets}}
+Given two points, $x_1, x_2$ in a set $\mathbb{R}^n$ such that $x_1 \ne x_2$, we define $y\in\mathbb{R}^n$ the \emph{line} passing through $x_1$ and $x_2$ as
+\begin{equation}
+    y = \theta x_1 + ( 1-\theta) x_2,
+\end{equation}
+where $\theta \in \mathbb{R}$. When $\theta = 1$, $y$ coincides with $x_1$, while if $\theta = 0$, $y = x_2$.
+A set $C$ is affine if given two distinct points in $C$ the line connecting them belongs to $C$, i.e., for any $x_1, x_2 \in C$, and $theta = [0,1]$ then $\theta x_1 + ( 1-\theta) x_2 \in C$. Given a set of points $x_1, x_2, \dots, x_n$, we define the \emph{affine combination of} $x_1, x_2, \dots, x_n$, $\theta_1 x_1 +  \theta_2 x_2 + \dots + \theta_n x_n$ where  $\theta_1+ \theta_2+ \dots +  \theta_n = 1$ and $\theta_i \ge 0$ for $i = 1, \dots, n$.
+
+\subsubsection{Convex sets}
+A set $C$ is said to be \emph{convex} if the line segment between two points in $C$ belongs to $C$. More formally, given any $x_1, x_2 \in C$ and any $\theta$ such that $0 \le \theta \le 1$ $\theta x_1 + ( 1-\theta) x_2 \in C$.
+To give the reader a better understanding, a set is convex if every point in the set can be connected with an unobstructed straight path between them. Figure~\ref{fig:convex_set} illustrates an example of a convex set, while Figure~\ref{fig:nonconvex_set} presents an example of a nonconvex set.
+\par
+Given $n$ points, $x_1, x_2, \dots, x_n$, and $\theta_1, \theta_2, \dots, \theta_n \in \mathbb{R}$ such that $\theta_1+ \theta_2+ \dots +  \theta_n = 1$ and $\theta_i \ge 0$ for $i = 1, \dots, n$, the \emph{convex combination} of $x_1, x_2, \dots, x_n$ is given by $\theta_1 x_1 +  \theta_2 x_2 + \dots + \theta_n x_n$.
+\par
+The \emph{convex hull} of a set $C$, denoted with $\conv C$, is the set of all the convex combinations of the points in $C$ and it is written as:
+\begin{equation}
+    \conv C = \left\{ \theta_1 x_1 +  \theta_2 x_2 + \dots + \theta_n x_n | x_i \in C, \theta_i \ge 0, i=1,\dots, n,\; \sum_{i = 1}^{n} \theta_i = 1 \right\}.
+\end{equation}
+Here we underline that the convex hull of $C$ is a convex set 
+\begin{figure}[t]
+\centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/convex_set.tikz}
+        \caption{Convex set.}
+        \label{fig:convex_set}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/nonconvex_set.tikz}
+        \caption{Nonconvex set.}
+        \label{fig:nonconvex_set}
+    \end{subfigure}
+	\caption[Examples of convex and nonconvex sets]{Examples of convex and nonconvex sets. (a) The oval shape is a convex set (b) The \emph{'s'} shaped set is not convex, since the red line segment between $x_1$ and $x_2$ in not fully contained in the set.}
+	\label{fig:convex_nonconvex_sets}
+\end{figure}
+\subsubsection{Convex cones}
+A set $C$ is \emph{cone} if for every point $x \in C$ and a real positive parameter $\theta \ge 0$, $\theta x \in C$. Given a cone $C$, if it is convex, we say that $C$ is a \emph{convex cone}, thus for any $x_1, x_2 \in C$ and $\theta_1, \theta_2 \ge 0$ the affine combination of $x_1, x_2$ belongs to $C$, i.e  $\theta_1 x_1 + \theta_2 x_2 \in C$.
+\par
+Given $n$ points $x_1, x_2, \dots, x_n$, and $\theta_1, \theta_2, \dots, \theta_n \in \mathbb{R}$ such that $\theta_i \ge 0$ for $i = 1, \dots, n$, the \emph{conic combination} of $x_1, x_2, \dots, x_n$ is given by $\theta_1 x_1 +  \theta_2 x_2 + \dots + \theta_n x_n$. Here, it is worth recalling that if $x_i$ is in a convex cone $C$, then every conic combination of $x_i$ belongs in $C$
+The \emph{conic hull} of a set $C$, denoted by $\conic C$, is the set of all the conic combinations of the points in $C$ and it writes as:
+\begin{equation}
+    \conic C = \left\{ \theta_1 x_1 +  \theta_2 x_2 + \dots + \theta_n x_n | x_i \in C, \theta_i \ge 0, i=1,\dots, n\right\}.
+\end{equation}
+
+\subsection{Convex set examples\label{sec:convex_set_example}}
+In this section, we recall some important examples of convex sets that we will encounter throughout the rest of the manuscript. We first introduce the hyperplanes, halfspaces and then second-order cones, also known as Lorentz cones. We conclude the section by presenting the polyhedra and the associated \emph{Minkowski-Weyl} theorem.
+
+\subsubsection{Hyperplanes and halfspaces}
+Given a set $H$, we say that $H$ is an \emph{Hyperplane} if it can be represented in the form 
+\begin{equation}
+    \label{eq:hyperplane}
+    H = \{ x \in \mathbb{R}^n | a^\top x = b \},
+\end{equation}
+where $a \in \mathbb{R}^n$ and $b$ is a real number. The hyperplane representation can be seen as the set of points with a constant scalar product with a vector $a$. Similarly, $a$ can be seen as the \emph{normal vector} of the plane. $b$ is the offset of the plane from the origin.  Given any point $x_0$ in the hyperplane, Equation~\eqref{eq:hyperplane} can be rewritten as $\{ x \in \mathbb{R}^n | a^\top  ( x - x_0) = 0 \}$
+\par
+A hyperplane splits the space into two \emph{halfspaces}. We define a \emph{closed} halfspace as the convex set $\{ x \in \mathbb{R}^n | a^\top   x \le  b \}$. We note that the halspace $a^\top   x \ge  b$ is the halfspace extending in the direction of the vector $a$, while $a^\top   x \le  b$ contains $-a$ -- see Figure~\ref{fig:hyperplane}.
+
+\subsubsection{Second order cone}
+Given a vector $x \in \mathbb{R}^n$,  the Euclidean norm in $\mathbb{R}^n$ $\| \;\; \|$ and a positive scalar $t$, we define the \emph{second order cone} as
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:lorentz_cone} \IEEEyesnumber \IEEEyessubnumber*    \mathcal{Q}^{n+1} &=  \left\{ \left. \begin{bmatrix}x \\ t\end{bmatrix} \in \mathbb{R}^{n+1} \; \right| \; \| x \| \le t \right\}  \\
+&=\left\{ \left. \begin{bmatrix}x \\ t\end{bmatrix} \in \mathbb{R}^{n+1} \; \right| \; \begin{bmatrix}x \\ t\end{bmatrix} ^\top 
+    \begin{bmatrix}
+    I_n & 0_{n \times 1} \\
+    0_{1\times n }& -1
+    \end{bmatrix} 
+    \begin{bmatrix}x \\ t\end{bmatrix} \le 0, t\ge 0
+    \right\}.
+\end{IEEEeqnarray}
+The second-order cone, often named \emph{Lorentz cone}, is a convex cone. 
+\par
+We notice that, in the context of rigid contact modeling, the friction cone (Equation~\eqref{eq:friction_cone}) is a Lorentz cone. Indeed, given the point in contact with the environment and a contact force $f\in\mathbb{R}^3$, we say that $f$ belongs to the friction cone if and only if 
+\begin{equation}
+    \label{eq:friction_cone_convex}
+    \sqrt{f_1 ^2 + f_2^2} \le \mu f_3,
+\end{equation}
+where $\mu$ is the static friction coefficient, or in other words, 
+\begin{equation}
+    \label{eq:friction_cone_convex_set}
+    f \in \left\{f\in\mathbb{R}^3 \; | \;\sqrt{f_1 ^2 + f_2^2} \le \mu f_3\right\}.
+\end{equation}
+Setting $\mu f_3 = t$ and $x^\top = \begin{bmatrix}
+f_1 & f_2 \end{bmatrix}$, Equation~\eqref{eq:friction_cone_convex_set} is equivalent to~\eqref{eq:lorentz_cone}. Thus, we can conclude that the friction cone is an example of the Lorenz cone.
+\begin{figure}[t]
+\centering
+    \begin{subfigure}[b]{0.35\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/polyhedron.tikz}
+        \caption{}
+        \label{fig:polyhedron}
+    \end{subfigure}
+     \begin{subfigure}[b]{0.15\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/cone.tikz}
+        \caption{}
+        \label{fig:cone}
+    \end{subfigure}    
+    \hfill
+    \begin{subfigure}[b]{0.35\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/polytope.tikz}
+        \caption{}
+        \label{fig:polytope}
+    \end{subfigure}
+	\caption[Examples of polyhedra]{Examples of polyherda. The orange circle denotes the vertices of the polyhedra, while the green arrows the rays. (a) The $\mathcal{V}$\emph{-rep} of a generic polyhedron is composed by vertices and rays. (b) A polyhedral cone is described by rays. (c) The $\mathcal{V}$\emph{-rep} of a polytope consist in vertices only}
+	\label{fig:polyhedron-polytope}
+\end{figure}
+\subsubsection{Polyhedra \label{sec:polyhedra}}
+We define a \emph{polyhedron}, denoted as $\mathcal{P}$, as the solution set of a finite number of linear inequalities and equalities such that:
+\begin{equation}
+    \label{eq:polyhedron_def}
+    \mathcal{P} = \{ x \; | \; a_i ^\top x \le b_i, \, i = 1, \dots, m, \,  c_j ^\top x = d_j \, j = 1,\dots,n\}.
+\end{equation}
+Often the equalities $c_j ^\top x = d_j$ are not considered in the polyhedron formulation. In fact, equality can always be replaced with two inequalities, for instance $c_j ^\top x = d_j$ is equivalent to $c_j ^\top x \le d_j$ and $-c_j ^\top x \le -d_j$. Considering this, in the following we will remove the equality terms from the polyhedron definition. Thus we write~\eqref{eq:polyhedron_def} as
+\begin{equation}
+    \label{eq:polyhedron_def_ineq}
+    \mathcal{P} = \{ x \; | \; a_i ^\top x \le b_i, \, i = 1, \dots, k \},
+\end{equation}
+where $k = m + 2 n$.
+It is worth noting that a polyhedron can be seen as the intersection of finite halfspaces and hyperplanes. Hereafter, we call a bounded polyhedron \emph{polytope}.
+Figure~\ref{fig:polyhedron} illustrates an example of a polyhedron, while Figure~\ref{fig:polytope} a polytope.
+Equation~\eqref{eq:polyhedron_def_ineq} is often written in a more compact from as
+\begin{equation}
+    \label{eq:polyhedron_def_compact}
+    \mathcal{P} = \{ x \; | \; A x \preceq b \},
+\end{equation}
+where $b = \begin{bmatrix}
+b_1& \hdots & b_m
+\end{bmatrix}^\top$. While $A$ is given by
+\begin{equation}
+    A = \begin{bmatrix}
+        a_1^\top \\
+        \vdots \\
+        a_m^\top
+    \end{bmatrix}. 
+\end{equation}
+\begin{figure}[t]
+\centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/hyperplane.tikz}
+        \caption{Geometric representation of a hyperplane.}
+        \label{fig:hyperplane}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/halfspace.tikz}
+        \caption{Halfspaces generated by a hyperplane.}
+        \label{fig:halfspace}
+    \end{subfigure}
+	\caption[A hyperplane and the associated halfspaces]{Geometric representation of a hyperplane and the associated halfspaces. (a) An hyperplane in $\mathbb{R}^3$. The plane is uniquelly determinated by a vector $a$ normal to the plane and a point $x_0$, for ant point $x$ in the plane different from $x_0$, $x - x_0$ is orthogonal to $a$. (b) The halfspace determinated by $a^\top x \ge b$ contains the vector $a$, while the halfspace described by  $a^\top x \le b$ extends in the direction $-a$}
+	\label{fig:hyperplane-halfspace}
+\end{figure}
+In Equation~\eqref{eq:polyhedron_def_compact}, $\preceq$ denotes the \emph{component-wise inequality} in $\mathbb{R}^m$, i.e., $x \preceq y$ if and only if $x_i \le y_i$ for each $i = 1, \dots, m$. If the polyhedron $\mathcal{P}$ is described by a null vector $b$, the set is called~\emph{polyhedral cone} -- Figure~\ref{fig:cone}. The linear approximation of a friction cone is an example of a polyhedral cone. 
+Equation~\eqref{eq:polyhedron_def_compact} is often denoted as \emph{halfspace representation}, or shortly $\mathcal{H}$\emph{-rep} of a polyhedron. Given a polyhedron, the halfspace representation is not unique. For a $\mathcal{H}$\emph{-rep} polyhedron $\mathcal{P}=\{ x \; | \; A x \preceq b \}$ an $i$-th inequality is said to be \emph{redundant for} $\mathcal{P}$ if its removal preserves the polyhedron~\citep{Bemporad2001ConvexityPolyhedra}
+\begin{equation}
+    \mathcal{P}=\{ x \; | \; A x \preceq b \} = \{ x \; | \; A_j x \le b_j, \; \forall j \ne i \}.
+\end{equation}
+If none of the inequalities is redundant, then $\mathcal{H}$\emph{-rep} is said to be \emph{minimal halfspace representation}. 
+\par
+We can describe a polyhedron $\mathcal{P}$ in terms of points, denoted \emph{vertices} and generating vectors, often named \emph{rays}. This description is often called \emph{vertex representation}, or $\mathcal{V}$\emph{-rep}. It is worth mentioning that if a polyhedron is described only by vertices it is a polytope, while if only rays are required, the polyhedron is a \emph{polyhedral cone}. Formally, the \emph{vertex representation} of a polyhedron $\mathcal{P}$ writes as
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:v-repr} \IEEEyesnumber \IEEEyessubnumber*  
+    \mathcal{P} &= \left \{ \theta_1 v_1 + \dots + \theta_m v_m + \dots + \theta_k v_k \; \left| \; \sum_{i = 1} ^ m \theta_i = 1, \; \theta_i \ge 0 \; i = 1, \dots, k \right. \right\} \\
+    &= \conv\{v_1, \dots, v_m \} \oplus  \conic\{v_{m+1}, \dots, v_k \}
+\end{IEEEeqnarray}
+where $\oplus$ indicates the \emph{Minkowski sum}.
+\par
+Figure~\ref{fig:polyhedron-polytope} illustrates the vertex representation in case of polyhedron ~\ref{fig:polyhedron}, cone \ref{fig:cone} and polytope \ref{fig:polytope}.
+
+\paragraph{Minkowski-Weyl theorem}
+We now state, without proving, one of the most important results of the convex polyhedral theory, the \emph{Minkowski-Weyl theorem}. Given a set $\mathcal{P} \subseteq \mathbb{R} ^n$. Then the following are equivalent:
+\begin{enumerate}
+    \item $\mathcal{H}$\emph{-rep}: There exist a matrix $A\in \mathbb{R}^{m \times n}$ and a vector $b\in \mathbb{R} ^n$ such that $\mathcal{P} = \{ x \; | \; A x \preceq b \}$.
+     \item $\mathcal{V}$\emph{-rep}: There exist two finite sets $V, R \subseteq \mathbb{R}^{n}$ such that $\mathcal{P} = \conv V \oplus  \conic R$ .
+\end{enumerate}
+To give the reader a better understanding of the implications of this theorem, we recall some advantages of the $\mathcal{H}$\emph{-rep} and $\mathcal{V}$\emph{-rep} representations. For example, testing if a vector belongs to a polyhedron is trivial if $\mathcal{P}$ is expressed in the $\mathcal{H}$\emph{-rep}, while it becomes more complex in the $\mathcal{V}$\emph{-rep}. On the other hand, we can exploit the $\mathcal{V}$\emph{-rep} when we want to compute the linear combination of a vector $x \in \mathcal{P}$. For instance, given $x \in \mathcal{P}$ and $y = Ax$, then $y$ belongs to a polyhedron, $y \in \mathcal{P}_A$ if and only if $x \in \mathcal{P}$, if $x$ is expressed with the  $\mathcal{V}$\emph{-rep}  description, i.e $x =\theta_1^* v_1 + \dots + \theta_m^* v_m + \dots + \theta_k^* v_k = \mathcal{V} \Theta ^*$, then $y$ is equal to $y = A\mathcal{V} \Theta ^* \in \mathcal{P}_A$.
+We name \emph{vertex enumeration problem} the conversion from the $\mathcal{H}$\emph{-rep} to the $\mathcal{V}$\emph{-rep}. The dual transformation problem of a $\mathcal{V}$\emph{-rep} to a minimal $\mathcal{H}$\emph{-rep} is often called \emph{facet enumeration problem} or \emph{(convex) hull problem}.
+Both problems can be solved by applying the \emph{double description method}~\citep{Fukuda1995DoubleRevisited,Motzkin1953TheMethod}.

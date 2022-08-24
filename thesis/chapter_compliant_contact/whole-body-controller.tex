@@ -1,0 +1,197 @@
+\section{Whole-body controller \label{sec:controller_tsid_compliant}}
+
+The whole-body controller aims to track kinematic and dynamic quantities.
+The proposed whole-body controller computes the desired joint torques using the robot joint dynamics~\eqref{eq:robot_dynamics_joints}, where the robot acceleration $\dot{\nu}$ is set to the desired \emph{starred} quantity and the contact wrenches ${}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k$ are estimated or measured:
+\begin{equation}
+    \label{eq:forward_dynamics_compliant}
+    \tau^* = M_{s}(q) \dot{\nu}^* + h_{s} (q, \nu) - \sum_{k = 1}^{n_c} J^\top_{{\mathcal{C}_k}_s}(q)  \; {}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k.
+\end{equation}
+The desired generalized robot acceleration $\dot{\nu}^{*}$ is chosen to follow the desired centroidal momentum trajectory, the torso and root orientation, and the feet pose, while considering the contact model presented in Section~\ref{sec:contact_mode_compliant}.
+\par 
+The control problem is formulated using the stack of tasks approach. The control objective is achieved by framing the controller as a constrained optimization problem where the low priority tasks are embedded in the cost function, while the high priority tasks are treated as constraints.
+
+\subsection{Low and high priority tasks \label{sec:tsid_compliant_tasks}}
+What follows presents the tasks required to evaluate the desired generalized robot acceleration $\dot{\nu}^{*}$. 
+\subsubsection{Centroidal momentum task}
+In case of visco-elastic contacts, the contact wrench ${}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k$ cannot be arbitrarily chosen. From now on, we assume that we can control the contact wrench derivative ${}_{\mathcal{C}_k[\mathcal{I}]}\dot{\mathrm{f}}_k$. Thus, by differentiating the centroidal momentum dynamics~\eqref{eq:centroidal_momentum_dynamics}, we obtain:
+
+
+\begin{equation}
+    \label{eq:centroidal_momentum_derivative}
+    {}_{\bar{G}} \ddot{h} = \sum_{k = 1}^{n_c} \begin{bmatrix}
+  0_{3\times3} & 0_{3\times3} \\
+  \left({}^{\mathcal{I}}\dot{p}_k - \dot{x}_\text{CoM}\right)\times & 0_{3\times3}
+  \end{bmatrix} {}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k + \begin{bmatrix}
+	I_3 & {0}_{3\times 3} \\
+	\left({}^{\mathcal{I}}{p}_k - {x}_\text{CoM}\right)\times & I_3 
+	\end{bmatrix} {}_{\mathcal{C}_k[\mathcal{I}]}\dot{\mathrm{f}}_k
+\end{equation}
+To follow the desired centroidal momentum trajectory, we minimize the weighted norm of the error between the robot centroidal momentum and the desired trajectory:
+\begin{equation}
+    \Psi_h = \frac{1}{2} \norm{{}_{\bar{G}} \ddot{h} ^ * -{}_{\bar{G}} \ddot{h}}_{\Lambda_h},
+\end{equation}
+where $\Lambda _ h$ is a positive definite diagonal matrix. ${}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k$ is the estimated/measured contact wrench. ${}_{\bar{G}}\ddot{h}^*$ is the desired centroidal momentum derivative, and it is responsible for stabilizing the desired centroidal momentum dynamics:
+
+\begin{equation}
+\begin{split}
+    {}_{\bar{G}}\ddot{h}^* &= {}_{\bar{G}}\ddot{h}^\text{ref} + k_h^d ({}_{\bar{G}}\dot{h}^\text{ref} - {}_{\bar{G}}\dot{h}) + k_h^p ({}_{\bar{G}} h^\text{ref} - {}_{\bar{G}} h) \\ 
+    &+ k_h^i \int {}_{\bar{G}} h^\text{ref} - {}_{\bar{G}} h \diff t,
+    \end{split}
+\end{equation}
+where the integral of the angular momentum is computed numerically.
+Here, $k^d_h$, $k^p_h$, and $k^i_h$ are three diagonal matrices. When the equality holds, the centroidal dynamics converges exponentially to the reference value if and only if $k^p_h$, $k^i_h$ and $k_h^d k_h^p -k_h^i$ are positive definite.  
+
+\subsubsection{Torso and root orientation tasks}
+While walking, we require the torso and the root frames to have a specific orientation with respect to the inertial frame. To accomplish this task, we minimize the norm of the error between a desired angular acceleration and the actual frame angular acceleration:
+\begin{equation}
+    \Psi_\circ = \frac{1}{2} \norm{\dot{\omega}_\circ ^ {*} - (\dot{J} _{\circ} \nu + J _{\circ} \dot{\nu})}^2  _ {\Lambda _ \circ},
+\end{equation}
+where the subscript $\circ$ indicates the frames of root $R$ and torso $T$. $\Lambda _ \circ$ is a positive definite matrix that weighs the contributions in different directions. $\dot{\omega} ^*_\circ$ is set to guarantee almost global stability and convergence of $\prescript{\mathcal{I}}{}{R}_{\circ}$ to $ \prescript{\mathcal{I}}{}{R}_{\circ} ^\text{ref}$ \citep{Olfati-Saber:2001:NCU:935467}:
+
+\begin{IEEEeqnarray}{LL}
+\IEEEyesnumber
+\dot{\omega}^{*}_\circ &= \dot{\omega}^\text{ref} - c_0 \left(\hat{\omega} \prescript{\mathcal{I}}{}{R}_{\circ} \prescript{\mathcal{I}}{}{R}_{\circ} ^{\text{ref} ^ \top} - \prescript{\mathcal{I}}{}{R}_{\circ} \prescript{\mathcal{I}}{}{R}_{\circ} ^{\text{ref}^{\top}} \hat{\omega}^\text{ref}\right)^{\vee} \nonumber\\
+&- c_1 \left(\omega - \omega^\text{ref}\right) - c_2 \left(\prescript{\mathcal{I}}{}{R}_{\circ} \prescript{\mathcal{I}}{}{R}_{\circ} ^{\text{ref}^{\top}}\right) ^\vee. \label{eq:rotational_pid_acceleration}
+\end{IEEEeqnarray}
+
+Here, $c_0$, $c_1$, and $c_2$ are positive numbers.
+
+\subsubsection{Swing foot task}
+Concerning the tracking of the swing foot trajectory, we minimize the following cost function
+\begin{equation}
+    \Psi_{F} = \frac{1}{2} \norm{\dot{\mathrm{v}}_{F} ^ {*} - (\dot{J} _{F} \nu + J _{F} \dot{\nu})}^2 _ {\Lambda _ {F}},
+\end{equation}
+the angular part of $\dot{\mathrm{v}}^{*}_{F}$ is given by \eqref{eq:rotational_pid_acceleration} where the subscript $\circ$ is replaced by $F$, while the linear part $\ddot{p}^{*}$ is equal to $\ddot{p}^{*}_{F} =  \ddot{p}\,^\text{ref}_{F} - k^d _{x _{f}} (\dot{p}_{F} - \dot{p}^\text{ref}_{F}) - k^p _{x _{f}} (p_{F} - p^\text{ref}_{F})$.
+Here, the gains are again positive definite matrices.
+
+\subsubsection{Regularization tasks}
+In order to prevent the controller from providing solutions with huge joint variations, we introduce a regularization task for the joint variables. The task is achieved by asking for a desired joint acceleration that depends on the error between the desired and measured joint values, namely:
+\begin{equation}
+    \Psi_s = \frac{1}{2} \norm{k_s^p(s^\text{ref} -s) - k_s^d \dot{s} - \ddot{s}}^2  _ {\Lambda _ s},
+\end{equation}
+where $s^\text{ref}$ is a desired joint configuration, $k_s^d$, $k_s^p$ and $\Lambda _ s$ are symmetric positive definite matrices. 
+To reduce the amount of the contact wrench required to accomplished the centroidal momentum tracking, the following task is considered:
+\begin{equation}
+    \Psi_{\mathrm{f}_k} = \frac{1}{2} \norm{k_f^p\left({}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k^\text{ref} -{}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k\right) - {}_{\mathcal{C}_k[\mathcal{I}]}\dot{\mathrm{f}}_k}^2  _ {\Lambda _ {f_k}}.
+\end{equation}
+Here, $\Lambda _ {f_k}$ and $k_f^p$ are positive definite matrices. ${}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k$ is the estimated/measured contact wrench and ${}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}^\text{ref}_k$ is the desired force regularization value.
+\subsubsection{Contact wrench feasibility}
+The feasibility of the contact wrenches ${}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k$ is generally guaranteed by another set of inequalities of the form:
+\begin{equation}
+    \label{eq:contact_wrench_feasibility_constraint}
+    A_{\mathcal{C}_k[\mathcal{I}]} \; {}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k \le b.
+\end{equation}
+where $A_{\mathcal{C}_k[\mathcal{I}]}$ is a matrix that depends on the position of the robot joints and the base pose.
+\par
+More specifically, ${}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k$ must belong to the associated friction cone, while the position of the local CoP is restricted within the support polygon. However, in the case of visco-elastic contacts, the contact wrenches cannot be arbitrarily chosen. This limitation can be overcome by discretizing the contact wrench dynamics using the forward Euler method:
+\begin{equation}
+    \label{eq:contact_force_discerization}
+    {}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k^{i+1} = {}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k^{i} + {}_{\mathcal{C}_k[\mathcal{I}]}\dot{\mathrm{f}}_k^i \diff t,
+\end{equation}
+where $T$ is the constant integration time. 
+We can require the contact wrench at the next instant to guarantee the inequality constraints \eqref{eq:contact_wrench_feasibility_constraint}.
+Combining \eqref{eq:contact_force_discerization} and \eqref{eq:contact_wrench_feasibility_constraint}, we can now obtain a tractable set of inequality constraints
+\begin{equation}
+A_{\mathcal{C}_k[\mathcal{I}]}\; {}_{\mathcal{C}_k[\mathcal{I}]}\dot{\mathrm{f}}_k \diff t  \le b -  A  {}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k,    
+\end{equation}
+ 
+where the superscript $i$ has been dropped, and ${}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k$ represents the measured/estimated contact wrench.
+\subsubsection{Floating-base system base dynamics}
+The whole-body controller considers the base system dynamics presented in Equation~ \eqref{eq:robot_dynamics_base} as:
+\begin{equation}
+    \label{eq:base_dynamics_compliant}
+    M_\nu \dot{\nu} + h_\nu = \sum_{k = 1}^{n_c} J^\top_{\mathcal{C}_k} {}_{\mathcal{C}_k[\mathcal{I}]}{\mathrm{f}}_k.
+\end{equation}
+where ${}_{\mathcal{C}_k[\mathcal{I}]}\mathrm{f}_k$ are the measured/estimated contact wrenches. 
+\subsubsection{Contact model dynamics}
+The contact wrench dynamics can be obtained by differentiating equations \eqref{eq:contact_force_integral_rectangle} and \eqref{eq:contact_torque_integral_rectangle}. 
+By computing the time derivative of $f$, one has the following control-affine dynamical system:
+\begin{equation}
+    \label{eq:force_derivative_affine_system}
+    {}_{\mathcal{C}_k[\mathcal{I}]}\dot{\mathrm{f}}_k  =  h_{\mathrm{f}_k} + g_{\mathrm{f}_k} {}^{\mathcal{C}_k[\mathcal{I}]}\dot{\mathrm{v}}_{F_k}
+\end{equation}
+where $h_{\mathrm{f}_k} \in \mathbb{R}^6$ and $g_{\mathrm{f}_k}\in\mathbb{R}^{6 \times 6}$ is full rank for each possible admissible state. By explicating the dependence on the robot generalized acceleration, Equation~\eqref{eq:force_derivative_affine_system} writes as:
+\begin{equation}
+ \label{eq:contact_wrench_dynamics_qp}
+ {}_{\mathcal{C}_k[\mathcal{I}]}\dot{\mathrm{f}}_k  =  h_{\mathrm{f}_k} + g_{\mathrm{f}_k} \left(J_{F_k}(q) \dot{\nu} + \dot{J}_{F_k}(q) \nu \right).
+\end{equation}
+
+\subsection{Quadratic programming problem \label{sec:tsid_flex_optimal_control_problem}}
+The control objective is achieved by casting the control problem as a constrained optimization problem whose conditional variables are $\dot{\nu}$ and $\dot{f}_k$ where $k$ represents the foot in contact with the environment, namely left, right, or both.
+In details:
+\begin{IEEEeqnarray}{CCL}
+\phantomsection \label{eq:acceleration_QP}  \IEEEyesnumber  \IEEEyessubnumber*
+\minimize\limits_{\dot{\nu},  \dot{f}_k}  && \Psi_h + \Psi_\mathcal{T} + \Psi_\mathcal{R} + \Psi_F + \Psi_s + \Psi_{\mathrm{f}_k} \\
+\text{subject to}& \quad & A_{\mathcal{C}_k[\mathcal{I}]}\; {}_{C_k[\mathcal{I}]} \dot{\mathrm{f}}_k \diff T \le b -  A_{\mathcal{C}_k[\mathcal{I}]} \; {}_{C_k[\mathcal{I}]} \mathrm{f}_k \\
+&& M_\nu \dot{\nu} + h_\nu = \sum_{k = 1}^{n_c} J^\top_{\mathcal{C}_k} {}_{\mathcal{C}_k[\mathcal{I}]} \mathrm{f}_k  \\
+&&  {}_{\mathcal{C}_k[\mathcal{I}]}\dot{\mathrm{f}}_k  =  h_{\mathrm{f}_k} + g_{\mathrm{f}_k} \left(J_{F_k}(q) \dot{\nu} + \dot{J}_{F_k}(q) \nu \right). 
+\end{IEEEeqnarray}
+We notice that the system base dynamics~\eqref{eq:base_dynamics_compliant} and the contact dynamics~\eqref{eq:contact_wrench_dynamics_qp} depend linearly on the decision variables $\dot{\nu}$ and ${}_{C_k[\mathcal{I}]} \mathrm{f}_k$. Furthermore, the tasks presented in Section~\ref{sec:tsid_compliant_tasks} depend quadratically on the decision variables. Consequently, the optimization problem in~\eqref{eq:acceleration_QP} can be transcribed into a quadratic programming problem (see Section~\ref{sec:qp}) and solved via off-the-shelf solvers. Once the desired robot acceleration $\dot{\nu}^*$ is computed, the desired joint torques can be easily evaluated with Equation~\eqref{eq:forward_dynamics_compliant}.
+
+\begin{figure}[t]
+\centering
+\includegraphics{chapter_compliant_contact/figures/block_diagram.tikz}
+\caption{Controller architecture.}\label{fig:block-diagram-compliant}
+\end{figure}
+
+\subsection{Contact parameters estimation}
+The optimal control problem presented in Section~\ref{sec:tsid_compliant_tasks} is based on the perfect knowledge of the contact parameters $k$ and $b$. In a simulated environment, the value of the parameters is perfectly known. However, in the real scenario, an estimation algorithm is required to compute the parameters.
+\par
+The contact model described by Equations \eqref{eq:contact_force_integral_rectangle} and \eqref{eq:contact_torque_integral_rectangle} is linear with respect to the contact parameters as $ {}_{B[\mathcal{I}]} \mathrm{f}  = \mathcal{Y}(o_B, \prescript{\mathcal{I}}{} R _ B, \dot{o}_B, \prescript{\mathcal{I}}{} \omega _ {\mathcal{I}, B}) \pi$,
+where $\mathcal{Y}(o_B, \prescript{\mathcal{I}}{} R _ B, \dot{o}_B, \prescript{\mathcal{I}}{} \omega _ {\mathcal{I}, B})  \in \mathbb{R} ^{6 \times 2}$ is the regressor and is equal to 
+
+
+
+\begin{equation}
+\mathcal{Y} = lw |e _ 3^\top R e _ 3| 
+\begin{bmatrix}
+\bar{o}_B - o_B & - \dot{o}_B \\
+\frac{l^2}{12}\left((R e_1) \times\right) \bar{R} e_1 + \frac{w^2}{12} \left((R e_2) \times\right) \bar{R} e_2 &   \left[\frac{l^2}{12} \left((R e_1) \times\right)^2  + \frac{w^2}{12} \left((R e_2) \times\right) ^2 \right]\omega
+\end{bmatrix}
+\end{equation}
+where, for sake of clarity, we removed all the prefixes and suffices. 
+$\pi \in \mathbb{R}^2$ contains the spring and damper coefficients, i.e.,
+\begin{equation}
+\pi = \begin{bmatrix} k \\ b \end{bmatrix}.
+\end{equation}
+We aim to estimate the contact parameters $\hat{\pi}$ so that the \emph{least-squares} criterion is minimized. Namely, we seek for $\hat{\pi}$ such that the error between the measured contact forces and the predicted contact force is minimized over a time windows having a length of $t$ samples: 
+\begin{equation}
+    \label{eq:rls_definition}
+    \hat{\pi}_t = \argmin\limits_{\pi} \frac{1}{2} \sum_{i=1}^t\norm{{}_{B[\mathcal{I}]} \mathrm{f}[i]- \mathcal{Y}_i \pi}^2 _{\Gamma_i}.
+\end{equation}
+Here, $\Gamma _i \succ 0$ is a strictly positive definite matrix. ${}_{B[\mathcal{I}]} \mathrm{f}[i]$ and $\mathcal{Y}_i$ represent the forces and the regressor computed at instant $i$. 
+\par
+We solved this problem by applying the Recursive least squares (RLS) filter \citep[Section~11.2]{Ljung1999} as:
+\begin{equation}
+    \label{eq:contact_param_est}
+    \hat{\pi}_t = \hat{\pi}_{t-1} + L_t \left[{}_{B[\mathcal{I}]} \mathrm{f}[t] - \mathcal{Y}_t \hat{\pi}_{t-1}\right],
+\end{equation}
+where ${}_{B[\mathcal{I}]} \mathrm{f}[t] - \mathcal{Y}_t \hat{\pi}_{t-1}$ is the innovation at time $t$. The gain $L_t \in \mathbb{R}^{2\times6}$ is given by:
+\begin{equation}
+    \label{eq:kalman}
+    L_t = P_{t-1} \mathcal{Y}_t^\top \left[ \Gamma_t + \mathcal{Y}_t P_{t-1} \mathcal{Y}_t^\top\right]^{-1},
+\end{equation}
+$P_{t-1}$ is the estimation error covariance at the instant $t-1$:
+\begin{equation}
+    \label{eq:contact_param_cov}
+    P_t = \left[I_ 2- L_t \mathcal{Y}_t\right] P_{t-1} \left[I_2 - L_t \mathcal{Y}_t\right]^\top + L_t \Gamma_t  L_t^\top.
+\end{equation}
+\par
+At every time step, Equations \eqref{eq:contact_param_est}-\eqref{eq:kalman}-\eqref{eq:contact_param_cov} are used to estimate the contact parameters $k$ and $b$. 
+\par
+In the case of zero linear and angular velocity, the last three columns of $\mathcal{Y}$ are zero, so the damper parameter is not observable when the contact surface does not move. Walking simulations we performed tend to show that the foot velocity is almost always different from zero when in contact with the ground. So, the contact parameters are, in practice, observable during robot walking.
+\par
+Equations \eqref{eq:contact_param_est}-\eqref{eq:kalman}-\eqref{eq:contact_param_cov} are historically derived from the recursive least square theory~\citep[Section~ 9.3]{Hayes1996StatisticalModeling} and \citep[Section~11.2]{Ljung1999}. However, we notice that the very same results can be obtained by designing a Kalman filter~\citep{Kalman1960AProblems}\footnote{Considering a Linear Time Invariant discrete (LTI) dynamical system of the form
+\begin{IEEEeqnarray*}{l}
+x_{k+1}  = F x_k + G u_k + w_k\\
+z_k = H x_k + v_k
+\end{IEEEeqnarray*}
+where $x_k$ is the state of the system, $u_k$ is the exogenous input, $z_k$ is the measurement vector. $w_k$ is the process noise vector that is assumed to be zero-mean Gaussian with covariance $Q$, i.e.,, $w_k \sim \mathcal{N}(0, Q)$. $v_k$ is the measurement noise vector. It is assumed to be zero-mean Gaussian with covariance $R$, i.e.,, $v_k \sim \mathcal{N}(0, R)$. The Kalman filter~\citep{Kalman1960AProblems} is a recursive algorithm that estimates the state $x_k$ starting from a series of measurements. It is possible to prove that the Kalman filter is the optimal observer in the case of linear dynamics and Gaussian noises $w_k$ and $v_k$.} considering the following dynamical system
+\begin{equation}
+    \pi_{t+1} = \pi_t,
+\end{equation}
+having as a measurement equation
+\begin{equation}
+    {}_{B[\mathcal{I}]} \mathrm{f}[t] =  \mathcal{Y}_t \pi_t + \psi_t,
+\end{equation}
+where $\psi$ is a white Gaussian noise having zero mean and covariance $\mathrm{E}\left[\psi_t \psi_t^\top\right] = \Gamma_t$.

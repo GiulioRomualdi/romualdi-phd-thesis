@@ -1,0 +1,313 @@
+\section{Matrix Lie Group}
+A \emph{group} $(\lieGroup{G}, \circ)$ is a set $\lieGroup{G}$, with a composition operation $\circ$, of which the following axioms are satisfied:
+\begin{itemize}
+    \item \textbf{Closure under} $\mathbb{\circ}$: For every elements $X,Y$ belonging to $\lieGroup{G}$, the composition of $X$ and $Y$ belongs to the group, i.e., $\forall X,Y \in \lieGroup{G}$,  $X \circ Y \in \lieGroup{G}$;
+    \item \textbf{Existence of the Identity element}: There exists an element $\IdentityLie \in \lieGroup{G}$ such that, for every $X \in \lieGroup{G}$, $\IdentityLie \circ X = X \circ \IdentityLie = X$. This element is unique and is called the \emph{identity element} of the group;
+    \item \textbf{Existence of the inverse element}: For each $X \in \lieGroup{G}$, there exists an element $X^{-1} \in \lieGroup{G}$, such that $X ^ {-1} \circ X = X \circ X ^ {-1} = \IdentityLie $, where $e$ is the identity element. For each $X$, the element $X ^ {-1}$ is unique and is called the \emph{inverse of} $X$;
+    \item \textbf{Associativity}: For $X,Y,Z \in \lieGroup{G}$, $X \circ (Y \circ Z) = (X\circ Y ) \circ Z$.
+\end{itemize}
+\par 
+We define a \emph{Smooth Manifold} as a topological space that locally resembles a linear space. We now define a \emph{Lie group} as a group that is also a finite-dimensional real smooth manifold, in which the group operations of composition $\circ$ and inversion $\cdot^{-1}$ are smooth maps.
+Let $\mathrm{GL}(n, \mathbb{R})$ denote the group of $n \times n$ invertible matrices with entries in $\mathbb{R}$. Any \emph{topologically closed subgroup}~\footnote{A subgroup $\lieGroup{G} \subset \mathrm{GL}(n, \mathbb{R})$ is said topologically closed if given a sequence of $X_1, X_2, \dots \in \lieGroup{G}$ such that $X_k$ converges in $\mathrm{GL}(n, \mathbb{R})$, then $\lim _ {k\rightarrow \infty} X_k \in \lieGroup{G}$.} of $\mathrm{GL}(n, \mathbb{R})$ is a Lie group. Lie groups of this sort are called \emph{matrix Lie group}.
+\par
+In this manuscript we consider only Lie groups that are also matrix Lie groups, hereafter, to simplify the notation, we will remove the \emph{matrix} prefix, and we indicate a matrix Lie group as a Lie group. 
+
+\section{Action of a Lie Group \label{sec:action_lie}}
+Given a Lie group $\lieGroup{G}$ and a set $V$, we introduce the \emph{action of} $X \in \lieGroup{G}$ \emph{on} $v \in V$ as
+\begin{equation}
+    \cdot : \lieGroup{G} \times V \longrightarrow V,
+\end{equation}
+The action $\cdot$ must satisfy the following properties:
+\begin{itemize}
+    \item \textbf{Compatibility}: For $X,Y \in \lieGroup{G}$ and $v \in V$, $(X \circ Y) \cdot v = X \cdot (Y \cdot v)$;
+    \item \textbf{Identity}: For each $v \in V$, $\mathcal{E} \cdot v = v$, where $\mathcal{E}$ is the identity element of the Lie group $\lieGroup{G}$.
+\end{itemize}
+To provide the reader with a better understanding, \emph{group action} is the ability of a Lie group to transform an element of other sets. 
+For example, in the case of $\SO(3)$, the action of a rotation matrix on a 3D vector results in a coordinate transformation -- see Section~\ref{sec:so3}. On the other hand, in $\SE(3)$, the group action converts a vector expressed in a frame into another frame, where the two frames have a different origin and orientation -- see Equation~\eqref{eq:Abp_AHB_Bbp}.
+
+\section{Tangent space and Lie algebra\label{sec:tangent_space_lie}}
+The \emph{tangent space at} $X\in \lieGroup{G}$, is the space $T_X\lieGroup{G}$ of all the tangent vectors of all the curves passing through $X$. Since the Lie group is a smooth manifold, the tangent space is defined for every element of $\lieGroup{G}$ and its structure is an invariant of the group. As a consequence, it is possible to associate with each Lie group a particular tangent space called tangent space at the identity $T_{\mathcal{E}}\lieGroup{G}$, or simply \emph{Lie algebra of} $\lieGroup{G}$ and usually denoted with $\lieAlgebra{g}$. The Lie algebra $\lieAlgebra{g}$ is a vector space together with a bilinear operation called \emph{Lie bracket}: 
+\begin{equation}
+\lieBracket{.}{.} : \lieAlgebra{g} \times \lieAlgebra{g} \longrightarrow \lieAlgebra{g},
+\end{equation}
+obeying the following axioms:
+\begin{itemize}
+    \item \textbf{Bilinearity} For all scalars $a, b \in \mathbb{R}$ and for all elements $x, y, z \in \lieAlgebra{g}$, the following identity is verified $\lieBracket{ax + by}{z} = a \lieBracket{x}{z} + b\lieBracket{y}{z}$
+    \item \textbf{Alternativity} For each $x\in\lieAlgebra{g}$, $\lieBracket{x}{x} = 0$
+    \item \textbf{Jacobi identity} Given $x, y,  z\in\lieAlgebra{g}$ the following identity is verified $\lieBracket{x}{\lieBracket{y}{z}} + \lieBracket{y}{\lieBracket{z}{x}} + \lieBracket{z}{\lieBracket{x}{y}} = 0$.
+\end{itemize}
+It is worth recalling that, using the bilinearity and the alternativity axioms, it is possible to prove that the Lie bracket is an \emph{anticommutative} operator, i.e., $\lieBracket{x}{y} = -\lieBracket{y}{x}$. 
+For a matrix Lie group, the elements in $\lieAlgebra{g}$ are matrices, consequently given $x, y \in \lieAlgebra{g}$, it is possible to prove that the Lie bracket is always the \emph{commutator} of matrices~\citep[Definition 2.19]{Hall2015}, i.e.,
+\begin{equation}
+\label{eq:lie_bracket}
+    \lieBracket{x}{y} = x y - y x.
+\end{equation}
+\par
+The elements of a Lie algebra $\lieAlgebra{g}$ can be uniquely \emph{identified} with vectors in $\mathbb{R}^m$ where $m$ is the number of degrees of freedom of $\lieGroup{G}$. In fact, since $\lieAlgebra{g}$ is a vector space, every element $\tau^\wedge \in \lieAlgebra{g}$ can be expressed as a linear combination of some base elements $E_i$, where $E_i$ are called the \emph{generators} of $\lieAlgebra{g}$. It is now possible to define two \emph{isomorphisms}, commonly denoted \emph{hat} and \emph{vee} such that:
+\begin{IEEEeqnarray}{LL}
+\phantomsection \label{eq:hat_vee_operators}\IEEEyesnumber  \IEEEyessubnumber*
+\text{hat}: \mathbb{R}^m \longrightarrow \lieAlgebra{g} \quad & \tau ^\wedge = \sum _{i = 1} ^ m \alpha_i E_i \\
+\text{vee}: \lieAlgebra{g} \longrightarrow \mathbb{R}^m \quad & (\tau ^\wedge) ^\vee = \sum _{i = 1} ^ m \alpha_i e_i \label{eq:vee_operator}
+\end{IEEEeqnarray}
+where $e_i$ represents a vector of the canonical base $\mathbb{R}^m$, that is, $e_i = E_i ^\vee$ and $E_i = e_i ^\wedge$.
+\par
+As already mentioned in Section~\ref{sec:lie-crash}, the angular velocity belongs to the Lie algebra of $\SO(3)$, denoted with $\so(3)$. While the spatial velocity is an element of $\se(3)$, that is, the Lie algebra of $\SE(3)$.
+
+\section{Co-tangent space and Lie co-algebra\label{sec:co-tangent-space-and-lie-coalgebra}}
+Given a Lie group $\lieGroup{G}$, let $X \in \lieGroup{G}$ and $T_X\lieGroup{G}$ the tangent space at $X$. Then we define the \emph{co-tangent space} at $X$ as the dual space\footnote{Given a vector space $V$ having a basis $e_1, \dots, e_n$. The dual space of $V$, denoted $V^*$, has the same dimension of $V$ and is a vector space. The basis of $V^*$ is the set of linear functions $\mu_1, \dots, \mu_n$ that satisfy $\mu_i(e_j) = \delta_{ij}$,
+where $\delta_{ij}$ is the Kronecker delta.}
+of $T_X\lieGroup{G}$, and denoted with $T_X^*\lieGroup{G}$. 
+Given a Lie group $\lieGroup{G}$ and its associated Lie algebra $\lieAlgebra{g}$, we define the \emph{Lie co-algebra} $\lieAlgebra{g}^*$ as the dual space of the tangent space at the identity, i.e., $\lieAlgebra{g}^* = T_\lieGroup{E} ^*X$~\citep{Michaelis1980LieCoalgebras}. 
+The Lie co-algebra $\lieAlgebra{g}^*$ is a vector space and its element can be identified with the vectors in $\mathbb{R}^m$, with $m$ equal to the number of degrees of freedom of $\lieGroup{G}$. Indeed, given a set of generators of $\lieAlgebra{g}^*$, denoted as $E^*_i$, it is possible to define two \emph{isomorphisms}, called \emph{hat} and \emph{vee} such that:
+\begin{IEEEeqnarray}{LL}
+\phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+\text{hat}: \mathbb{R}^m \longrightarrow \lieAlgebra{g}^* \quad & w ^\wedge = \sum _{i = 1} ^ m \alpha_i E_i ^* \\
+\text{vee}: \lieAlgebra{g}^* \longrightarrow \mathbb{R}^m \quad & (w ^\wedge) ^\vee = \sum _{i = 1} ^ m \alpha_i e_i
+\end{IEEEeqnarray}
+where $w^\wedge \in \lieAlgebra{g}^*$ and $e_i$ represent a vector of the canonical base $\mathbb{R}^m$, i.e $e_i = E_i ^{*  ^\vee}$ and $E_i ^* = e_i ^\wedge$. 
+\par
+Given $\tau^\wedge \in \lieAlgebra{g}$ and $w^\wedge\in \lieAlgebra{g}^*$, the \emph{dual pairing} is the map 
+\begin{equation}
+    \langle.,.\rangle : \lieAlgebra{g} \times \lieAlgebra{g}^* \longrightarrow \mathbb{R} \quad \langle \tau^\wedge, w^\wedge \rangle = w^\wedge \left(\tau^\wedge \right).
+\end{equation}
+We usually say that the dual vector $w^\wedge$ acts on the tangent vector $\tau^\wedge$.
+For matrix Lie groups, both elements in $\lieAlgebra{g}$ and $\lieAlgebra{g}^*$ are matrices, and the dual pairing between the Lie algebra and its dual is equivalent to
+\begin{equation}
+  \langle \tau^\wedge, w^\wedge \rangle = \tr\left(\tau^\wedge  {w^\wedge }\right).
+\end{equation}
+Since both $\lieAlgebra{g}$ and $\lieAlgebra{g}^*$ are isomorphic to $\mathbb{R}^n$, given $\tau^\wedge \in \lieAlgebra{g}$ and $w^\wedge\in \lieAlgebra{g}^*$, the dual pairing map can be applied directly to the elements $w \in \mathbb{R}^n$ and $\tau \in \mathbb{R}^n$. In this context, the dual pairing is equivalent to the scalar product as:
+\begin{equation}
+  \langle \tau, w \rangle = \tau ^\top w.
+\end{equation}
+\par
+Applying the Lie group formalism, we notice that the 6D spatial force is an element of Lie co-algebra $\se(3)^*$~\citep[Chapter~6]{Holm2008GeometricRolling} -- see Section~\ref{sec:6d-spatial-force}.
+
+\section{Left and right trivialization}
+Given an element of a Lie group $X \in \lieGroup{G}$, we denote the \emph{left} and the \emph{right} translation on $\lieGroup{G}$ as~\citep[Chapter 4]{Tu2011AnManifolds}
+\begin{equation}
+\label{eq:left_right_translation}
+\begin{split}
+  L_X : \lieGroup{G} \longrightarrow \lieGroup{G} \\
+R_X : \lieGroup{G} \longrightarrow \lieGroup{G} 
+\end{split}
+\end{equation}
+If $\lieGroup{G}$ is a matrix Lie group, $L_X$ and $R_X$ are just standard multiplication such that, given $Y\in \lieGroup{G}$, $L_X Y = X Y$  and $R_X Y = Y X$. 
+It is worth noting that $L_X$ and $R_X$ are smooth maps whose inverses $L_X^{-1} = L_{X^{-1}}$ and $R_X^{-1} = R_{X^{-1}}$ are also smooth, i.e., $L_X$ and $R_X$ are \emph{diffeomorphisms}.
+\par
+Given an element of the Lie Group $X \in \lieGroup{G}$, the left and right translations \eqref{eq:left_right_translation} induce an isomorphism of tangent spaces, denoted as $L_{X^*}: \lieAlgebra{g} \longrightarrow T_X\lieGroup{G}$ and $R_{X^*}: \lieAlgebra{g} \longrightarrow T_X\lieGroup{G}$ named \emph{left} and \emph{right trivialization}. Given $X\in\lieGroup{G}$ and a curve $Y(t) \in \lieGroup{G}$ such that $Y(0) = \lieGroup{E}$ and $\at{\frac{\diff}{\diff t} Y}{0} = \tau^\wedge \in\lieAlgebra{g}$, $L_{X^*}$ and $R_{X^*}$ are defined as~\citep[Chapter 4]{Tu2011AnManifolds}:
+\begin{IEEEeqnarray}{LL}
+\phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+L_{X^*} \tau^\wedge &= \at{\frac{\diff}{\diff t}L_X Y(t)}{t = 0} = L_X \tau^\wedge, \\
+    R_{X^*} \tau^\wedge &= \at{\frac{\diff}{\diff t}R_X Y(t)}{t = 0} = R_X \tau^\wedge.
+\end{IEEEeqnarray}
+For matrix Lie groups, both elements in $\lieGroup{G}$ and in $\lieAlgebra{g}$ are matrices such that we may multiply them together using matrix multiplication. Consequently, $L_{X^*} \tau^\wedge$ and $R_{X^*} \tau^\wedge$ are simply given by:
+\begin{IEEEeqnarray}{LL}
+\phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+    L_{X^*} \tau^\wedge &= X \tau^\wedge, \\
+    R_{X^*} \tau^\wedge &= \tau^\wedge X.
+\end{IEEEeqnarray}
+In conclusion, given any element $\tau^\wedge \in \lieAlgebra{g}$, the left and right induced tangent maps $L_{X^*}$ and $R_{X^*}$ describe the tangent space $T_X\lieGroup{G}$ at a point $X \in \lieGroup{G}$.
+\par
+In light of the above, it is now clear why we defined the left and right trivialized velocity in Section~\ref{sec:angular_velocity} and \ref{sec:se3_velocity}.
+Indeed, given ${}^A H_B\in\SE(3)$ and left trivialized spatial velocity ${}^B \mathrm{v}_{A,B}^\wedge \in \se(3)$. The right trivialization map results in an element of the tangent space at ${}^A H_B$, i.e., ${}^A \dot{H}_B = L_{{}^A H_B} {}^B \mathrm{v}_{A,B}^\wedge = {}^A H_B {}^B \mathrm{v}_{A,B}^\wedge \in T_{{}^A H_B} \SE(3)$. Similar considerations hold also for the right trivialized velocity. 
+
+
+\section{Exponential and logarithmic map\label{sec:exp_and_log_maps}} Given a tangent increment $\tau := vt \in \mathbb{R}^m$ as velocity $v\in\mathbb{R}^m$ per time $t \in \mathbb{R}$, the \emph{exponential map}, is defined as 
+\begin{equation}
+    \text{exp}: \lieAlgebra{g} \longrightarrow \lieGroup{G} \quad X = \exp(\tau ^\wedge);
+\end{equation}
+where $X$ belongs to $\lieGroup{G}$. The inverse of the \emph{exponential map} is the \emph{logarithmic map} and it is defined as:
+\begin{equation}
+    \text{log}:  \lieGroup{G} \longrightarrow  \lieAlgebra{g} \quad \tau ^\wedge = \log(X).
+\end{equation}.
+Given an element on the Lie group $X \in \lieGroup{G}$, an element on the Lie algebra $\tau \in \lieAlgebra{g}$ and two real scalars $s, t \in \mathbb{R}$, the following properties are satisfied:
+\begin{itemize}
+    \item $\exp((t + s ) \tau ^\wedge) = \exp(t \tau ^\wedge) \exp( s \tau ^\wedge)$;
+    \item $\exp(t \tau ^\wedge) = \exp(\tau ^\wedge) ^t$;
+    \item $\exp(X \tau ^\wedge X^{-1}) = X \exp(\tau ^\wedge) X ^{-1}$.
+\end{itemize}
+\par
+To further simplify the notation, we introduce the \emph{capitalized Exp and Log} as 
+\begin{equation}
+    x = \Exp(\tau) := \exp(\tau ^\wedge) \quad \tau = \Log(x) := \log(x) ^\vee.
+\end{equation}
+\par
+
+\section{The adjoint and the co-adjoint representation of a Lie group\label{sec:adjoint_and_coadjoint_representation}}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics{appendix_lie/figures/adjoint.tikz}
+    \caption{The Adjoint representation.}
+    \label{fig:lie_group_adjoint}
+\end{figure}
+ 
+We now introduce the \emph{adjoint representation} of a Lie group $\lieGroup{G}$ at $X\in\lieGroup{G}$ on an element of the Lie algebra $\tau^\wedge \in \lieAlgebra{g}$ as
+\begin{equation}
+\label{eq:adjoint_action_def}
+    \Ad_X: \lieGroup{G} \times \lieAlgebra{g} \longrightarrow \lieAlgebra{g} \quad \Ad_X(\tau^\wedge) := X \tau^\wedge X ^{-1}.
+\end{equation}
+In other words, given $X\in \lieGroup{G}$ and a vector ${}^X \tau^\wedge \in \lieAlgebra{g}$  the adjont representation $\Ad_X$ applied to ${}^X \tau^\wedge$ returns a vector in the Lie algebra ${} ^ \lieGroup{E} \tau^\wedge \in \lieAlgebra{g}$ such that the left and right trivialization of ${}^X \tau ^\wedge$ and $ {}^\lieGroup{E} \tau ^\wedge $ returns the same element in $T_X\lieGroup{G}$, i.e., $X {}^X \tau ^\wedge = {} ^ \lieGroup{E} \tau^\wedge X \in T_X\lieGroup{G}$. Figure~\ref{fig:lie_group_adjoint} shows the effect of the adjoint representation on an element of a Lie algebra.
+\par
+The adjoint representation is a linear operator. Indeed, given an element $X \in \lieGroup{G}$, two elements of the Lie algebra $\tau^\wedge, \gamma^\wedge \in \lieAlgebra{g}$ and two real numbers $\alpha, \theta \in \mathbb{R}$ we have:
+\begin{IEEEeqnarray}{LL}
+\phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+     \Ad_X(\alpha \tau^\wedge + \theta \gamma^\wedge) &= (\alpha \tau^\wedge + \theta \gamma^\wedge)X^{-1} \\
+     &=\alpha X \tau^\wedge X^{-1} + \theta X \gamma^\wedge X^{-1} \\
+     &=\alpha \Ad_X(\tau ^\wedge) + \theta \Ad_X(\gamma ^\wedge).
+\end{IEEEeqnarray}
+Since the adjoint representation is a linear transformation and the elements of the tangent space are isomorphic to the vectors in $\mathbb{R}^n$, i.e., $\lieAlgebra{g} \cong \mathbb{R}^n$, we can define a matrix called \emph{adjoint matrix of a Lie group} $\lieGroup{G}$, denoted with $\AdM_X$, that maps the Cartesian tangent vectors ${}^\mathcal{E} \tau$ and ${}^X \tau$ and writes as
+\begin{equation}
+    \AdM_X: \mathbb{R}^m \longrightarrow \mathbb{R}^m; \quad {}^\mathcal{E} \tau = \AdM_X {}^X \tau.
+\end{equation}
+\par
+Considering the $\SE(3)$ group, the adjoint representation aims to map a left trivialized spatial velocity into a right trivialized one. 
+\par
+We now introduce the \emph{co-adjoint representation} of a Lie group $\lieGroup{G}$ at $X\in\lieGroup{G}$ on an element of the Lie co-algebra $w^\wedge \in \lieAlgebra{g}^*$ by means of the dual pairing map $\langle.,.\rangle$ as~\citep[~Chapter 4]{Holm2008GeometricRolling}:
+\begin{equation}
+\label{eq:co-adjoint_action_def}
+    \Ad_X ^*: \lieGroup{G} \times \lieAlgebra{g}^* \longrightarrow \lieAlgebra{g}^* \quad \langle \Ad_X^* (w^\wedge), \tau^\wedge \rangle:=  \langle w^\wedge, \Ad_{X^{-1}}(\tau^\wedge) \rangle,
+\end{equation}
+where $\tau^\wedge \in \lieAlgebra{g}$. It is worth noting that for a matrix Lie group the co-adjoint representation has a closed form and it is equal to
+\begin{equation}
+  \Ad_X ^*(w ^ \wedge) =   X^{-1} w^\wedge X.
+\end{equation}
+Indeed using the trace as dual pairing between $\lieAlgebra{g}$ and $\lieAlgebra{g}^*$ 
+\begin{IEEEeqnarray}{LL}
+\phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+  \langle w^\wedge, \Ad_{X^{-1}}(\tau^\wedge) \rangle &= \tr \left( w ^ \wedge X^{-1} \tau ^\wedge X \right) \\
+  &=  \tr \left( w ^ \wedge X \tau ^\wedge X^{-1} \right) \\
+  &= \tr \left( X^{-1} w ^ \wedge X \tau ^\wedge \right) \\
+  &= \langle X^{-1} w^\wedge X, \tau^\wedge \rangle \\ 
+  &= \langle \Ad_X^* (w^\wedge), \tau^\wedge \rangle.
+\end{IEEEeqnarray}
+Similarly to the adjoint representation, the co-adjoint representation is also a linear transformation, so we can introduce a matrix called \emph{co-adjoint matrix of a Lie group} $\lieGroup{G}$, denoted with $\AdM^*_X$, as
+\begin{equation}
+    \AdM_X^*: \mathbb{R}^m \longrightarrow \mathbb{R}^m; \quad \langle \AdM_X^* w, \tau \rangle:=  \langle w, \AdM_{X^{-1}} \tau \rangle.
+\end{equation}
+There exists a relation between the co-adjoint matrix $\AdM_X^*$ and adjoint matrix $\AdM_X$, indeed, by applying the scalar product as the dual pairing between $\mathbb{R}^n \cong \lieAlgebra{g}$ and $\mathbb{R}^n \cong \lieAlgebra{g}^*$ we obtain
+\begin{IEEEeqnarray}{LL}
+\phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+  \langle \AdM_X^* w, \tau \rangle &= w^\top \AdM_X^{* ^\top} \tau \\
+  &= \langle  w, \AdM_X^{* ^\top} \tau \rangle \\
+  &= \langle w, \AdM_{X^{-1}} \tau \rangle,
+\end{IEEEeqnarray}
+where $\AdM_X^*$ is given by
+\begin{equation}
+    \AdM_X^* = \AdM_{X^{-1}}^\top.
+\end{equation}
+\par
+Given an element of the $\SE(3)$ group, e.g.,  ${}^AH_B\in\SE(3)$, the co-adjoint representation expresses a left trivialized spatial force as a function of a right trivialized one, and it writes as:
+\begin{equation}
+    {}_A\mathrm{f}^\wedge = \Ad^*_{{}^AH_B}({}_B\mathrm{f}^\wedge) = {}^AH_B^{-1} {}_B\mathrm{f}^\wedge {}^AH_B.
+\end{equation}
+\section{The adjoint and the co-adjoint representation of the Lie algebra}
+We now introduce the \emph{adjoint representation of the Lie algebra} $\lieAlgebra{g}$ at $x^\wedge\in\lieAlgebra{g}$ on an element of the Lie algebra $y^\wedge \in \lieAlgebra{g}$ as 
+\begin{equation}
+\label{eq:adjoint_representation_lie_def}
+    \ad_{x^\wedge}: \lieAlgebra{g} \times \lieAlgebra{g} \longrightarrow \lieAlgebra{g} \quad \ad_{x^\wedge}(y^\wedge) := \frac{\diff}{\diff t} \at{\Ad_{\exp(t x^\wedge)} y^\wedge}{t = 0}.
+\end{equation}
+To give the reader a better understanding we may imagine having an adjoint representation of the Lie group $\Ad_{X(t)}$ such that ${}^\lieGroup{E}\tau ^\wedge(t) = \Ad_{X(t)} \left ({ }^{X}\tau ^\wedge \right)$ where $X(t)$ is represented by the element of the Lie algebra, i.e., $X(t) = \exp(t x^\wedge)$, and we aim to compute the time derivative of ${}^\lieGroup{E}\tau ^\wedge(t)$ at $t=0$, i.e.,  $\frac{\diff} {\diff t} \at{{}^\lieGroup{E}\tau ^\wedge(t)}{0} = \ad_{x^\wedge} \left ({ }^{X}\tau ^\wedge \right)$.
+\par
+It is worth noting that \emph{adjoint representation of the Lie algebra on itself}, $\ad_{x^\wedge}(y^\wedge)$ is given the Lie bracket -- Equation~\eqref{eq:lie_bracket}. In fact, expanding~\eqref{eq:adjoint_representation_lie_def} we obtain
+\begin{IEEEeqnarray}{LL}
+\phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+    \ad_{x^\wedge}(y^\wedge)  &= \at{ \frac{\diff}{\diff t} \Ad_{\exp(t x^\wedge)} y^\wedge}{t = 0} \\
+    &= \at{\frac{\diff}{\diff t} \exp(t x^\wedge) y^\wedge \exp(-t x^\wedge)}{t = 0} \\
+    &= \at{\left[x^\wedge \exp(t x^\wedge) y^\wedge \exp(-t x^\wedge) -  \exp(t x^\wedge) y^\wedge  x^\wedge \exp(-t x^\wedge)\right]}{t = 0} \\
+    &= x^\wedge y^\wedge - y^\wedge x^\wedge \\
+    &= \lieBracket{x^\wedge}{y^\wedge}.
+\end{IEEEeqnarray}
+Since the \emph{adjoint representation of the Lie algebra on itself} is a linear transformation, i.e., the \emph{Lie bracket} is a linear map, we can define a matrix called \emph{adjoint matrix of the Lie algebra}, denoted with $\adM_{x^\wedge}$ that maps the time derivative of the Cartesian tangent vectors ${}^\lieGroup{E}\tau ^\wedge$ and ${ }^{X}\tau ^\wedge$ and writes as:
+\begin{equation}
+    \adM_{x^\wedge}: \mathbb{R}^m \longrightarrow \mathbb{R}^m; \quad {}^\mathcal{E} \dot{\tau} = \adM_{x^\wedge} {}^X \tau.
+\end{equation}
+In this context, it is also important to remark on an important result of Lie algebra theory, known as \emph{Adjoint motion equation}~\citep[Proposition 4.2.2]{Holm2008GeometricRolling}. Let a smooth path $X(t) \in \lieGroup{G}$ and $\tau^\wedge(t) \in \lieAlgebra{g}$ be a path in the Lie algebra, then the following relation holds~\citep[Proposition 4.2.2]{Holm2008GeometricRolling}:
+\begin{equation}
+\label{eq:adjoint-motion-equation-lie}
+    \frac{\diff}{\diff t }\left\{\Ad_{X(t)} \tau^\wedge(t)\right\} =  \Ad_{X(t)} \left[ \frac{\diff}{\diff t} \tau^\wedge(t) + \ad_{\xi(t)}\tau^\wedge(t)   \right].
+\end{equation}
+where $\xi(t) = X(t)^{-1} \dot{X}(t) \in \lieAlgebra{g}$ -- i.e., the left trivialization. Equation~\eqref{eq:adjoint-motion-equation-lie} can be expressed in matrix form as:
+\begin{equation}
+\label{eq:adjoint-motion-equation-matrix}
+     \frac{\diff}{\diff t }\left\{\AdM_{X(t)} \tau(t)\right\} =  \AdM_{X(t)} \left[ \frac{\diff}{\diff t} \tau(t) + \adM_{\xi(t)}\tau(t)   \right].
+\end{equation}
+\par
+In the case of the roto-translation group~\eqref{eq:adjoint-motion-equation-matrix} results in the Equation~\eqref{eq:adjoint-motion-equation-matrix_se3}, where  $\adM_{\xi(t)}$ is given by $\xi(t) \times$.
+\par
+We now introduce the \emph{adjoint representation} of a Lie algebra $\lieAlgebra{g}$ at $x^\wedge\in\lieAlgebra{g}$ on an element of the Lie co-algebra $w^\wedge \in \lieAlgebra{g}^*$ by means of the dual pairing map $\langle.,.\rangle$:
+\begin{equation}
+\label{eq:co-adjoint_action_lie_def}
+    \ad_{x^\wedge} ^*: \lieAlgebra{g} \times \lieAlgebra{g}^* \longrightarrow \lieAlgebra{g}^* \quad \langle \ad_{x^\wedge}^* (w^\wedge), \tau^\wedge \rangle:=  \langle w^\wedge, -\ad_{{x^\wedge}}(\tau^\wedge) \rangle,
+\end{equation}
+where $\tau^\wedge \in \lieAlgebra{g}$.
+
+It is worth noting that for a matrix, the Lie group $\ad_{x^\wedge} ^*(w ^ \wedge)$ has a closed form and it is equal to
+\begin{equation}
+  \ad_{x^\wedge} ^*(w ^ \wedge) =   x^\wedge w^\wedge - w^\wedge x^\wedge.
+\end{equation}
+Indeed using the trace as dual pairing between $\lieAlgebra{g}$ and $\lieAlgebra{g}^*$ 
+\begin{IEEEeqnarray}{LL}
+\phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+  \langle w^\wedge, - \ad_{x^\wedge}(\tau^\wedge) \rangle &= \tr \left( w ^ \wedge \left(\tau^\wedge x^\wedge  -x ^\wedge \tau^\wedge  \right)\right) \\
+  &=  \tr \left(  w ^ \wedge \tau^\wedge x^\wedge - w ^ \wedge x ^\wedge \tau^\wedge \right) \\
+  &= \tr \left(  w ^ \wedge \tau^\wedge x^\wedge\right) - \tr \left( w ^ \wedge x ^\wedge \tau^\wedge \right) \\
+ &= \tr \left(  x ^ \wedge w^\wedge \tau^\wedge\right) -  \tr \left(w ^ \wedge x ^\wedge \tau^\wedge \right) \\
+  &= \tr \left(\left(  x ^ \wedge w^\wedge  -  w ^ \wedge x ^\wedge\right) \tau^\wedge \right) \\
+  &= \langle   x ^ \wedge w^\wedge  -  w ^ \wedge x ^\wedge, \tau^\wedge \rangle \\ 
+  &= \langle \ad_{x^\wedge}^* (w^\wedge), \tau^\wedge \rangle.
+\end{IEEEeqnarray}
+Similarly to $\ad_{x\wedge}$, $\ad_{x\wedge}^*$ is a linear transformation, so we can introduce a matrix called \emph{co-adjoint matrix of the lie algebra} $\adM^*_{x^\wedge}$, defined as
+\begin{equation}
+    \adM_{x^\wedge}^*: \mathbb{R}^m \longrightarrow \mathbb{R}^m; \quad \langle \adM_{x^\wedge}^* w, \tau \rangle:=  \langle w, -\adM_{x^\wedge} \tau \rangle.
+\end{equation}
+In the case of matrix Lie group, there exists a relation between $\adM^*_{x^\wedge}$ and $\adM_{x^\wedge}$. Indeed, applying the scalar product as the dual pairing between $\mathbb{R}^n \cong \lieAlgebra{g}$ and $\mathbb{R}^n \cong \lieAlgebra{g}^*$, we obtain the following:
+\begin{IEEEeqnarray}{LL}
+\phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+  \langle \adM^*_{x^{\wedge^*}} w, \tau \rangle &= w^\top \adM_{x^{\wedge}}^{* ^\top} \tau \\
+  &= \langle  w, \adM_{x^\wedge}^{* ^\top} \tau \rangle \\
+  &= \langle w, -\adM_{x^\wedge} \tau \rangle,
+\end{IEEEeqnarray}
+where $\adM^*_{x^\wedge}$ is given by
+\begin{equation}
+    \adM^*_{x^\wedge} = -\adM_{x^\wedge}^\top.
+\end{equation}
+In this context, it is also important to recall an important result of the Lie algebra theory, known as \emph{co-adjoint motion equation}~\citep[Proposition 4.2.5]{Holm2008GeometricRolling}. Let a smooth path $X(t) \in \lieGroup{G}$ and $\mu^\wedge(t) \in \lieAlgebra{g}^*$ be a path in the Lie co-algebra, then the following relation holds~\citep[Proposition 4.2.5]{Holm2008GeometricRolling}:
+\begin{equation}
+\label{eq:co-adjoint-motion-equation-lie}
+    \frac{\diff}{\diff t }\left\{\Ad^*_{X(t)} \mu^\wedge(t) \right \}=  \Ad_{X(t)} \left[ \frac{\diff}{\diff t} \mu^\wedge(t) + \ad^*_{\xi(t)}\mu^\wedge(t)   \right].
+\end{equation}
+where $\xi(t) = X(t)^{-1} \dot{X}(t) \in \lieAlgebra{g}$ -- i.e., the left trivialization.
+Equation~\eqref{eq:co-adjoint-motion-equation-lie} can be expressed in matrix form as
+\begin{equation}
+\label{eq:co-adjoint-motion-equation-matrix}
+     \frac{\diff}{\diff t } \left \{\AdM^*_{X(t)} \mu(t) \right \} =  \AdM^*_{X(t)} \left[ \frac{\diff}{\diff t} \mu(t) + \adM^*_{\xi(t)}\mu(t)   \right].
+\end{equation}
+\par
+In $\SE(3)$ Equation~\eqref{eq:co-adjoint-motion-equation-matrix} results in Equation~\eqref{eq:co-adjoint-motion-equation-matrix_se3}, where $\adM^*_{\xi(t)}$ is given by $\xi(t) \times^*$.
+
+\section{Eurel-Poincar\'e equations}
+The Euler-Poincar\'e Equations are the generalization of the Euler-Lagrange equations to a system whose configuration space is a Lie group.
+\par
+Given a system $\Sigma$ whose state belongs to a matrix Lie group $\lieGroup{G}$ and let a \emph{left-trivialized Lagrangian function} $\mathcal{L}: \lieGroup{G} \times \lieAlgebra{g} \longrightarrow \mathbb{R}$. Let $\lieGroup{P}$ be the set of smooth paths $X:[t_0, t_f] \longrightarrow \lieGroup{G}$ such that $X(t_0) = X_0$ and $X(t_f) = X_f$. We aim to compute the trajectory $X(t)$ so that it is a \emph{stationary point} of the \emph{action functional}:
+\begin{equation}
+\label{eq:eurel-poincare-equations-J}
+    \mathfrak{G} =\int_{t_0}^{t_f} \mathcal{L}(X, \xi^\wedge) \diff t.
+\end{equation}
+Applying \emph{Hamilton’s Variational Principle}~\citep{Lee2018GlobalManifolds} on Equation~\eqref{eq:eurel-poincare-equations-J} we can conclude that 
+a path $X \in \lieGroup{P}$ is a stationary point of $J$ if and only if 
+\begin{equation}
+\label{eq:eurel-poincare-equations-lie}
+    \frac{\diff }{\diff t} \frac{\partial \mathcal{L}}{\partial \xi} + \adM^*_\xi \frac{\partial \mathcal{L}}{\partial \xi}  = X^{-1} \frac{\partial \mathcal{L}}{\partial X} 
+\end{equation}
+where $\xi^\wedge = X^{-1} \dot{X}$ is the left trivialization of the Lie algebra.
+\par
+Equation~\eqref{eq:eurel-poincare-equations-lie} plays a crucial role in the definition of the dynamics of a rigid body system. Indeed, considering a $\SE(3)$ group and the Langrangian function~\eqref{eq:se3_lagrangian} we notice that~\eqref{eq:eurel-poincare-equations-lie} is equivalent to \eqref{eq:eurel-poincare-equations-lie-se3}
+with 
+\begin{equation}
+    \adM^*_{{}^B \mathrm{v} _{\lieGroup{I}, B }^\wedge} = {}^B \mathrm{v} _{\lieGroup{I}, B } \times ^*, \quad \frac{\partial \mathcal{L}}{\partial {}^B \mathrm{v} _{\lieGroup{I}, B } } = {}_B \mathbb{M} _ B {}^B \mathrm{v} _{\lieGroup{I}, B }, \quad {}^\lieGroup{I} H _ B ^ {-1} \frac{\partial \mathcal{L}}{\partial {}^\lieGroup{I} H _ B} = - {}_B \mathbb{M} _ B \begin{bmatrix}
+      {}^\lieGroup{I} R _ B ^\top g \\ 
+      0_{3\times1}
+     \end{bmatrix}.
+\end{equation}
+

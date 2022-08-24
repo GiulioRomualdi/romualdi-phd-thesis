@@ -1,0 +1,35 @@
+\chapter{Benchmarking of Simplified-Model Controllers for Locomotion\label{chapter:simplified_benchmarking}}
+
+In Part~\ref{part:wbc}, we discussed whole-body controllers that take into account different types of robots, as well as the interaction between the robot and the environment. Independently of the choice of the whole-body controller, we assumed a high-level algorithm that provides the reference for the Cartesian trajectories, e.g., CoM and foot trajectories. This part presents the design of two high-level controllers that compute the commands for the whole-body control layer presented in Part~\ref{part:wbc}. This chapter, in particular, defines the three-layer controller architecture illustrated in Figure~\ref{fig:three-layer} as shown in Figure~\ref{fig:three-layer-simplified-benchmarking}.
+The \emph{whole-body QP control} ensures the tracking of the desired CoM and foot trajectories by considering the complete robot models. A detailed design of different kinds of whole-body controllers is discussed in Part~\ref{part:wbc}.
+The \emph{trajectory optimization} layer is maintained fixed with a unicycle-based planner~\citep{8594277} that generates the desired DCM and foot trajectories. 
+The \emph{simplified model controller} is responsible for implementing a control law that stabilizes the unstable DCM dynamics. We approach the stabilization problem by designing two different controllers: an \emph{instantaneous} and a \emph{predictive} one.
+We compare several combinations of the control architecture with the kinematics-based whole-body QP control layer presented in Section~\ref{sec:ik_qp}.
+We carried out the test on the humanoid robot iCub v2.7 -- see Section~\ref{sec:icub2.7}.
+\par
+The chapter is organized as follows. Section~\ref{sec:background-bachmarking} introduces a state-of-the-art implementation of the footstep planner and the DCM planner implemented in the~\emph{trajectory optimization layer}. Section~\ref{sec:simplified_model_architecture} details the components constituting the simplified model blocks of the three-layer controller architecture. Section~\ref{sec:results_simplified_benchmarking} presents the experimental validation of the proposed approaches and shows an explanatory table comparing the different simplified control strategies. Finally, Section~\ref{sec:conclusion_simplified_benchmarking} concludes the chapter.
+\par
+The content of this chapter appears partially in:
+\begin{leftbar}
+	\begin{quote}%
+		\bibentry{8625025} \vspace{5mm}\newline 
+		\bibentry{Romualdi2020ARobots} \vspace{5mm} \newline
+		\begin{tabular}{c p{10.0cm}}
+			     Video & \href{https://www.youtube.com/watch?v=FIqwAO71Fc4}{\texttt{https://www.youtube.com/watch?v=FIqwAO71Fc4}} \\
+			     GitHub &  \href{https://github.com/robotology/walking-controllers}{\texttt{robotology/walking-controllers}} 
+		\end{tabular}
+	\end{quote}
+\end{leftbar}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics{chapter_simplified_benchmarking/figures/three-layer.tikz}
+    \caption[The three layer controller architecture for bipedal locomotion in rigid environment]{The control architecture is composed of three layers: the \emph{trajectory optimization}, the \emph{simplified model control}, and the \emph{whole-body control}. The inner layer is described in Chapter~\ref{chapter:benchmarking_wbc}.
+    \label{fig:three-layer-simplified-benchmarking}}
+\end{figure}
+
+
+\input{chapter_simplified_benchmarking/background}
+\input{chapter_simplified_benchmarking/trajectory_optimization}
+\input{chapter_simplified_benchmarking/results}
+\input{chapter_simplified_benchmarking/conclusions}

@@ -1,0 +1,33 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [draw opacity=0][fill={rgb, 255:red, 227; green, 227; blue, 227 }  ,fill opacity=1 ] (588.32,141.52) -- (615.33,199.88) -- (574.56,264.99) -- (467.53,196.18) -- (530.22,142.29) -- cycle ;
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ]   (530.22,142.29) -- (458.09,204.04) ;
+\draw [shift={(455.81,205.99)}, rotate = 319.43] [fill={rgb, 255:red, 65; green, 117; blue, 5 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (518.75,142.29) -- (605.13,141.36) ;
+\draw    (584.38,133.06) -- (618.46,207.1) ;
+\draw    (507.28,162.55) -- (486.17,139.26) ;
+\draw [shift={(484.16,137.03)}, rotate = 47.81] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (559.27,141.91) -- (559.27,109.26) ;
+\draw [shift={(559.27,106.26)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (601.31,169.81) -- (629.55,156.65) ;
+\draw [shift={(632.27,155.38)}, rotate = 155.01] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw    (594.94,232.43) -- (622.35,249.98) ;
+\draw [shift={(624.88,251.6)}, rotate = 212.63] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (528.5,142.29) .. controls (528.5,141.34) and (529.27,140.57) .. (530.22,140.57) .. controls (531.17,140.57) and (531.94,141.34) .. (531.94,142.29) .. controls (531.94,143.24) and (531.17,144.01) .. (530.22,144.01) .. controls (529.27,144.01) and (528.5,143.24) .. (528.5,142.29) -- cycle ;
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (586.6,141.52) .. controls (586.6,140.57) and (587.37,139.8) .. (588.32,139.8) .. controls (589.27,139.8) and (590.04,140.57) .. (590.04,141.52) .. controls (590.04,142.47) and (589.27,143.24) .. (588.32,143.24) .. controls (587.37,143.24) and (586.6,142.47) .. (586.6,141.52) -- cycle ;
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ]   (615.33,199.88) -- (566.21,278.62) ;
+\draw [shift={(564.62,281.17)}, rotate = 301.96] [fill={rgb, 255:red, 65; green, 117; blue, 5 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+\draw  [fill={rgb, 255:red, 245; green, 166; blue, 35 }  ,fill opacity=1 ] (613.61,199.88) .. controls (613.61,198.93) and (614.38,198.16) .. (615.33,198.16) .. controls (616.28,198.16) and (617.05,198.93) .. (617.05,199.88) .. controls (617.05,200.83) and (616.28,201.6) .. (615.33,201.6) .. controls (614.38,201.6) and (613.61,200.83) .. (613.61,199.88) -- cycle ;
+
+\draw (546.34,182.66) node [anchor=north west][inner sep=0.75pt]    {$\mathcal{P}$};
+\draw (468.2,136.94) node [anchor=north west][inner sep=0.75pt]    {$a_{1}$};
+\draw (566.75,106.55) node [anchor=north west][inner sep=0.75pt]    {$a_{2}$};
+\draw (624.92,161.97) node [anchor=north west][inner sep=0.75pt]    {$a_{3}$};
+\draw (614.92,223.58) node [anchor=north west][inner sep=0.75pt]    {$a_{4}$};
+
+
+\end{tikzpicture}

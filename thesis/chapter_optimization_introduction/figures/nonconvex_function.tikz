@@ -1,0 +1,21 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw [color={rgb, 255:red, 255; green, 5; blue, 35 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (399.8,219.4) -- (589.8,203.8) ;
+\draw    (368.47,133.4) .. controls (374.47,148.73) and (390.2,248.6) .. (430.2,227.4) .. controls (470.2,206.2) and (483,229.4) .. (511.18,198.46) .. controls (539.37,167.53) and (562.2,247.4) .. (601,189) ;
+\draw [color={rgb, 255:red, 74; green, 144; blue, 226 }  ,draw opacity=1 ]   (462.2,243.11) -- (592.2,123.91) ;
+\draw  [fill={rgb, 255:red, 251; green, 161; blue, 13 }  ,fill opacity=1 ] (508.28,198.46) .. controls (508.28,196.86) and (509.58,195.56) .. (511.18,195.56) .. controls (512.79,195.56) and (514.08,196.86) .. (514.08,198.46) .. controls (514.08,200.07) and (512.79,201.36) .. (511.18,201.36) .. controls (509.58,201.36) and (508.28,200.07) .. (508.28,198.46) -- cycle ;
+\draw  [fill={rgb, 255:red, 65; green, 117; blue, 5 }  ,fill opacity=1 ] (396.9,219.4) .. controls (396.9,217.8) and (398.2,216.5) .. (399.8,216.5) .. controls (401.4,216.5) and (402.7,217.8) .. (402.7,219.4) .. controls (402.7,221) and (401.4,222.3) .. (399.8,222.3) .. controls (398.2,222.3) and (396.9,221) .. (396.9,219.4) -- cycle ;
+\draw  [fill={rgb, 255:red, 65; green, 117; blue, 5 }  ,fill opacity=1 ] (584,203.8) .. controls (584,202.2) and (585.3,200.9) .. (586.9,200.9) .. controls (588.5,200.9) and (589.8,202.2) .. (589.8,203.8) .. controls (589.8,205.4) and (588.5,206.7) .. (586.9,206.7) .. controls (585.3,206.7) and (584,205.4) .. (584,203.8) -- cycle ;
+
+\draw (377.31,123.48) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0,0,0}{f}\textcolor[rgb]{0,0,0}{(}\textcolor[rgb]{0,0,0}{y}\textcolor[rgb]{0,0,0}{)}$};
+\draw (391.39,242.8) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.29,0.56,0.89}{f}\textcolor[rgb]{0.29,0.56,0.89}{(}\textcolor[rgb]{0.29,0.56,0.89}{x}\textcolor[rgb]{0.29,0.56,0.89}{)}\textcolor[rgb]{0.29,0.56,0.89}{\ +\ \nabla }\textcolor[rgb]{0.29,0.56,0.89}{_{x}}\textcolor[rgb]{0.29,0.56,0.89}{f}\textcolor[rgb]{0.29,0.56,0.89}{(}\textcolor[rgb]{0.29,0.56,0.89}{x}\textcolor[rgb]{0.29,0.56,0.89}{)}\textcolor[rgb]{0.29,0.56,0.89}{^{\top }}\textcolor[rgb]{0.29,0.56,0.89}{\ }\textcolor[rgb]{0.29,0.56,0.89}{(}\textcolor[rgb]{0.29,0.56,0.89}{y\ -x}\textcolor[rgb]{0.29,0.56,0.89}{)}$};
+\draw (443.67,169.04) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.98,0.63,0.05}{(}\textcolor[rgb]{0.98,0.63,0.05}{x,\ f}\textcolor[rgb]{0.98,0.63,0.05}{(}\textcolor[rgb]{0.98,0.63,0.05}{x}\textcolor[rgb]{0.98,0.63,0.05}{)}\textcolor[rgb]{0.98,0.63,0.05}{)}$};
+\draw (372.57,212.4) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.25,0.46,0.02}{x_{1}}$};
+\draw (593.14,204.4) node [anchor=north west][inner sep=0.75pt]    {$\textcolor[rgb]{0.25,0.46,0.02}{x}\textcolor[rgb]{0.25,0.46,0.02}{_{2}}$};
+
+
+\end{tikzpicture}

@@ -1,0 +1,156 @@
+\section{Optimization problem\label{sec:optionization_problem}}
+Given a set $Z$ called \emph{optimization problem domain}, and a set of \emph{admissible variables} denoted with $S\subseteq Z$, such that the \emph{decision variables} $x$ belongs to $S$, i.e. $x\in S$, we define the \emph{cost} function $f:Z \rightarrow \mathbb{R}$  such that each decision variable $x$ has a given \emph{cost}.
+We formulate a \emph{mathematical optimization problem}, or just \emph{optimization problem} as
+\begin{IEEEeqnarray}{cc}
+\phantomsection \label{eq:optmization_problem_def} \IEEEyesnumber \IEEEyessubnumber*
+\minimize\limits_{x}  & f(x) \\
+\st & x \in S \subseteq Z.
+\end{IEEEeqnarray}
+\begin{figure}[t]
+\centering
+    \includegraphics{chapter_optimization_introduction/figures/optimization_problem.tikz}
+	\caption[Graphic representation of an optimization problem]{Graphic representation of an optimization problem. The ellipses represent the level sets of the cost function $f(x)$. $g_1(x)$, $g_2(x)$ and $g_3(x)$ are the inequalities constraints that define the feasible set $S$. $x^*$ is the optimal solution of the problem. Since $x^*$ belongs to the curve $g_1(x) = 0$ we can conclude that the  first constraint is active at the optimal solution.}
+	\label{fig:optimization_problem}
+\end{figure}
+If the optimization problem~\eqref{eq:optmization_problem_def} has a solution, we define the \emph{primal optimal value} of the problem~\eqref{eq:optmization_problem_def}, denoted as $f^*$ as the least possible cost as
+\begin{equation}
+\label{eq:optimal_value_cost_inf}
+    f^* = \inf\limits_{x\in S} f(x),
+\end{equation} 
+such that for all $x \in S$,  $f(x) \ge f^*$.
+If $f^* \rightarrow -\infty$, we say that the problem is \emph{unbounded below}. If $S=Z$ the problem is said to be \emph{unconstrained}. If $S$ is empty, the problem is \emph{infeasible}.
+\par
+The \emph{optimal solution} $x^*$ is defined as the decision variable whose cost is associated with the optimal value $f^*$, i.e., $x^* \in S$ with $f(x^*) = f^*$. If $x^*$ exists, then we can rewrite Equation~\eqref{eq:optimal_value_cost_inf} as
+\begin{equation}
+        f^* = \min\limits_{x\in S} f(x) = f(x^*),
+\end{equation}
+$x^*$ is often called \emph{global optimizer} or \emph{optimal solution} of the optimization problem.
+\par
+In this manuscript, we consider only optimization problems whose domain $Z$ is a subset of the finite-dimensional Euclidean vector space $\mathbb{R}^n$. Consequently, Equation~\eqref{eq:optmization_problem_def} can be rewritten as 
+\begin{IEEEeqnarray}{cc}
+\phantomsection \label{eq:optmization_problem_def_real} \IEEEyesnumber \IEEEyessubnumber*
+\minimize\limits_{x} & f(x) \\
+\st & g(x) \preceq 0_{m\times1} \\
+& h(x) = 0_{p\times1} \\
+& x \in Z,
+\end{IEEEeqnarray}
+where $f:\mathbb{R}^n \rightarrow \mathbb{R}$ is the cost function, $g: \mathbb{R}^n \rightarrow \mathbb{R}^m$ represents the inequality constraints and $h: \mathbb{R}^n  \rightarrow \mathbb{R}^p$ the equalities. $Z$ is given by the intersection of the domains of $f$, $g$ and $h$.
+\par
+Consider a feasible point $\bar{x}$. We say that the $i$-th inequality constraint $g_i(x) \le 0$ is \emph{active} if $g_i(\bar{x}) = 0$, on the other hand, if $g_i(\bar{z}) < 0$ the constraint is said to be \emph{inactive}. It is worth noting that an equality constraint is always active for all feasible points. Similarly to what is discussed regarding the polyhedral in Section~\ref{sec:polyhedra}, a set of constraints is redundant if by removing one of the constraints, the feasible set $S$ remains invariant. 
+\par
+Often the inequalities $h(x) = 0$ are not considered in the optimization problem formulation; indeed, an equality constraint can always be replaced by two inequalities; otherwise, another possibility is to parameterize the solution of the equality constraint.  More details can be found in~\citep[Chapter 1.1.1]{Borrelli2017PredictiveSystems}.
+
+\subsection{The optimality conditions for unconstrained problems}
+Given an unconstrained problem of the form
+\begin{IEEEeqnarray}{cc}
+\label{eq:unconstrained_optmization_problem} 
+\minimize\limits_{x} \quad & f(x).
+\end{IEEEeqnarray}
+If $f:\mathbb{R}^n \rightarrow \mathbb{R}$ is twice differentiable, then it is possible to prove that if $x^*$ is a local minimizer, then the gradient of $f$ at $x^*$ is equal to zero, i.e., $\nabla_x f(x^*) = 0_{n\times1}$ and the Hessian matrix is positive semidefinite $\nabla^2_x f(x^*) \succeq 0$. 
+If the function $f$ is convex, then $x^*$ is a the global minimizer if and only if $\nabla_x f(x^*) = 0_{n\times1}$.
+\par
+This optimality condition plays an important role in solving the least square problems. Given $A \in \mathbb{R}^{n\times m}$ and $b \in \mathbb{R}^m$, the objective of a least square problem is to find the optimal solution of $Ax = b$ such that the square norm of $Ax - b$ is minimized. The problem can be framed within the optimization framework with the aim of solving
+\begin{IEEEeqnarray}{cc}
+\label{eq:least_square} 
+\minimize\limits_{x} \quad & (Ax - b) ^\top (Ax - b).
+\end{IEEEeqnarray}
+Since the squared norm is a convex function, finding the minimum can be achieved by setting the gradient of $(Ax - b) ^\top (Ax - b)$ to zero:
+\begin{equation}
+    \nabla_x \left[  (Ax - b) ^\top (Ax - b) \right] = -2A^\top b + 2 A^\top A x = 0,
+\end{equation}
+whose solution is given by $x^* = (A^\top A)^{-1} A^\top b$.
+
+\subsection{Lagrange duality theory}
+\paragraph{Lagrangian function}
+Given an optimization problem of the form \eqref{eq:optmization_problem_def_real} we define the \emph{Lagrangian function} $\mathcal{L} : \mathbb{R}^n \times \mathbb{R}^m \times \mathbb{R}^p \rightarrow \mathbb{R}$ as
+\begin{equation}
+    \label{eq:lagrangian_function}
+    \mathcal{L}(x, \lambda, \mu) = f(x) - \lambda ^\top g(x) - \mu ^\top h(x),
+\end{equation}
+where $\lambda \in \mathbb{R}^m$ and $\mu \in \mathbb{R}^p$ are the \emph{Langrange multipliers} or \emph{dual variables}.  In this context, the optimization problem ~\eqref{eq:optmization_problem_def_real} is often denoted as \emph{primal optimization problem}, or shortly \emph{primal problem}
+We recall that if $\bar{x}$ is a feasible point for the primal problem \eqref{eq:optmization_problem_def_real} and $\mu \succeq 0$, then $\mathcal{L}(\bar{x}, \lambda, \mu) \le f(\bar{X})$.
+
+\paragraph{Lagrange dual function}
+Given the Lagrangian function $\mathcal{L}$, we define the \emph{Lagrange dual function}, or simply \emph{dual function}, as the unconstrained infimum of the Lagrangian over $x$, for fixed multipliers $\lambda$ and $\mu$ and it writes as
+\begin{equation}
+    \label{eq:dual_function}
+    g(\lambda, \mu) = \inf\limits_{x\in \mathbb{R}^n} \mathcal{L}(x, \lambda, \mu).
+\end{equation}
+When the Lagrangian is unbounded below in $x$, the dual function takes the
+value $-\infty$, in this case, we say that the pair $(\lambda, \mu)$ is \emph{dual infeasible}. In the other case, the pair $(\lambda, \mu)$ is \emph{dual feasible}.
+We now state two important properties of the dual function
+\begin{enumerate}
+    \item the dual function is concave even when the original problem is not convex~\citep[Chapter 5.1.2]{Boyd2004ConvexOptimization};
+    \item the dual function $g(\lambda, \mu)$ is a lower bound on the optimal value $p^*$ of the primal problem~\eqref{eq:optmization_problem_def_real}, indeed, for any $\mu$ and $\lambda \succeq 0$ we have
+    \begin{equation}
+        \label{eq:lowerbound_dual_function}
+        g(\lambda, \mu) \le p^*.
+    \end{equation}
+\end{enumerate}
+When the pair $(\lambda, \mu)$ is dual feasible, the latest statement gives a non-trivial lower bound on $p^*$.
+
+\paragraph{Lagrangian dual problem}
+Equation~\eqref{eq:lowerbound_dual_function} states that the Lagrangian dual function is a lower bound on the optimal problem $p^*$. Now we aim to find the greatest value of the upper bound. This problem is often called \emph{Lagrangian dual problem} associated with the optimization problem~\eqref{eq:optmization_problem_def_real}, and is written as
+\begin{IEEEeqnarray}{cc}
+\phantomsection \label{eq:lagrangian_dual_problem} \IEEEyesnumber \IEEEyessubnumber*
+\maximize\limits_{\lambda, \mu} & g(\lambda, \mu) \\
+\st & \lambda \succeq 0_{m\times1}.
+\end{IEEEeqnarray}
+The pair $(\lambda, \mu)$ is dual feasible if $\lambda \succeq 0_{m\times1}$ and $g(\lambda, \mu) \ge -\infty$. We call \emph{dual optimal} or \emph{optimal Lagrange multipliers} and denoted with $(\lambda^*, \mu^*)$ the optimal solution of~\eqref{eq:lagrangian_dual_problem}. We finally denoted with $d^*$ the optimal value of the Lagrange dual problem~\eqref{eq:lagrangian_dual_problem} as
+\begin{equation}
+\label{eq:optimal_lagrange_multipliers}
+    d^* = g(\lambda^*, \mu^*) =  \inf_x \left(f(x) + \lambda^{* ^\top} g(x) + \mu ^{* ^\top} h(x)\right).
+\end{equation}
+\paragraph{Weak duality}
+Given $d^*$ and $p^*$ the dual and primal optimal value, respectively, then we have
+\begin{equation}
+    d^* \le f^*.
+\end{equation}
+This condition is called \emph{weak duality}. The difference $f^* - d^*$ is called \emph{optimal duality gap} or \emph{duality gap}.
+
+\paragraph{Strong duality}
+If $d^* = f^*$, the duality gap is zero, and we can conclude that the \emph{strong duality} holds.
+Strong duality does not hold in general, however, there exist conditions on the primal problem which imply the strong duality. Here, it is worth mentioning \emph{Slater's condition}~\citep[Chapter 5.2.7]{Boyd2004ConvexOptimization}.
+\paragraph{Certificate of optimiality}
+Given the primal optimal problem~\eqref{eq:optmization_problem_def_real} and its dual~\eqref{eq:lagrangian_dual_problem}, the cost function $f$ evaluated at any feasible point $\hat{x}$ is an upper bound of the primal optimal value $p^*$, indeed we have $g(\lambda,\mu) \le d^* \le p^* \le f(\hat{x})$. We say that $\hat{x}$ is $\epsilon$\emph{-suboptimal} with $\epsilon = f(\hat{x}) - g(\lambda,\mu)$. In this scenario, the pair $(\lambda, \mu)$ is also called a \emph{certificate} since it proves the suboptimality of $\bar{x}$. Several optimization algorithms iteratively solve the primal and dual optimization problem until a given value of $\epsilon$ is reached.
+\paragraph{Complementary slackness}
+Let us consider the primal optimal problem~\eqref{eq:optmization_problem_def_real} and its dual~\eqref{eq:lagrangian_dual_problem} and assume that the string duality holds. Let $x^*$ the primal optimal value and $(\lambda^*, \mu^*)$ the dual optimal point. This means that
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:complementary_slackness_ineq} \IEEEyesnumber \IEEEyessubnumber*
+f(x^*) &\,= g(\lambda^*, \mu^*) \IEEEyessubnumber \label{eq:complementary_slackness_ineq_1}\\
+&= \inf_x ( f_0(x) + \lambda^{* ^\top} g(x) + \mu ^{* ^\top} h(x) \IEEEyessubnumber \label{eq:complementary_slackness_ineq_2} \\
+& \le f(x^*) + \lambda^{* ^\top} g(x^*) + \mu ^{* ^\top} h(x^*) \IEEEyessubnumber \label{eq:complementary_slackness_ineq_3}  \\
+& \le f(x^*) \label{eq:complementary_slackness_ineq_4}.
+\end{IEEEeqnarray}
+Equation~\eqref{eq:complementary_slackness_ineq_1} consists of the strong duality property, while \eqref{eq:complementary_slackness_ineq_2} is the definition of the dual optimal function~\eqref{eq:optimal_lagrange_multipliers}. If the inf of the optimal function is equal to the inequality~\eqref{eq:complementary_slackness_ineq_3} is actually an equality if a feasible $x^*$ exists. 
+We can now conclude that 
+\begin{equation}
+\label{eq:complementary_slackness_general}
+    f(x^*) = f(x^*) + \lambda^{* ^\top} g(x^*) + \mu ^{* ^\top} h(x^*).
+\end{equation}
+Since $x^*$ its a feasible value, $h(x^*) = 0$, as a consequence $\mu^*$ is different from zero. On the other hand, Equation~\eqref{eq:complementary_slackness_general}, implies  $\lambda^{* ^\top} g(x^*) = 0$. This condition is known as \emph{complementary slackness} and it holds for any primal optimal value $x^*$ and any dual optimal pair $(\lambda^*, \mu^*)$. Given an inequality constraint $g_i(x^*)$ evaluated at the optimal value and its associated dual optimal variable $\lambda_i^*$, the complementary slackness is resumed in these two following implications
+\begin{enumerate}
+    \item if $\lambda_i^* > 0$ then $g_i(x^*) = 0$;
+    \item if $g_i(x^*) < 0$ then $\lambda_i^* = 0$.
+\end{enumerate}
+In other words, the $i$-th optimal Lagrange multiplier is zero unless the $i$-th constraint is active at the optimum, i.e., for $x = x^*$.
+
+\subsection{Karush-Kuhn-Tucker Conditions \label{sec:kkt_conditions}}
+Let us assume that the cost function $f$, the equality constraints $h$ and the inequality constraints $g$ functions are differentiable, Equation~\eqref{eq:optimal_lagrange_multipliers} is satisfied only if the gradient of the Lagrange function $\mathcal{L}(x, \lambda^*, \mu^*)$ must be zero at $x^*$:
+\begin{equation}
+    \label{eq:kkt_initial_equation}
+    \nabla_x f(x^*) + \lambda^{* ^\top} \nabla_x g(x^*) + \mu ^{* ^\top} \nabla_x h(x^*) = 0.
+\end{equation}
+We can summarize the condition~\eqref{eq:kkt_initial_equation} with the consideration done in the above set of inequalities and equalities
+\begin{IEEEeqnarray}{rl}
+\phantomsection \label{eq:kkt} \IEEEyesnumber \IEEEyessubnumber*
+\nabla_x f(x^*) + \lambda^{* ^\top} \nabla_x g(x^*) + \mu ^{* ^\top} \nabla_x h(x^*) &= 0 \\
+\lambda^{* ^\top} g(x^*) &= 0 \\
+\lambda^{*} &\succeq 0_{ m \times1}  \\
+g(x^*) &\preceq 0_{ m \times1}  \\
+h(x^*) &= 0_{ m \times1}.
+\end{IEEEeqnarray}
+The conditions in \eqref{eq:kkt} are called Karush-Kuhn-Tucker (KKT) conditions. The KKT conditions are necessary conditions for any primal-dual optimal pair if strong duality holds and the cost and constraints are differentiable. If the primal problem is also convex, then the KKT conditions are also sufficient.
+
+\subsubsection{Linear Independence Constraint Qualification}
+Consider an optimization problem of the form \eqref{eq:optmization_problem_def_real} and let $I_{ac}(\bar{x})$ the set of active constraints. Then, the \emph{Linear Independence Constraint Qualification} (LICQ) is satisfied at $\bar{x}$ if the set of the active constraint gradients is linearly independent. We notice that several optimization algorithms solve the problem by relying on the linear independence constraint qualification (LICQ)~\citep{BettsPractical2010}. Indeed, the LICQ allows for the characterization of the set of all possible directions required to solve a constraint nonlinear optimization problem.

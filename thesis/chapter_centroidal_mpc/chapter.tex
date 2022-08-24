@@ -1,0 +1,19 @@
+\chapter{Non-Linear Centroidal Model Predictive Controller \label{chapter:Centroidal_mpc}}
+In Chapter~\ref{chapter:simplified_benchmarking} we benchmarked several implementations of simplified model controllers. Modeling the robot with a simplified model may restrict the motion of the robot to a well-defined subset of motion primitives. For example, when the robot is described using a LIPM (see Section~\ref{sec:lip}), the CoM height must be kept constant and at least one foot must be in contact with the environment.
+This chapter attempts at lowering this limitation by presenting a Non-Linear Model Predictive Controller for humanoid robot locomotion with online step adjustment capabilities. The proposed controller considers the centroidal dynamics of the system to compute the desired contact forces, torques, and contact locations. Differently from bipedal walking architectures based on simplified models, the presented approach considers the reduced centroidal model, thus allowing the robot to perform highly dynamic movements while keeping the control problem still treatable online. We show that the proposed controller can automatically adjust the contact location in both single- and double-support phases. The overall approach is then tested with a simulation of one-leg and two-leg systems performing jumping and running tasks, respectively. Finally, we validate the proposed controller in a specific version of the three-layer controller architecture of Figure~\ref{fig:three-layer}. However, differently from the original design, the simplified model controller is replaced by the \emph{Reduced model control} layer that implements the controller presented in this chapter -- see Figure~\ref{fig:centroidal_mpc_architecture}.
+The overall architecture is finally tested on the position-controlled Humanoid Robot iCub v3 -- Section~\ref{sec:iCub3}. The results show that the proposed strategy prevents the robot from falling while walking and pushed with external forces up to 40 Newton for 1 second applied to the robot arm.
+\par
+The chapter is organized as follows. Section~\ref{sec:reduced_mpc} introduces the control problem. Section~\ref{sec:centroidal_mpc_results} presents the simulation results for different kinds of floating base systems and on the position-controlled Humanoid Robot iCub v3 -- Section~\ref{sec:iCub3}. Finally, Section~\ref{sec:centroidal_mpc_conclusion} concludes the chapter.
+\par
+\begin{figure}[t]
+    \centering
+    \includegraphics{chapter_centroidal_mpc/figures/architecture.tikz}
+    \caption[Centroidal MPC embedded into a three layer controller architecture]{Centroidal MPC embedded into a three layer controller architecture.}
+    \label{fig:centroidal_mpc_architecture}
+\end{figure}
+
+The content of this chapter appears in:
+\fciteWithVideoAndCode{Romualdi2022OnlineAdjustment}{https://www.youtube.com/watch?v=u7vCgE2w_vY9}{https://www.youtube.com/watch?v=u7vCgE2w\_vY9}{https://github.com/ami-iit/paper_romualdi_2022_icra_centroidal-mpc-walking}{ami-iit/paper\_romualdi\_2022\_icra\_centroidal-mpc-walking}
+\input{chapter_centroidal_mpc/centroidal_mpc}
+\input{chapter_centroidal_mpc/results}
+\input{chapter_centroidal_mpc/conclusion}

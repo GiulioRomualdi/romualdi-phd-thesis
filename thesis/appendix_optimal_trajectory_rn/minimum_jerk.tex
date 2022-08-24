@@ -1,0 +1,75 @@
+\section{Minimum jerk trajectory in $\mathbb{R}^n$\label{appendix:min_jerk}}
+Given a set of knots associated to the a time instant $t$, i.e., $(t_0, x_0)$, $(t_1, x_1)$, ..., $(t_N, x_N)$ such that $t_i \ge 0$ and $x_i  \in \mathbb{R}^n$ and given a desired initial and final velocity, $(t_0, \dot{x}_0)$, $(t_N, \dot{x}_N)$, and acceleration $(t_0, \ddot{x}_0)$, $(t_N, \ddot{x}_N)$. We aim to compute a trajectory $x : \mathbb{R}_+ \rightarrow \mathbb{R}^n$ passing to knots satisfying the boundary conditions such that the third-order derivative of $x(t)$ with respect to the time, i.e., the jerk, is minimized. 
+\par
+Following the same approach presented in Appendix~\ref{appendix:min_acc} and defining the Lagrangian function as
+\begin{equation}
+    \label{eq:hamiltonin_lagrangian_minimum_jerk}
+    \mathcal{L}(\ddot{x}) = \dddot{x}^\top \dddot{x}.
+\end{equation}
+we can conclude that a trajectory $x(t)$ that satisfies
+\begin{equation}
+    \label{eq:hamilton_min_jerk_ode}
+    x^{(6)}(t) = 0,
+\end{equation}
+is a minimum jerk trajectory in the interval $[t_i, t_{i+1}]$. One of the infinite solutions of~\eqref{eq:hamilton_min_jerk_ode} is given by the family of the $5^{\text{th}}$-order polynomial function
+\begin{equation}
+    \label{eq:hamilton_5rd_poly}
+    x(t) = a_5 t^5+ a_4 t^4 + a_3 t^3 + a_2 t^2 + a_1 t + a_0.
+\end{equation}
+\par
+The optimal trajectory that minimizes the jerk in the interval $[t_0, t_N]$ is given by the concatenation of the $5^{\text{th}}$-order polynomial functions \eqref{eq:hamilton_5rd_poly}, where the coefficients $a_i$ are chosen to satisfy the position, velocity, and acceleration boundary conditions
+\begin{IEEEeqnarray}{ccc}
+\phantomsection   \IEEEyesnumber \IEEEyessubnumber*
+  \quad x(t_i) = x_i  & \quad \dot{x}(t_i) = \dot{x}_i \quad&  \ddot{x}(t_i) = \ddot{x}_i\\
+   \quad x(t_{i+1}) = x_{i+1} & \quad \dot{x}(t_{i+1}) = \dot{x}_{i+1} \quad & \ddot{x}(t_{i+1}) = \ddot{x}_{i+1}.
+\end{IEEEeqnarray}
+Given a subtrajectory 
+\begin{equation}
+\label{eq:min_jerk_subtraj}
+    s_i: x(t) = a_{i,5} (t-t_i)^5+a_{i,4} (t-t_i)^4+a_{i,3} (t-t_i)^3 + a_{i,2} (t-t_i)^2 + a_{i,1} (t-t_i) + a_{i,0},
+\end{equation}
+defined in the closed domain $[t_{i}, t_{i+1}]$, the coefficients $a_{i,j}$ are equal to:
+\begin{IEEEeqnarray}{c}
+\phantomsection  \label{eq:min_jerk_subtraj_coef} \IEEEyesnumber \IEEEyessubnumber*
+  a_{i,0} = x_i \\ a_{i,1} = \dot{x}_i \\
+  a_{i,2} = \frac{\ddot{x}_i}{2} \\
+  a_{i,3} = -\frac{20x_i - 20 x_{i+1} + 12 \delta_i \dot{x}_i + 8 \delta_i \dot{x}_{i+1} + 3 \delta_i^2 \ddot{x}_i - \delta_i^2 \ddot{x}_{i+1} }{2 \delta_i^3} \\ 
+  a_{i,4} = \frac{30x_i - 30 x_{i+1} + 16 \delta_i \dot{x}_i + 14 \delta_i \dot{x}_{i+1} + 3 \delta_i^2 \ddot{x}_i - 2 \delta_i^2 \ddot{x}_{i+1} }{2 \delta_i^4} \\
+  a_{i,5} = -\frac{12x_i - 12 x_{i+1} + 6 \delta_i \dot{x}_i + 6 \delta_i \dot{x}_{i+1} +  \delta_i^2 \ddot{x}_i -  \delta_i^2 \ddot{x}_{i+1} }{2 \delta_i^5},
+\end{IEEEeqnarray}
+where $\delta_i = t_{i+1} - t_i$. Given a knot $(t_i, x_i)$ such that $i \ne 0$ and $i \ne N$, we compute the velocity $\dot{x}_i$ and the acceleration $\ddot{x}_i$ by asking for continuous jerk and snap at the knots, i.e., 
+\begin{equation}
+    \label{eq:min_jerk_constraint}
+    \at{\frac{\diff ^3}{\diff t^3} s_{i-1}}{t=t_i}
+ = \at{\frac{\diff ^3}{\diff t^3} s_i}{t=t_i}, \qquad
+    \at{\frac{\diff ^4}{\diff t^4} s_{i-1}}{t=t_i}
+ = \at{\frac{\diff ^4}{\diff t^4} s_i}{t=t_i}.
+\end{equation}
+By substituting~\eqref{eq:min_jerk_subtraj_coef} into~\eqref{eq:min_jerk_subtraj} applying the constraint~\eqref{eq:min_jerk_constraint} and imposing the continuity at $t_i$, we obtain the following linear equations
+\begin{equation}
+\label{eq:min_jerk_constraint_explict}
+\begin{split}
+\left[ 
+\begin{array}{cc|cc|cc} 
+\frac{8}{\delta t _ {i-1} ^2} & \frac{1}{\delta t _ {i-1}} & 12 \left( \frac{1}{\delta t _ {i-1} ^2} - \frac{1}{\delta t _ {i} ^2} \right) & -3 \left( \frac{1}{\delta t _ {i-1}} + \frac{1}{\delta t _ {i}} \right) &  -\frac{8}{\delta t _ {i} ^2} & \frac{1}{\delta t _ {i}} \\ 
+\frac{14}{\delta t _ {i-1} ^3} & \frac{2}{\delta t _ {i-1} ^ 2} & 16 \left( \frac{1}{\delta t _ {i-1} ^3} + \frac{1}{\delta t _ {i} ^3} \right) & 3 \left( - \frac{1}{\delta t _ {i-1} ^ 2} + \frac{1}{\delta t _ {i} ^ 2} \right) &  \frac{14}{\delta t _ {i} ^3} & - \frac{2}{\delta t _ {i} ^ 2} 
+\end{array} 
+\right] 
+\begin{bmatrix} 
+\dot{x} _ {i-1} \\ 
+\ddot{x} _ {i-1} \\ 
+\hline 
+\dot{x} _ {i} \\ 
+\ddot{x} _ {i} \\ 
+\hline 
+\dot{x} _ {i +1} \\ 
+\ddot{x} _ {i + 1} 
+\end{bmatrix} \\
+= 
+\begin{bmatrix} 
+\frac{20 (x _ i - x _ {i - 1})}{\delta t _ {i - 1} ^ 3} + \frac{20 (x _ i - x _ {i + 1})}{\delta t _ {i} ^ 3} \\ 
+\frac{30 (x _ i - x _ {i - 1})}{\delta t _ {i - 1} ^ 4} - \frac{30 (x _ i - x _ {i + 1})}{\delta t _ {i} ^ 4}  \\ 
+\end{bmatrix}.
+\end{split}
+\end{equation}
+By stacking \eqref{eq:min_jerk_constraint_explict} for all points $(t_i, x_i)$ such that $i \ne 0$ and $i \ne N$, we obtain a sparse linear system which can be easily solved online to compute the velocity and the acceleration at $t=t_i$. Once the boundary conditions for each subtrajectory have been computed, we determine the coefficients~\eqref{eq:min_jerk_subtraj_coef} for each subtrajectory. The minimum jerk trajectory is finally given by the concatenation of all the subtrajectories $s_i$. 

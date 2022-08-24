@@ -1,0 +1,60 @@
+\section{Convex function\label{sec:convex_function}}
+Given a function $f: \mathbb{R}^n \rightarrow \mathbb{R}$, we say that $f$ is \emph{convex} if
+\begin{enumerate}
+    \item the domain of $f$, denoted with $\dom(f)$ is a convex set;
+    \item for all $x_1,x_2 \in \dom(f)$  and $0 \le \theta \le 1$ we have 
+    \begin{equation}
+        f(\theta x_1 + ( 1- \theta) x_2) \le \theta f(x_1) + (1-\theta) f(x_2).
+    \end{equation}
+\end{enumerate}
+To give the reader a better understanding, we can imagine drawing a chord from any $x_1$ to $y_1$, if it lies above the graph of $f$, $f$ is convex.
+A function $f$ is \emph{strictly convex}, if for $x_1 \ne x_2$ and $0<\theta<1$, we have $f(\theta x_1 + ( 1- \theta) x_2) < \theta f(x_1) + (1-\theta) f(x_2)$. If $-f$ is (strictly) convex, then $f$ is said to be (strictly) concave. Figure~\ref{fig:convex_nonconvex_functions} illustrates an example of convex and nonconvex functions.
+
+\begin{figure}[t]
+\centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/first-order_condition_convex_function.tikz}
+        \caption{Convex function.}
+        \label{fig:first-order_condition_convex_function}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/nonconvex_function.tikz}
+        \caption{Nonconvex function.}
+        \label{fig:nonconvex_function}
+    \end{subfigure}
+	\caption[Examples of convex and nonconvex functions]{Examples of convex and nonconvex functions. (a) Plot of a convex function. $f(y)$ lies above the first order approximation of $f$ at $x$. (b) Graph of a nonconvex function. The chord between $x_1$ and $x_2$ intersects the plot. Furthermore, the linear approximation of $f$ intersects the graph.}
+	\label{fig:convex_nonconvex_functions}
+\end{figure}
+
+\subsection{First and second order conditions for the convexity}
+Let assume a differentiable function $f: \mathbb{R}^n \rightarrow \mathbb{R}$, and let us define $\nabla_x f(x)$ as the gradient of $f$
+\begin{equation}
+    \nabla_x f(x)^\top = \begin{bmatrix}
+        \frac{\partial f}{\partial x_1} & \frac{\partial f}{\partial x_2}& \hdots & \frac{\partial f}{\partial x_n},
+    \end{bmatrix}
+\end{equation}
+then the \emph{first-order condition for the convexity} state that if $f$ is convex if and only if $\dom(f)$ is convex and $f(y) \ge f(x) + \nabla_x f(x)^\top (y -x)$ for any $x$ and $y$ in the domain of $f$.
+Figure~\ref{fig:first-order_condition_convex_function} illustrates the geometrical representation of the condition. Given a first-order Taylor approximation of the function $f$ at $x$, then the function is convex only if its value is always greater than the approximation. 
+It is worth noticing that if $\nabla_x f(x) = 0_{n\times1}$ and $f$ are convex, for the first-order condition we have that for any $y \in \dom(f)$ $f(y) \ge f(x)$, consequently $x$ is a global minimizer of $f$. In the case where $f$ is strictly convex, it is possible to prove that $\nabla_x f(x) = 0_{n \times 1}$ implies that $x$ is the only global minimizer of $f$.
+\par
+Let us now assume that $f$ is twice differentiable and given \emph{Hessian} $\nabla^2_x f(x)$ as
+\begin{equation}
+    \nabla^2_x f(x) = 
+    \begin{bmatrix}
+        \frac{\partial f}{\partial x_1^2} & \frac{\partial f}{\partial x_1 \partial x_2}& \hdots & \frac{\partial f}{ \partial x_1 \partial x_n} \\ 
+         \frac{\partial f}{\partial x_2 \partial x_1} & \frac{\partial f}{\partial x_2^2}& \hdots & \frac{\partial f}{ \partial x_2 \partial x_n} \\
+         \vdots & \vdots & \ddots & \vdots \\ 
+          \frac{\partial f}{\partial x_n \partial x_1} & \frac{\partial f}{\partial x_n \partial x_2}& \hdots & \frac{\partial f}{\partial x_n ^ 2}
+    \end{bmatrix}.
+\end{equation}
+Then $f$ is convex if and only if the domain of f is convex and the Hessian is a positive semidefinite matrix, commonly denoted with $\nabla^2_x f(x) \succeq 0$. This condition is often called \emph{second-order condition for the convexity}. 
+Similarly, $f$ is concave if and only if the domain of $f$ is convex and $\nabla^2_x f(x) \preceq 0$, the Hessian is a negative semidefinite matrix. Here, it is important to recall that even if $\nabla^2_x f(x) \succ 0$ implies that $f$ is strictly convex, the converse does not hold.
+\par
+Due to the second-order condition, we can easily check if a quadratic function is convex. The quadratic functions play an important role in the optimization, indeed as shown in the next chapters, the cost functions considered in this thesis are often quadratic. Given a function $f:\mathbb{R}^n \rightarrow \mathbb{R}$, we say that $f$ is quadratic if it can be expressed as:
+\begin{equation}
+    f(x) = x ^\top P x + q^\top x.
+\end{equation}
+It is easy to prove that the Hessian of $f$ is $P$ while the gradient is $q$. If $P \succeq 0$, then $f$ is said to be a convex quadratic function. As shown in Section~\ref{sec:qp}, the minimization of a quadratic function leads to a huge class of optimization problems called Quadratic Programming (QP) problems. 

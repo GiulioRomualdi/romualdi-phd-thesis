@@ -1,0 +1,11 @@
+\section{Conclusions \label{sec:conclusions_flexible_joint}}
+This chapter presents the design of a whole-body QP control layer for a humanoid robot affected by link flexibility. We model the flexibility by introducing equivalent passive joints that simulate the motion caused by the link deformation.
+We then considered the passive joints position and velocity as state of the floating base system dynamics. Thanks to this choice, we develop a whole-body controller that implicitly considers the joint flexibility in the stabilization problem. 
+The chapter also details the design of an estimator that aims at computing the flexible joint state in real-time. 
+\par
+The proposed approach is validated in a simulated version of the TALOS humanoid robot, where its hip flexibility has a significant impact while performing locomotion tasks. Moreover, the architecture is then compared with a whole-body controller that considers all links of the robot rigid.
+\par
+As a future work, we plan to mitigate the discontinuity of the contact forces by performing a smother transition between contiguous support phases. We also plan to make a detailed comparison with other state-of-the-art controllers that
+consider the flexibility of the robot link~\citep{Villa2022TorqueFlexibility}. In addition, we plan to validate the architecture on the real robot.
+
+

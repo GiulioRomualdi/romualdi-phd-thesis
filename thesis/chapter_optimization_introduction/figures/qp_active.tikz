@@ -1,0 +1,27 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+
+\draw  [color={rgb, 255:red, 16; green, 190; blue, 186 }  ,draw opacity=1 ] (118.02,166.99) .. controls (118.02,138.24) and (158.54,114.94) .. (208.52,114.94) .. controls (258.5,114.94) and (299.02,138.24) .. (299.02,166.99) .. controls (299.02,195.74) and (258.5,219.04) .. (208.52,219.04) .. controls (158.54,219.04) and (118.02,195.74) .. (118.02,166.99) -- cycle ;
+\draw  [color={rgb, 255:red, 65; green, 44; blue, 186 }  ,draw opacity=1 ] (166.28,166.99) .. controls (166.28,153.58) and (185.19,142.7) .. (208.52,142.7) .. controls (231.84,142.7) and (250.75,153.58) .. (250.75,166.99) .. controls (250.75,180.41) and (231.84,191.28) .. (208.52,191.28) .. controls (185.19,191.28) and (166.28,180.41) .. (166.28,166.99) -- cycle ;
+\draw  [color={rgb, 255:red, 243; green, 186; blue, 57 }  ,draw opacity=1 ] (93.88,166.99) .. controls (93.88,130.58) and (145.21,101.06) .. (208.52,101.06) .. controls (271.83,101.06) and (323.16,130.58) .. (323.16,166.99) .. controls (323.16,203.4) and (271.83,232.92) .. (208.52,232.92) .. controls (145.21,232.92) and (93.88,203.4) .. (93.88,166.99) -- cycle ;
+\draw  [color={rgb, 255:red, 247; green, 219; blue, 42 }  ,draw opacity=1 ] (69.75,166.99) .. controls (69.75,122.91) and (131.88,87.18) .. (208.52,87.18) .. controls (285.16,87.18) and (347.29,122.91) .. (347.29,166.99) .. controls (347.29,211.07) and (285.16,246.8) .. (208.52,246.8) .. controls (131.88,246.8) and (69.75,211.07) .. (69.75,166.99) -- cycle ;
+\draw    (216.71,36.5) -- (310.71,103.7) ;
+\draw    (168.31,83.7) -- (231.91,36.9) ;
+\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (222.71,148.04) -- (291,241) ;
+\draw  [color={rgb, 255:red, 58; green, 115; blue, 255 }  ,draw opacity=1 ] (142.15,166.99) .. controls (142.15,145.91) and (171.87,128.82) .. (208.52,128.82) .. controls (245.17,128.82) and (274.89,145.91) .. (274.89,166.99) .. controls (274.89,188.07) and (245.17,205.16) .. (208.52,205.16) .. controls (171.87,205.16) and (142.15,188.07) .. (142.15,166.99) -- cycle ;
+\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=0.42 ] (225.11,42.1) -- (304.31,99.3) -- (261.91,150.5) -- (194.91,138.9) -- (174.67,78.97) -- cycle ;
+\draw    (315.11,85.9) -- (251.11,163.9) ;
+\draw [color={rgb, 255:red, 65; green, 117; blue, 5 }  ,draw opacity=1 ]   (171.81,135.27) -- (222.69,144.06) -- (280.61,154.07) ;
+\draw  [draw opacity=0][fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (217.52,144.06) .. controls (217.52,142.63) and (218.68,141.47) .. (220.11,141.47) .. controls (221.53,141.47) and (222.69,142.63) .. (222.69,144.06) .. controls (222.69,145.49) and (221.53,146.65) .. (220.11,146.65) .. controls (218.68,146.65) and (217.52,145.49) .. (217.52,144.06) -- cycle ;
+\draw    (196.71,144.9) -- (172.71,71.7) ;
+\draw [color={rgb, 255:red, 128; green, 128; blue, 128 }  ,draw opacity=1 ]   (138,243) -- (185,174.97) ;
+
+\draw (214.45,58.08) node [anchor=north west][inner sep=0.75pt]    {$S$};
+\draw (298.6,243) node [anchor=north west][inner sep=0.75pt]   [align=left] {$\displaystyle x^{*}$};
+\draw (66.76,254.01) node [anchor=north west][inner sep=0.75pt]    {$\frac{1}{2} \ x^{\top } Px+q^{\top } x+r$};
+
+
+\end{tikzpicture}

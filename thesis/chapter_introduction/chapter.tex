@@ -1,0 +1,64 @@
+\chapter{Introduction\label{chapter:introduction}}
+
+\ifpdf
+    \graphicspath{{chapter_introduction/figures/Raster/}{chapter_introduction/figures/PDF/}{chapter_introduction/figures/}}
+\else
+    \graphicspath{{chapter_introduction/figures/Vector/}{chapter_introduction/figures/}}
+\fi
+
+Humans have been fascinated by the possibility of replicating their images into an artificial system since ancient Greece.
+Some Greek myths, for example, tell of artificial entities who aid, through extraordinary actions, the men in combat.
+According to a legend, the hero Cadmus (\textgreek{Κάδμος}), after founding Thebes, planted dragon teeth, which became artificial soldiers -- Figure~\ref{fig:cadmus}. Another noteworthy example can be found in the \emph{Argonautica} (\textgreek{Ἀργοναυτικά}), a poem written by \emph{Apollonius of Rhodes} (\textgreek{Ἀπολλώνιος Ῥόδιος}). The author narrates the myth of Talos (\textgreek{Τάλως}), an invulnerable artificial giant made of bronze. 
+According to the myth, Talos was in charge to guard Crete against pirates and invaders and did not hesitate to plunge himself into the flames and heat it up to a very high degree before crashing into and burning his foes.
+These synthetic beings were not just employed in war; in fact, examples of a companion automaton may be found in Latin literature. In this regard, Pūblius Ovidius Nāsō, known as Ovid, writes about the myth of Pygmalion who fell in love with a statue, \emph{Galatea}, he had crafted with his own hands -- Figure~\ref{fig:galatea}. In response to his prayers, the goddess Aphrodite brought Galatea to life.
+\begin{figure}[t]
+\centering
+    \begin{subfigure}[b]{0.68\textwidth}
+        \centering
+        \includegraphics[height=6.25cm]{chapter_introduction/figures/cadmus.jpg}
+        \caption{}
+        \label{fig:cadmus}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.31\textwidth}
+        \centering
+        \includegraphics[height=6.25cm]{chapter_introduction/figures/galatea.jpg}
+        \caption{}
+        \label{fig:galatea}
+    \end{subfigure}
+    \caption[Art and robotics]{(a) Jacob Jordaens (1593–1678) - \emph{Cadmus and Minerva} (date not known). (b) Jean Raoux (1677-1734) – \emph{Pygmalion adoring his statue} (1717).}
+	\label{fig:art}
+\end{figure}
+\begin{figure}[t]
+\centering
+ \begin{subfigure}[b]{0.27\textwidth}
+        \centering
+        \includegraphics[height=6.2cm]{chapter_introduction/figures/WABOT-1.jpg}
+        \caption{WABOT-1}
+        \label{fig:wabot}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.72\textwidth}
+        \centering
+        \includegraphics[height=6.2cm]{chapter_introduction/figures/unimate.jpeg}
+        \caption{Unimate}
+        \label{fig:unimate}
+    \end{subfigure}
+    \caption[WABOT-1 and Unimate]{ (a) The WABOT1 humanoid robot (image from \href{www.humanoid.waseda.ac.jp/booklet/kato\_2.html}{\texttt{www.humanoid.waseda.ac.jp/booklet/kato\_2.html}}).  (b) A picture of the Unimate robot (image taken from \href{https://latestnews.plus/the-film-like-story-of-the-first-real-robot-unimate-in-history/}{\texttt{https://latestnews.plus/the-film-like-story-of-the-first-real-robot-unimate-in-history/}}).}
+\end{figure}
+\par
+It takes a long time to go from folklore to a documented project of an autonomous system. Given that the first one dates around 1495 when \emph{Leonardo da Vinci} designed the \emph{mechanical knight}, known as \emph{Leonardo's robot}. The project was probably based on Leonardo's concept of the ideal human body proportions represented in the \emph{Virtuvian Man} drawing. The first working android was built only about three centuries later by \emph{Jacques de Vaucanson} in 1738.
+Jacques de Vaucanson's work can be seen as a bridge from an age in which artificial creatures were exclusively restricted to legends or projects, to another in which the ideal of developing artificial mechanical systems had become a reality.
+This was noticed by the Italian writer \emph{Ippolito Nevio} who states in \emph{Storia Filosofica dei Secoli Futuri} that the invention of automata is the most important goal reached in the history of mankind.
+\par
+The term robot was coined by the Czech writer Karel Čapek, who used it for the first time in his play \emph{The Universal Robots of Rossum} to characterize an artificial worker. The worldwide success of Čapek's play helped the term \emph{robot} to gain a vogue. Nowadays, the word robot has been incorporated into practically every language.
+\par
+It is interesting to note that robots have had a human aspect since antiquity; yet, the first contemporary robots were used in industries and were not humanoid. The first industrial robot, \emph{unimate} (Figure~\ref{fig:unimate}), was constructed in 1959, while the first machine capable of human-like walking arrived only 14 years later in 1973. Its name was WABOT-1 (WAseda roBOT)~\citep{Takanishi2019HistoricalAsia} -- Figure~\ref{fig:wabot}. WABOT-1 weighs around $\SI{130}{\kilo \gram}$ and is powered by 11 hydraulically driven joints. Walking is accomplished by segmenting the motion and storing the associated joint references in the robot's \emph{computer}. An analog circuit attempts to match the reference joint position with the one measured by a potentiometer. Despite more than five decades since the first walking humanoid robot, bipedal locomotion remains an open problem. The complexity of the robot dynamics, the unpredictability of its surrounding environment, and the low efficiency of the robot actuation system are only a few problems that complexify the achievement of robust robot locomotion. As a result, to cope with the difficulty, researchers were driven to design simpler models~\citep{Kajita2001,vukobratovic2004zero,Pratt2006,Englsberger2011} that are only valid under strict assumptions. In this context, the definition of a hierarchical architecture composed of several layers was a common approach to achieve online humanoid robot control during the DARPA Robotics Challenge~\citep{Spenko2018TheRescue}. In this context, each layer assumes a particular robot model, and it provides the references for the inner layer by processing the inputs from the robot, the environment, and the outputs of the outer layer.
+\par
+This thesis explores the hierarchical control architecture and focuses on various model-based controllers for time-critical humanoid robot motion control. Depending on the desired objective, we vary the considered models from simplified to complete robot dynamics.
+\par
+In Sections~\ref{sec:icub} and \ref{sec:talos}, we briefly describe the technological resources used for the experimental validation of the thesis developments: \emph{iCub} and \emph{TALOS humanoid robots}. Section~\ref{sec:notation} introduces the notation used in the thesis 
+
+\input{chapter_introduction/icub}
+\input{chapter_introduction/talos}
+\input{chapter_introduction/notation}

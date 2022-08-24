@@ -1,0 +1,471 @@
+\section{The Euclidean group\label{sec:se3}}
+
+The Euclidean set $\SE(3)$ is defined as
+\begin{equation}
+\SE(3) :=  
+\left\{ 
+\begin{bmatrix} R & p \\ 0_{1\times3} & 1 \end{bmatrix} \in \mathbb{R}^{4 \times 4} \mid 
+R \in \SO(3), p \in \mathbb{R}^3
+\right\}.
+\end{equation}
+$\SE(3)$ is a group under the product operator. The identity element of the ($\SE(3), \cdot$) group is the $4 \times 4$ identity matrix $I_4$. Given two frames $A$ and $B$, an element of ${}^AH_B\in \SE(3)$ describes the position and orientation of the frame $B$ with respect to the other frame $A$ and it writes as
+\begin{equation}
+  \label{eq:homogeneousTransformation}
+  {}^A H_B :=
+     \begin{bmatrix}
+     {}^A R_B & {}^A o_B \\
+     0_{1\times3} & 1
+  \end{bmatrix} .
+\end{equation}
+Given a 3D vector ${}^B p$ whose coordinates are written in $B$ and the same vector ${}^A p$ whose coordinates are written in $A$. We define the the \emph{homogeneous representation} of ${}^A p$ and ${}^B p$ as ${}^A \bar p := ({}^A p; 1) \in \mathbb{R}^4$ and likewise for
+${}^B \bar p$. Then
+\begin{equation} \label{eq:Abp_AHB_Bbp}
+  {}^A \bar p = 
+  {}^A H_B {}^B \bar p ,
+\end{equation}
+which is the matrix form of 
+${}^A p = {}^A R_B {}^B p + {}^A o_B$.
+In this context ${}^A H_B$ is often called \emph{homogeneous transformation}.
+
+\subsection{6D spatial velocity\label{sec:se3_velocity}}
+Given a smooth trajectory ${}^A H_B {}(t) \in \SE(3)$ we define the time derivative of the homogeneous transformation as ${}^A {\dot H}_B$. A more \emph{compact} representation of 
+${}^A {\dot H}_B$ can be obtained
+multiplying it by the inverse of ${}^A H_B$ on the left or on the right.
+In both cases, the result element is the so called \emph{6D spatial velocity} and it is an element of $\se(3)$
+Where the set $\se(3)$ is defined as
+\begin{equation}
+\se(3) :=  
+\left\{ 
+\begin{bmatrix} \omega \times & v \\ 0_{1\times3} & 0 \end{bmatrix} \in \mathbb{R}^{4 \times 4}  \mid \omega \times \in \so(3), v \in \mathbb{R}^3 
+\right\}.
+\end{equation} 
+Hereafter the \emph{6D spatial velocity} is often denoted also a \emph{twist}.
+We notice that an element of $\se(3)$ is uniquely identified by a 6D vector. Similar to what we discussed for the angular velocity (Section~\ref{sec:angular_velocity}), we now introduce the \emph{hat} operator. Given $\mathrm{v} = \begin{bmatrix}v^\top ,  \omega^\top  \end{bmatrix}^\top \in \mathbb{R}^6$. We define the \emph{hat} operator as 
+\begin{equation}
+    \mathrm{v} ^\wedge := \begin{bmatrix}
+     v \\
+     \omega
+    \end{bmatrix}  ^\wedge =  \begin{bmatrix} \omega \times & v \\ 0_{1\times3} & 0 \end{bmatrix}.
+\end{equation}
+The inverse of the \emph{hat} map is denoted as \emph{vee} and it is defined as
+\begin{equation}
+    \begin{bmatrix} \omega \times & v \\ 0_{1\times3} & 0 \end{bmatrix}^\vee := \mathrm{v}.
+\end{equation}
+A more rigorous definition of the \emph{hat} and \emph{vee} operators is provided in Equation~\eqref{eq:hat_vee_operators}.
+\par
+Considering a smooth curve ${}^A H _B (t) \in \SE(3)$ representing a time-varying homogeneous transformation from the frame $B$ to the frame $A$. We define the \emph{right trivialized spatial velocity}, denoted with ${}^A \mathrm{v} ^\wedge _{A,B} \in \se(3)$ as
+\begin{IEEEeqnarray}{LL}
+\phantomsection  \label{eq:se3right} \IEEEyesnumber  \IEEEyessubnumber*
+ {}^A \mathrm{v} ^\wedge _{A,B} := {}^{A} \dot{H}_{B} {}^{A} H_{B}^{-1}   
+  & =  
+  \begin{bmatrix}
+    {}^A \dot{R}_B & {}^A{\dot o}_B \\
+    0_{1\times3} & 0
+  \end{bmatrix} 
+  \begin{bmatrix} 
+    {}^A {R}_B^\top & -{}^A {R}_B^\top {}^Ao_B \\
+    0_{1\times3} & 1
+  \end{bmatrix} \\
+  & =
+  \begin{bmatrix}
+    {}^A {\dot R}_B {}^AR_B^\top  & {}^A {\dot o}_B - {}^A\dot{R}_B  {}^AR_B^\top  {}^A {o}_B\\
+    0_{1\times3} & 0
+  \end{bmatrix} .
+\end{IEEEeqnarray}
+Note that $ {}^A {\dot R}_B {}^AR_B^\top $ appearing on the right hand side of \eqref{eq:se3right} is skew symmetric and it is equal to~\eqref{eq:so3_right}. We now define ${}^B v_{A,B}$ and ${}^B \omega_{A,B} \in \mathbb{R}^3$ as
+\begin{IEEEeqnarray}{LL}
+\phantomsection  \IEEEyesnumber  \IEEEyessubnumber*
+  {}^A v_{A,B} 
+& := 
+  {}^A {\dot o}_B - {}^A\dot{R}_B  {}^AR_B^\top  {}^A {o}_B
+\\ 
+\label{eq:AwAB}
+  {}^A \omega^{\wedge}_{A,B} 
+& := 
+  {}^A {\dot R}_B {}^AR_B^\top.
+\end{IEEEeqnarray}
+The \emph{right trivialized} velocity of frame $B$ with respect to the frame $A$ is then given by
+\begin{equation}
+{}^A \spatial{v}_{A,B} := 
+\begin{bmatrix}
+{}^{A} v_{A,B} \\
+{}^{A} \omega_{A,B}
+\end{bmatrix} 
+\in \mathbb{R}^6 .
+\end{equation}
+If the frame $A$ is the inertial frame and $B$ a frame rigidly attached to the body, the right trivialized spatial velocity is equivalent to the so-called \emph{inertial velocity}. The angular term of ${}^A \spatial{v}_{A,B}$, ${}^B \omega_{A,B}$, is the angular velocity of the frame $B$ with respect to the frame $A$, whose coordinates are written in $A$. The linear component, ${}^A v_{A,B}$ is the velocity, expressed in $A$, of a point belonging to the rigid body that is instantaneously coincident with the origin $o_A$. To give the reader a better understanding, ${}^A v_{A,B}$ is the velocity of a \emph{rigid extension} of the rigid body that extends up to the origin of the inertial frame $A$ -- see Figure~\ref{fig:spatial-velocity}.
+\par
+We define the \emph{left trivialized spatial velocity}, denoted with ${}^B \mathrm{v} ^\wedge _{A,B} \in \se(3)$, as
+\begin{IEEEeqnarray}{LL}
+\phantomsection  \label{eq:se3ex} \IEEEyesnumber  \IEEEyessubnumber*
+  {}^B \mathrm{v} ^\wedge _ {A,B} := {}^{A} H_{B}^{-1} {}^{A} \dot{H}_{B}  
+  & =  
+  \begin{bmatrix} 
+    {}^A {R}_B^T & -{}^A {R}_B^T {}^Ao_B \\
+    0_{1\times3} & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    {}^A \dot{R}_B & {}^A{\dot o}_B \\
+    0_{1\times3} & 0
+  \end{bmatrix} 
+  \\
+  & =
+  \begin{bmatrix}
+    {}^AR_B^T {}^A {\dot R}_B & {}^AR_B^T {}^A {\dot o}_B \\
+    0_{1\times3} & 0
+  \end{bmatrix} .
+\end{IEEEeqnarray}
+
+Note that ${}^A {R}_B^T {}^A \dot{R}_B$ appearing on the right hand side of \eqref{eq:se3ex} is skew symmetric and it is equal to~\eqref{eq:so3_left}.
+Let us now define ${}^B v_{A,B}$ and ${}^B \omega_{A,B} \in \mathbb{R}^3$ so that
+\begin{IEEEeqnarray}{LL}
+\phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+  {}^B v_{A,B} 
+& := 
+  {}^A R_B^T {}^A {\dot o}_B , \label{eq:BvAB}
+\\ 
+  {}^B \omega^{\wedge}_{A,B} 
+& := 
+  {}^A R_B^T {}^A {\dot R}_B . \label{eq:BwAB}
+\end{IEEEeqnarray}
+The \emph{left trivialized} velocity of frame $B$ 
+with respect to frame $A$ is
+\begin{equation}
+\label{eq:left_trivialized_velocity_definition}
+{}^B \spatial{v}_{A,B} := 
+\begin{bmatrix}
+{}^{B} v_{A,B} \\
+{}^{B} \omega_{A,B}
+\end{bmatrix} 
+\in \mathbb{R}^6 .
+\end{equation}
+If the frame $A$ is the inertial frame and $B$ a frame rigidly attached to the body, the right trivialized spatial velocity is equivalent to the so-called $\emph{body velocity}$. ${}^B \omega_{A,B}$ is the angular velocity of the frame $B$ with respect to the frame $A$, whose coordinates are written in $B$. The linear component, ${}^B v_{A,B}$ is the velocity of the origin of $B$, $o_B$ with respect the frame $A$ whose coordinates are written in $B$ -- see Figure~\ref{fig:spatial-velocity}.
+\begin{figure}[tpb]
+    \centering
+	\includegraphics{chapter_lie/figures/spatial-velocity.tikz}
+	\caption[Spatial velocity of a rigid-body.]{Spatial velocity of a rigid-body. ${}^A \omega_{A,B}$ and ${}^B \omega_{A,B}$ are the angular velocity of the rigid body $\mathcal{O}$ expressed in $A$ and $B$, respectively. ${}^A v_{A,B}$ is the linear velocity, expressed in $A$, of a point belonging to the \emph{rigid extension} of the rigid body $\mathcal{O}$ coincident with the origin $o_A$. ${}^B v_{A,B}$ is the linear velocity, expressed in $B$, of the point $o_B$.
+	\label{fig:spatial-velocity}}
+\end{figure}
+
+\subsection{6D spatial force\label{sec:6d-spatial-force}}
+Given a rigid body, we introduced the spatial force as a 6D vector containing a pure force a torque applied to the body~\footnote{A more rigorous approach is presented in Appendix~\ref{sec:co-tangent-space-and-lie-coalgebra}}~\citep[Chapter 2.5]{traversaro2017}. Similar to the spatial velocity, also the spatial force admits a left and right trivialization. Given a body with a frame, denoted with $B$, rigidly attached to it and a frame $A$ fixed in the space, we define \emph{right trivialized 6D-force}, denoted ${}_B \mathrm{f} \in \se(3)^*$ as 
+\begin{equation}
+    {}_B \mathrm{f} := 
+    \begin{bmatrix}
+       {}_B f \\
+       {}_B \mu
+    \end{bmatrix} \in \mathbb{R}^6.
+\end{equation}
+where $\se(3)^*$ is the dual space of $\se(3)$\footnote{A rigorous definition of the dual space is provided in Appendix~\ref{sec:co-tangent-space-and-lie-coalgebra}} and ${}_B f$ represents the force acting on the rigid body and ${}_B \mu$ is the pure torque about the origin $o_B$ -- see Figure~\ref{fig:spatial-force}.
+\begin{figure}[tpb]
+    \centering
+	\includegraphics{chapter_lie/figures/spatial-force.tikz}
+	\caption[Spatial force of a rigid-body.]{Spatial force of a rigid-body. ${}_A f$ and ${}_B f$ are the force acting on  the rigid body $\mathcal{O}$ expressed in $A$ and $B$, respectively. ${}_A \mu$ is the torque, expressed in $A$, of a point belonging to the \emph{rigid extension} of the rigid body $\mathcal{O}$ coincident with the origin $o_A$. ${}_B \mu$ is the torque, expressed in $B$, of the point $o_B$.
+	\label{fig:spatial-force}}
+\end{figure}
+We define \emph{left trivialized spatial force}, ${}_A \mathrm{f}\in  \se(3)^*$ as 
+\begin{equation}
+    {}_A \mathrm{f} := 
+    \begin{bmatrix}
+       {}_A f \\
+       {}_A \mu
+    \end{bmatrix} \in \mathbb{R}^6.
+\end{equation}
+Here ${}_A f$ represents the force acting on the rigid body and ${}_A \mu$ is the pure torque about the origin $o_A$ -- Figure~\ref{fig:spatial-force}. To give the reader a better understanding, ${}_A \mu$ is the torque about a \emph{rigid extension} of the rigid body that extends up the origin of the inertial frame A -- see Figure~\ref{fig:spatial-force}.
+
+\subsection{Exponential and Logarithmic map}
+Given a small increment $\mathrm{v}^\wedge \in \se(3)$ such that
+\begin{equation}
+\mathrm{v}^\wedge = \begin{bmatrix}
+   \theta \times & \rho \\
+   0_{1\times3} & 0
+\end{bmatrix} \in \se(3),
+\quad 
+\mathrm{v}= \begin{bmatrix}
+   \rho \\
+   \theta
+\end{bmatrix} \in \mathbb{R}^6,
+\end{equation} 
+where $\rho\in\mathbb{R}^3$ and $\theta\in\mathbb{R}^3$ are, respectively, the linear and the angular terms of the increment.
+The $\Exp$ map writes as~\citep{Sola2018ARobotics}:
+\begin{equation}
+    H = \Exp(\mathrm{v}) := \begin{bmatrix}
+       \Exp(\theta) & V(\theta) \rho \\
+       0_{3\times1} & 1
+    \end{bmatrix},
+\end{equation}
+where $V(\theta)$ is given by
+\begin{equation}
+    V(\theta) =  I_3 + \frac{1 - \cos{\| \theta \|}}{\| \theta \| ^2} (\theta \times) + \frac{\| \theta \| - \sin{\| \theta \|}}{\| \theta \| ^3} (\theta \times) ^2.
+\end{equation}
+
+Given an element of the 3D rigid motion group $H \in \SE(3)$ such that
+\begin{equation}
+H = \begin{bmatrix}
+   R & p \\
+   0_{1\times3} & 1
+\end{bmatrix} \in \SE(3),
+\end{equation} 
+the $\Log$ map is
+\begin{equation}
+    \mathrm{v}= \Log(H) := 
+    \begin{bmatrix}
+       V^{-1}\left(\Log(R)\right) p \\
+       \Log(R)
+    \end{bmatrix}.
+\end{equation}
+
+
+\subsection{The adjoint representation} 
+Considering ${}^A H _B \in \SE(3)$ and a spatial velocity element ${}^B \mathrm{v}_{A,B} ^\wedge \in \se(3)$, the adjoint representation maps a left trivialized spatial velocity into a right trivialized one as: 
+\begin{equation}
+\label{eq:adjoint_action_se3}
+    {}^A \mathrm{v}_{A,B} ^\wedge = \Ad_{{}^A H _B }\left({}^B \mathrm{v}_{A,B}^\wedge\right) = {}^A H _B {}^B \mathrm{v}_{A,B}^\wedge {}^A H _B^ {-1}.
+\end{equation}
+Since the adjoint representation is a linear mapping, there exists the inverse of $\Ad_{{}^A H _B}$, hereafter written as $\Ad_{{}^A H _B } ^{-1} = \Ad_{{}^A H _B ^{-1}}$. $\Ad_{{}^A H _B } ^{-1}$ maps a right trivialized spatial velocity into a left trivialized one, i.e.,
+\begin{equation}
+    {}^B \mathrm{v}_{A,B} ^\wedge = \Ad_{{}^A H _B }^{-1}\left({}^A \mathrm{v}_{A,B}^\wedge\right) =  \Ad_{{}^A H _B ^{-1} }\left({}^A \mathrm{v}_{A,B}^\wedge\right) = {}^A H _B ^{-1} {}^A \mathrm{v}_{A,B}^\wedge {}^A H _B.
+\end{equation}
+Given the adjoint representation $\Ad_{{}^A H _B }$, the associated adjoint matrix $\AdM_{{}^A H _B }$ is
+\begin{equation}
+\label{eq:adjoint_matrix_se3_def}
+    \AdM_{{}^A H _B } =
+    \begin{bmatrix}
+    {}^A R_B & \left({}^A o_B \times\right) {}^A R_B  \\
+     0_{3\times3} & {}^A R_B 
+    \end{bmatrix}.
+\end{equation}
+The adjoint matrix $\AdM_{{}^A H _B }$ is identified by developing the adjoint representation in~\eqref{eq:adjoint_action_se3} as
+\begin{IEEEeqnarray}{LL}
+    \phantomsection \IEEEyesnumber  \IEEEyessubnumber*
+     \AdM_{H} \mathrm{v} &= \left[\Ad_{H}\left(\mathrm{v}^\wedge\right) \right]^\vee = (H \mathrm{v} H^{-1})^\vee \\
+     &= \begin{bmatrix}
+     R (\omega\times) R ^\top &  -R (\omega\times) R ^\top o + R v \\
+     0_{1\times3} & 0
+     \end{bmatrix} ^\vee \\ 
+      &= \begin{bmatrix}
+     (R \omega)\times  &  (o\times) R \omega + R v \\
+     0_{1\times3} & 0
+     \end{bmatrix} ^\vee \\
+      &= \begin{bmatrix}
+     (o\times) R \omega + R v\\
+     R \omega
+     \end{bmatrix} = \begin{bmatrix}
+    R & \left(o\times\right) R \\
+     0_{3\times3} & R
+    \end{bmatrix} 
+    \begin{bmatrix}
+   v \\ \omega
+    \end{bmatrix}.
+\end{IEEEeqnarray}
+Where, to improve the readability all the prefix and postfix have been removed. 
+Hereafter the Adjoint matrix $\AdM_{{}^A H _B }$ is denoted with ${}^A X _B $. The linear mapping between the ${}^B\mathrm{v}_{A,B}$ and ${}^A\mathrm{v}_{A,B}$ writes as
+\begin{equation}
+    \label{eq:left_to_right}
+    {}^A\mathrm{v}_{A,B} = {}^A X _B {}^B\mathrm{v}_{A,B}. 
+\end{equation}
+\par
+A rigorous definition of the Adjoint representation is provided in Equation~\eqref{eq:adjoint_action_def}.
+
+\subsection{The co-adjoint representation}
+Similarly to what we discussed for a 6D velocities, we can define a linear map to change the coordinates of a 6D force from a frame $B$ to another frame $A$. This coordinate transformation is indicated with ${}_A X ^ B$ and written as
+\begin{equation}
+    \label{eq:coadjoint_matrix_se3_def}
+    {}_A\mathrm{f} = {}_A X ^ B {}_B\mathrm{f}
+\end{equation}
+Sometimes, ${}_A X ^ B$ is also denoted with $\AdM_{{}^A H_B}^*$, see Appendix~\ref{sec:adjoint_and_coadjoint_representation}.
+\par
+The matrix ${}_A X ^ B$ is induced by the velocity transformation \eqref{eq:adjoint_matrix_se3_def} and it is related to ${}^B X _ A$ as
+\begin{equation}
+   \AdM_{{}^A H_B}^* =  {}_A X ^ B = {}^B X _ A ^{\top} = \AdM_{{}^A H ^{-1}_B}^\top.
+\end{equation}
+In particular
+\begin{equation}
+    \AdM_{{}^A H_B}^* =
+    \begin{bmatrix}
+    {}^A R_B &  0_{3\times3} \\
+     \left({}^A o_B \times\right) {}^A R_B & {}^A R_B 
+    \end{bmatrix}.
+\end{equation}
+
+
+\subsection{The adjoint representation of $\se(3)$}
+Considering ${}^B u(t)^\wedge \in \se(3)$ and ${}^A u(t)^\wedge \in \se(3)$ such that
+\begin{equation}
+    \label{eq:adjoint-motion-equation-matrix_se3_initial}
+    {}^A u(t) = {}^A X _B(t) {}^B u(t).
+\end{equation}
+The time derivative of  
+we may evaluate the time of Equation~\eqref{eq:adjoint-motion-equation-matrix_se3_initial} is given by
+\begin{IEEEeqnarray}{LL}
+    \phantomsection \label{eq:adjoint-motion-equation-matrix_se3} \IEEEyesnumber  \IEEEyessubnumber*
+    \frac{\diff}{\diff t} {}^A u &= \frac{\diff}{\diff t} \left({}^A X_B {}^B u \right) \\
+    &= {}^A X_B \left(\frac{\diff }{\diff t} {}^B u + {}^B \mathrm{v}_{A,B} \times {}^B u  \right),
+\end{IEEEeqnarray}
+where ${}^B \mathrm{v}_{A,B} \times$ is defined as
+\begin{equation}
+    {}^B \mathrm{v}_{A,B} \times := 
+    \begin{bmatrix}
+     {}^B \omega_{A,B} \times & {}^B v_{A,B} \times \\
+     0_{3\times3} & {}^B \omega_{A,B}  \times
+    \end{bmatrix}.
+\end{equation}
+The ${}^B \mathrm{v}_{A,B} \times$ matrix is often denoted as $\adM_{{}^B \mathrm{v}_{A,B} ^ \wedge}$, a rigorous explanation of this choice is given by Equation~\eqref{eq:adjoint-motion-equation-matrix}.
+
+
+\subsection{The co-adjoint representation of $\se(3)$}
+Similarly to what we discussed for a 6D velocities, we can compute the time derivative of the co-adjoint linear map~\eqref{eq:coadjoint_matrix_se3_def} as:
+\begin{IEEEeqnarray}{LL}
+    \phantomsection \label{eq:co-adjoint-motion-equation-matrix_se3} \IEEEyesnumber  \IEEEyessubnumber*
+    \frac{\diff}{\diff t} {}_A \mathrm{f} &= \frac{\diff}{\diff t} \left({}_A X^B {}_B \mathrm{f} \right) \\
+    &= {}_A X^B \left(\frac{\diff }{\diff t} {}_B \mathrm{f} + {}^B \mathrm{v}_{A,B} \times^* {}_B \mathrm{f}  \right),
+\end{IEEEeqnarray}
+where ${}^B \mathrm{v}_{A,B} \times^*$ is defined as
+\begin{equation}
+    {}^B \mathrm{v}_{A,B} \times^* := 
+    \begin{bmatrix}
+     {}^B \omega_{A,B} \times & 0_{3\times3} \\
+     {}^B v_{A,B} \times & {}^B \omega_{A,B}  \times.
+    \end{bmatrix}
+\end{equation}
+The ${}^B \mathrm{v}_{A,B} \times^*$ matrix is often denoted as $\adM^*_{{}^B \mathrm{v}_{A,B} ^ \wedge}$, a rigorous explanation of this choice is given by Equation~\eqref{eq:co-adjoint-motion-equation-matrix}.
+
+\subsection{Mixed spatial velocity\label{sec:mixed_spatial_velocity}} 
+In some applications, it may be helpful to define the 6D velocity as
+\begin{equation}
+    \begin{bmatrix}
+       {}^A\dot{o}_B \\
+       {}^A\omega_{A,B}
+    \end{bmatrix}.
+\end{equation} 
+This representation is often called \emph{hybrid}~\citep{Murray1994} or \emph{mixed}~\citep[Chapter~2.3]{traversaro2017} velocity representation. To avoid confusion with hybrid systems theory, we will call it as \emph{mixed} velocity of frame $B$ with respect to frame $A$. 
+The mixed representation is particularly helpful when designing and implementing controllers that aim to follow a desired Cartesian trajectory. 
+To simplify the description of the algorithms and concepts presented in this thesis, we need a way to express this quantity coherently with the rest of the concepts introduced until know. Given two frame $A$ and $B$ with a given origin and orientation, hereafter indicated as $o_A$, $o_B$ and $[A]$ and $[B]$, we introduce the frame $B[A]:=(o_B, \; [A])$ as a frame having the origin on $o_B$ and oriented as $A$. We formally define the mixed velocity ${}^{B[A]}\mathrm{v}_{A,B}$ as 
+\begin{equation}
+\label{eq:mixed_velocity_definition}
+    {}^{B[A]}\mathrm{v}_{A,B} := {}^{B[A]} X _B {}^B \mathrm{v} _{A,B} = 
+    \begin{bmatrix}
+       {}^A R _B & 0_{3\times3} \\
+       0_{3\times3} & {}^A R _B
+    \end{bmatrix}
+    \begin{bmatrix}
+       {}^A R _B ^\top {}^A \dot{o}_B\\
+       {}^{B}\omega_{A,B}
+    \end{bmatrix} = 
+    \begin{bmatrix}
+       {}^A\dot{o}_B \\
+       {}^A\omega_{A,B}
+    \end{bmatrix}.
+\end{equation}
+It is important to notice that ${}^{B[A]}\mathrm{v}_{A,B}$ is not isomorphic to any element of $\se(3)$, i.e., ${}^{B[A]}\mathrm{v}_{A,B} ^\wedge \notin \se(3)$. On the other hand, ${}^{B[A]}\mathrm{v}_{A,B}$ can be seen as the row concatenation of the left trivialized linear velocity whose coordinate are expressed in $A$ and the right trivialized angular velocity. In other words ${}^{B[A]}\mathrm{v}_{A,B}$ will belong to the Cartesian product of $\mathbb{R}^3$ and  $\so(3)$, i.e., ${}^{B[A]}\mathrm{v} ^\wedge _{A,B} \in \mathbb{R}^3 \times \so(3)$. 
+
+\subsection{Mixed spatial force}
+Smilar to the mixed spatial velocity, in some applications, it may be helpful to define the 6D force as
+\begin{equation}
+{}_{B[A]} \mathrm{f} = 
+    \begin{bmatrix}
+      {}_A f \\
+      {}_{B[A]}\mu
+    \end{bmatrix}.
+\end{equation} 
+This representation is often called \emph{mixed}~\citep[Chapter~2.3]{traversaro2017} force representation.
+Given two frames $A$ and $B$ with a given origin and orientation, hereafter indicated as $o_A$, $o_B$ and $[A]$ and $[B]$, we introduce the frame $B[A]:=(o_B, \; [A])$ as a frame having the origin on $o_B$ and oriented as $A$. We formally define the mixed spatial force ${}_{B[A]}\mathrm{f}$ as 
+\begin{equation}
+\label{eq:mixed_force_definition}
+    {}_{B[A]}\mathrm{f} := \AdM^*_{{}^{B[A]} H _B} {}_B \mathrm{f} =  {}_{B[A]} X ^B {}_B \mathrm{f} = 
+    \begin{bmatrix}
+       {}^A R _B & 0_{3\times3} \\
+       0_{3\times3} & {}^A R _B
+    \end{bmatrix}
+    \begin{bmatrix}
+       {}_B f\\
+       {}_{B}\mu
+    \end{bmatrix} = 
+    \begin{bmatrix}
+     {}_A f \\
+     {}_{B[A]}\mu
+    \end{bmatrix}.
+\end{equation}
+To give the reader a better comprehension, we may think that a mixed spatial force is a 6D vector whose linear component is the force acting on the rigid body whose entries are written with respect to the frame $A$, while the angular component is the torque about $o_B$ whose coordinate are written in $A$. 
+\par
+The mixed spatial force will play a crucial role in the design of the control systems presented in the following parts.
+
+
+
+\section{Rigid body dynamics\label{sec:rigid-body-dynamics}}
+Let a rigid body $\mathcal{O}$ lying in a uniform gravitational filed and given a frame $B$ rigidly attached to $\mathcal{O}$. Given an inertial frame $\lieGroup{I}$, the configuration of $\mathcal{O}$ is completely determined by the homogeneous transformation ${}^\lieGroup{I} H _ B \in \SE(3)$. We denote ${}^B \mathrm{v}_{\lieGroup{I} ,B} \in \se(3)$ the left trivialized spatial velocity of $\mathcal{O}$. Let $m$ the mass of the rigid body, $\mathbb{I}\in\mathbb{R}^{3\times3}$ the 3D inertial matrix of the body expressed in $B$ and ${}^B p_c$ the position of the center of mass (CoM) expressed in $B$, we introduce the 6D inertia matrix of the body as
+\begin{equation}
+\label{eq:6d_inertial_matrix_body}
+    {}_B \mathbb{M} _ B = 
+    \begin{bmatrix}
+    m & -m  {}^B p_c \times \\
+    m  {}^B p_c \times  & \mathbb{I}
+    \end{bmatrix}.
+\end{equation}
+It is important to recall that $ {}_B \mathbb{M} _ B$ is a constant matrix. 
+\par
+We now introduce the \emph{left-trivialized Lagrangian of the rigid body}, denoted with  $\mathcal{L}({}^\lieGroup{I} H _ B, {}^B \mathrm{v}_{\lieGroup{I} ,B})$, as
+\begin{IEEEeqnarray}{LL}
+\phantomsection  \label{eq:se3_lagrangian} \IEEEyesnumber  \IEEEyessubnumber*
+\mathcal{L}({}^\lieGroup{I} H _ B, {}^B \mathrm{v}_{\lieGroup{I} ,B}) &= \mathcal{K}({}^B \mathrm{v}_{\lieGroup{I} ,B}) - \mathcal{U}({}^\lieGroup{I} H _ B)\\
+& \frac{1}{2} {}^B \mathrm{v}_{\lieGroup{I} ,B}^\top \; {}_B \mathbb{M} _ B  \; {}^B \mathrm{v}_{\lieGroup{I} ,B} + 
+   \begin{bmatrix}
+    g^\top & 0_{1\times3}
+   \end{bmatrix} {}^B H _ \lieGroup{I}  
+      \begin{bmatrix}
+    m {}^B p_c\\ 
+    m
+   \end{bmatrix},
+\end{IEEEeqnarray}
+where $\mathcal{K}({}^B \mathrm{v}_{\lieGroup{I} ,B})$ is the \emph{kinetic energy}, while $\mathcal{U}({}^\lieGroup{I} H _ B)$ is the \emph{potential energy}. $g \in \mathbb{R}^3$ is the gravitational acceleration vector.
+By applying \emph{Hamilton's Variational Principle}, it is possible to prove that given a time interval $[t_0,t_f]$, the trajectory ${}^B H _ \lieGroup{I}$ of the rigid body $\mathcal{O}$ is the one that minimizes the action~\citep[Theorem~2.1]{Traversaro2017ModellingDynamics}:
+\begin{equation}
+       \mathfrak{G} = \int_{t_0}^{t_f} \mathcal{L}({}^\lieGroup{I} H _ B, {}^B \mathrm{v}_{\lieGroup{I} ,B})\diff t,
+\end{equation}
+where $\mathcal{L}({}^\lieGroup{I} H _ B, {}^B \mathrm{v}_{\lieGroup{I} ,B})$ is given by~\eqref{eq:se3_lagrangian}.
+\par
+In particular the resulting equation of motions are the one that satisfies the following differential equation
+\begin{equation}
+\label{eq:eurel-poincare-equations-lie-se3}
+     {}_B \mathbb{M} _ B {}^B \dot{\mathrm{v}} _{\lieGroup{I}, B } + {}^B \mathrm{v} _{\lieGroup{I}, B } \times^* {}_B \mathbb{M} _ B {}^B \mathrm{v} _{\lieGroup{I}, B }  = {}_B \mathbb{M} _ B \begin{bmatrix}
+      {}^\lieGroup{I} R _ B ^\top g \\ 
+      0_{3\times1}
+     \end{bmatrix}.
+\end{equation}
+\par
+The reader can find a brief introduction of \emph{Hamilton's Variational Principle} in Appendix~\ref{appendix:hamilton}.
+
+
+
+     \par
+In the case of a non-conservative spatial force acting on the body, Equation~\eqref{eq:eurel-poincare-equations-lie-se3} becomes 
+\begin{equation}
+\label{eq:eurel-poincare-equations-lie-se3-force}
+     {}_B \mathbb{M} _ B {}^B \dot{\mathrm{v}} _{\lieGroup{I}, B } + {}^B \mathrm{v} _{\lieGroup{I}, B } \times^* {}_B \mathbb{M} _ B {}^B \mathrm{v} _{\lieGroup{I}, B }  = {}_B \mathbb{M} _ B \begin{bmatrix}
+      {}^\lieGroup{I} R _ B ^\top g \\ 
+      0_{3\times1}
+     \end{bmatrix} + {}_B \mathrm{f}.
+\end{equation}
+Equation~\eqref{eq:eurel-poincare-equations-lie-se3-force} can be expressed also with respect to the inertial frame $\mathcal{I}$ \begin{equation}
+\label{eq:eurel-poincare-equations-lie-se3-force-inertial}
+     {}_\lieGroup{I} \mathbb{M} _ B {}^B \dot{\mathrm{v}} _{\lieGroup{I}, B } + {}^\lieGroup{I} \mathrm{v} _{\lieGroup{I}, B } \times^* {}_\lieGroup{I} \mathbb{M} _ B {}^\lieGroup{I} \mathrm{v} _{\lieGroup{I}, B }  = {}_\lieGroup{I} \mathbb{M} _ B \begin{bmatrix}
+      g \\ 
+      0_{3\times1}
+     \end{bmatrix} + {}_\lieGroup{I} \mathrm{f}.
+\end{equation}
+Even if \eqref{eq:eurel-poincare-equations-lie-se3-force-inertial} seems similar to \eqref{eq:eurel-poincare-equations-lie-se3-force}, it is important to underline that $ {}_B \mathbb{M} _ B$ is a constant matrix depending only on the geometry of the rigid body, while $ {}_\lieGroup{I} \mathbb{M} _ B$ is a time-varying quantity that depends on the position of the rigid-body - i.e.,  ${}_\lieGroup{I} \mathbb{M} _ B =  {}_\lieGroup{I} X ^B {}_B \mathbb{M} _ B {}_\lieGroup{I} X ^B$.
+\par
+We finally introduce the 6D spatial momentum of the body $\mathcal{O}$ with respect to a frame $\lieGroup{I}$ expressed in $B$  and denoted with ${}_B h_{\mathcal{I}, B} $ as a 6D vector isomorphic to $\se(3)^*$, i.e., ${}_B h_{\mathcal{I}, B}  \in \mathbb{R}^6 \cong \se(3)^*$ and it writes as 
+\begin{equation}
+    \label{eq:spatial_momentum-rigid_body}
+    {}_B h_{\mathcal{I}, B} := \AdM^*_{{}^B H _ \mathcal{I}} {}_B \mathbb{M} _ B {}^B \mathrm{v}_{\lieGroup{I}, B}.
+\end{equation}
+By means of the 6D spatial momentum, Equation~\eqref{eq:eurel-poincare-equations-lie-se3-force-inertial} can be rewritten as~\citep{Featherstone2014}.
+\begin{equation}
+    \label{eq:centroidal_spatial_momentum-rigid_body}
+    {}_{\mathcal{I}} \dot{h}_{\mathcal{I}, B}  = {}_\lieGroup{I} X ^B {}_B \mathbb{M} _ B \begin{bmatrix} 
+      {}^\lieGroup{I} R _ B ^\top g \\ 
+      0_{3\times1}
+     \end{bmatrix} + {}_\lieGroup{I} \mathrm{f}.
+\end{equation}
+Equation~\eqref{eq:centroidal_spatial_momentum-rigid_body} is also known as \emph{Newton-Euler equations} for a rigid body.

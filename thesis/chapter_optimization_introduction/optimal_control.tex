@@ -1,0 +1,189 @@
+\section{Optimal control\label{sec:optimal_control}}
+Let us consider a dynamical system 
+\begin{equation}
+    \label{eq:oc_dynamical_system}
+    \dot{x}(t) = f(x(t), u(t), t),
+\end{equation}
+where $x(t) \in \mathbb{R}^n$ is the state of the dynamical system and $u(t) \in \mathcal{U} \subseteq \mathbb{R}^m$ is the control input. 
+Our aim is to determine the evolution of the system given an initial value $x(0) = x_0$. Such a problem is often known as \emph{Initial Value Problem}, denoted as IVP. If the terminal condition is also specified, $x(t_f) = x_f$, we name the problem \emph{Boundary Value Problem} (BVT).
+\par
+If the control input $u(t)$ is known and is sufficiently regular, the IVP has an unique solution that depends on the control history $u(t)$.
+\par
+In more complex scenarios, the dynamical system~\eqref{eq:oc_dynamical_system} is extended with a set of algebraic constraints of the form
+\begin{equation}
+    \label{eq:oc_constraint}
+    c(x(t), u(t), t) \le 0_{n_c \times 1}.
+\end{equation}
+The dynamical system~\eqref{eq:oc_dynamical_system} together with~\eqref{eq:oc_constraint} define a \emph{Differential Algebraic Equation} (DAE).
+\par
+Let us now introduce a cost function whose purpose is to evaluate the performance index of a control input sequence $u$ in a closed interval $t\in[t_0, t_f]$. We define a \emph{performance functional index}, or simply \emph{cost function}, denoted as $\mathcal{J}(x_0, u(.), t)$ as:
+\begin{equation}
+    \label{eq:oc_cost_function}
+    \mathcal{J}\left(x_0, u(.), t \right) = \beta(x(t_f), t_f) + \int_{t_0} ^{t_f} \ell\left(x(\tau), u(\tau), \tau\right) \diff \tau,
+\end{equation}
+where $\beta(x(t_f), t_f)$ is called \emph{Mayer} term and weighs the terminal state. While $\ell\left(x(\tau), u(\tau), \tau\right)$ is the \emph{Lagrange} term. The Mayer term is also known as \emph{terminal cost}, and weighs the state of the system at $t = t_f$. On the other hand, the Lagrange term, also known as \emph{running cost}, weighs the path to reach the final state.
+\par
+Combining the dynamical system \eqref{eq:oc_dynamical_system}, the algebraic constraint \eqref{eq:oc_constraint}, and the cost function \eqref{eq:oc_cost_function} we define the optimal control problem (OCP) as follows
+\begin{IEEEeqnarray}{cll}
+\phantomsection \label{eq:oc_bolza} \IEEEyesnumber \IEEEyessubnumber*
+\; \; \minimize\limits_{u\in\mathcal{U}} \; \;   &  \IEEEeqnarraymulticol{2}{l}{\beta(x(t_f), t_f) + \int_{t_0} ^{t_f} \ell\left(x(\tau), u(\tau), \tau\right) \diff \tau} \label{eq:oc_bolza_cost} \\ 
+\st &  \dot{x}(t) = f(x(t), u(t), t)  & \quad \quad t \in [t_0, t_f] \\
+&  c(x(t), u(t), t) \le 0_{n_c \times 1} & \quad \quad t \in [t_0, t_f] \label{eq:oc_bolza_constraint} \\
+& x(t_0) = x_0. &
+\end{IEEEeqnarray}
+The optimal control problem~\eqref{eq:oc_bolza} is known as \emph{Bolza} optimization problem.  We recall that an OCP can be written in three forms, namely: \emph{Bolza}, \emph{Mayer} and \emph{Lagrange} forms.   
+They apparently differ in the formulation of the functional to be optimized, but it is worth noticing that they are equivalent and that it is possible to convert each problem into the other two forms.
+If the integral term in the cost function~\eqref{eq:oc_bolza_cost} is set to zero, the problem is said to be written in \emph{Mayer} form. On the other hand, if the terminal cost in~\eqref{eq:oc_bolza_cost} is set to zero, the problem is in Lagrange form. \par
+The OCP~\eqref{eq:oc_bolza} is normally solved by applying three different strategies. The \emph{dynamic programming}~\citep{Bellman1952OnProgramming,Tawiah2021OptimalProgramming}, the \emph{indirect methods}~\citep{Liberzon2012CalculusTheory,Bertolazzi2005SymbolicNumericSystems,Pontriagin1962TheProcesses} or the \emph{direct methods}~\citep{BettsPractical2010}.
+
+
+\paragraph{Dynamic programming}
+The dynamic programming (DP) methodology attempts to analytically find the optimal control strategy by breaking the OCP into smaller subproblems applying the \emph{Bellman's principle of optimality}~\citep{Gross2016OnOptimality,Bellman1952OnProgramming,Dreyfus2002RichardProgramming}:
+\begin{center}
+\begin{minipage}{12cm}
+   \emph{An optimal policy has the property that whatever the initial state and initial decision are, the remaining decisions must constitute an optimal policy with regard to the state resulting from the first decision.}
+\end{minipage}
+\end{center}
+Since we do not exploit the \emph{dynamic programming} techniques for the rest of the thesis, we avoid further discussing these methods.
+\paragraph{Indirect methods}
+The indirect methods are another class of analytical optimization methods. Unlike DP, they rely on the \emph{Pontryagin’s minimum principle}~\citep[Section~5.3]{kirk2012optimal} to compute the optimality conditions. The methods exploit the Hamiltonian function introduced for the Hamilton-Jacobi-Bellman equation to reduce the solution of the OCP to the solution of a $2n$ equations given in the form of a two-point boundary value problem. Since we do not exploit \emph{Indirect methods}for the rest of the thesis, we will not further discuss them.
+\paragraph{Direct methods}
+Finally, in the direct method approach, the OCP is discretized, \emph{transcribed} into a nonlinear programming problem, and finally solved numerically. 
+\par
+In this thesis, we approach the OCP only by applying direct methods. Section~\ref{sec:direct_methods} presents the common integration methods exploited to convert the continuous dynamics~\eqref{eq:oc_dynamical_system} into a discrete one of the form
+\begin{equation}
+    x(t+\delta t) = \Gamma(x(t), u(t), t).
+\end{equation}
+
+\subsection{Direct methods\label{sec:direct_methods}}
+Given an optimization problem~\eqref{eq:oc_bolza}, our objective is to transcribe it into a nonlinear programming problem of the form~\eqref{eq:optmization_problem_def}. Even if the formulation in~\eqref{eq:oc_bolza} seems to be similar to~\eqref{eq:optmization_problem_def}, it is worth recalling some main differences. In an OCP, we seek a control strategy $u(t)$ where $t$ belongs to a close interval. $u(t)$ is in general a function that may depend on the state of the system. On the other hand, the outcome of a nonlinear optimization problem~\eqref{eq:optmization_problem_def} is just a sequence of control actions. Furthermore, the nonlinear optimization problem~\eqref{eq:optmization_problem_def} is completely agnostic to the concept of time evolution of the dynamical system~\eqref{eq:oc_dynamical_system}. These two main differences are overcome by discretizing the dynamics of the continuous system.
+
+\subsubsection{Discretization of the dynamical system}
+We call the solution of the dynamics equation~\eqref{eq:oc_dynamical_system}, the \emph{state transition function} 
+\begin{equation}
+    \label{eq:oc_dynamical_system_solution}
+    x(t) = \phi(x_0, t_0, u).
+\end{equation}
+We want to transform it into discrete difference equations, suitable for numerical computing.  We now introduce the notation $x_k$ as the value of a variable $x$ evaluated at $t_0 + k \diff t$, i.e., $x_k = x(t_0 + k \diff t)$. We approximate the state evolution of~\eqref{eq:oc_dynamical_system} with
+\begin{equation}
+\label{eq:oc_discretization_solution}
+x_{k+1} = \Gamma \left(x_k, u_k, k\right).
+\end{equation}
+where $\Gamma: \mathbb{R}^{n} \times \mathbb{R}^m \times \mathbb{N}  \rightarrow \mathbb{R}^{n}$. It is worth noting that, by recursively applying~\eqref{eq:oc_discretization_solution} from $k = 0$ to $k = N$, \eqref{eq:oc_discretization_solution} is the discrete approximation of~\eqref{eq:oc_dynamical_system_solution}.  $N = (t_f - t_0) / \diff t$ is often denoted as \emph{time horizon}.
+\paragraph{Forward Euler}
+The most common \emph{single-step} method is the \emph{forward Euler} integration scheme:
+\begin{equation}
+    \label{eq:forward_euler}
+	x_{k+1} = x_k  + \diff t f\left(x_k, u_k, t_k\right).
+\end{equation}
+It is worth noting that, for sufficiently high $\diff t$, the forward Euler method is subject to numerical instability.
+
+\paragraph{Backward Euler} 
+Given a dynamical system~\eqref{eq:oc_dynamical_system} the \emph{backward Euler} method gives the following approximation 
+\begin{equation} 
+    \label{eq:backward_euler}
+	x_{k+1} = x_k  + \diff t f\left(x_{k+1}, u_{k+1}, t_{k+1}\right).
+\end{equation}
+The backward Euler is an \emph{implicit single step} method. As a consequence, it is numerically stable independently from the chosen time step \citep{Ascher1997Implicit-explicitEquations}. 
+Given the presence of $x_{k+1}$ in both sizes of~\eqref{eq:backward_euler} it would be necessary to numerically solve~\eqref{eq:backward_euler} to find an explicit expression of $x_{k+1}$ as a function of $x_{k}$, $u_{k}$, and $t_{k}$.
+
+\paragraph{Tustin integration method}
+The \emph{Tustin integration} also known \emph{trapezoidal} method is another implicit method of the form:
+\begin{equation}
+    \label{eq:trapezoidal}
+	x_{k+1} = x_k + \frac{\diff t}{2} \left[f\left(k_k, u_k, t_k\right) + f\left(x_{k+1}, u_{k+1}, t_{k+1}\right) \right].
+\end{equation}
+Unlike Euler's methods, the trapezoidal method considers the dynamics at two time instants, $k$ and $k+1$. For this reason, the trapezoidal method is considered a \emph{multiple collocations} method.
+We finally recall that the trapezoidal method~\eqref{eq:trapezoidal} gives a better approximation of the Euler methods~\eqref{eq:forward_euler}~\eqref{eq:backward_euler}.
+
+\paragraph{Zero order hold\label{sec:zoh}}
+Let us now assume that the dynamical system~\eqref{eq:oc_dynamical_system} is described by linear time-invariant ordinary differential equations of the form
+\begin{equation}
+    \label{eq:lti}
+    \dot{x}(t) = A x(t) + B u(t).
+\end{equation}
+Where $A \in \mathbb{R}^{n \times n}$ and $B \in \mathbb{R}^{n \times m}$ and $x(t_0) = x_0$. The system \eqref{eq:lti} admits a closed form solution~\eqref{eq:oc_dynamical_system_solution} of the form
+\begin{equation}
+    \label{eq:lti_solution}
+x(t) = e^{A (t-t_0)} x_0 + \int_{t_0}^{t} e ^{A(t - \tau)} B u(\tau) \diff \tau
+\end{equation}
+Let us now assume that the control input is kept constant in an interval $\diff t$, i.e., $u(t) = \bar{u}$ for $t \in [t_0,  t_0 + \diff t]$. Then Equation~\eqref{eq:lti_solution} can be rewritten as
+\begin{equation}
+\label{eq:lti_solution_1}
+x(t_0 + \diff t) = e^{A (\diff t)} x_0 + \int_{0}^{\diff t} e ^{A \tau} \diff \tau B \bar{u}
+\end{equation}
+Assume that the control input is kept constant during every sampling period $\diff t$, and that its value is equal to $u(t_0 + k \diff t) = u_k$. Then Equation \eqref{eq:lti_solution_1} can be rewritten as 
+\begin{IEEEeqnarray}{ll}
+\phantomsection \label{eq:lti_solution_discrete} \IEEEyesnumber \IEEEyessubnumber*
+x_{k+1} &= e^{A \diff t} x_k + \int_{0}^{\diff t} e ^{A \tau} \diff \tau B u_k \\
+& = A_d x_k + B_d u_k.
+\end{IEEEeqnarray}
+This method is known as the \emph{zero order hold} integration method since the input is kept constant (i.e., it is held) during the sampling period. 
+\par
+The presented integration methods can be exploited recursively to determine the state evolution from $t_0$ to $t_f$. Consequently, it would be possible to convert the continuous dynamical system into a set of equality constraints that can be embedded in the optimization problem~\eqref{eq:optmization_problem_def}. This technique is often denoted as \emph{shooting}.
+
+\subsection{Shooting methods\label{sec:shooting_methods}}
+\begin{figure}[t]
+\centering
+    \begin{subfigure}[b]{1\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/single_shooting.tikz}
+        \caption{Single shooting.}
+        \label{fig:single_shooting}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{1\textwidth}
+        \centering
+        \includegraphics{chapter_optimization_introduction/figures/multiple_shooting.tikz}
+        \caption{Multiple shooting.}
+        \label{fig:multiple_shooting}
+    \end{subfigure}
+	\caption[Single and Multiple shooting]{Single and Multiple shooting.}
+	\label{fig:shooting}
+\end{figure}
+\subsubsection{Single shooting}
+Let us consider the discretized dynamical system~\eqref{eq:oc_discretization_solution}. We notice that a given state $x_{k+1}$ can be written as a function of the initial state $x_0$ and the input sequence $u_j$ where $j \in [0, k]$. In fact,
+\begin{IEEEeqnarray*}{rcl}
+\phantomsection \label{eq:ss_dynamics} \IEEEyesnumber \IEEEyessubnumber*
+    x_1 &=& \Gamma(x_0, u_0), \\
+    x_2 &=& \Gamma(x_1, u_1) = \Gamma\left(\Gamma(x_0, u_0), u_1\right), \\
+    x_4 &=& \Gamma(x_2, u_2) = \Gamma\left(\Gamma\left(\Gamma(x_0, u_0), u_1\right), u_2\right), \\
+    \IEEEeqnarraymulticol{3}{c}{\vdots}\\
+	x_{k+1} &=& \Gamma(x_k, u_k) = \Gamma\left(\hdots\left(\Gamma(x_0, u_0), \hdots \right), u_k\right).
+\end{IEEEeqnarray*}
+Therefore, with a \emph{single shooting} method, it is possible to obtain the terminal state starting from the initial one, without having to consider all the intermediate states. In an optimization framework, the set of optimization variables would consist only of the control inputs applied at each step. 
+
+
+\subsubsection{Multiple shooting}
+If the system is nonlinear, the composition of function $\Gamma$ $N$ times may result in a very complex expression. In addition, it is difficult to specify \emph{path} constraints, i.e., those involving intermediate states. These problems, typical of the method just introduced, are solved using a \emph{multiple shooting} approach~\citep{Bock84,diehl2006fast}, where all the intermediate state variables are also optimization variables. This has the clear disadvantage of including more variables and constraints in the optimization problem. In fact, it is necessary to add a constraint for each pair of optimization variables of the form
+\begin{IEEEeqnarray}{c}
+\phantomsection \label{eq:ms_dynamics} \IEEEyesnumber \IEEEyessubnumber*
+    x_1 - \Gamma(x_0, u_0) = 0 \\
+    x_2 - \Gamma(x_1, u_2) = 0 \\
+    x_3 - \Gamma(x_2, u_2) = 0 \\
+    \vdots\\
+	x_{N} - \Gamma(x_{N-1}, u_{N-1}) = 0.
+\end{IEEEeqnarray}
+Where each constraint $i$ depends only on the state $i$ , $i+1$ and the control input $i$. Seeing that the dynamics is discretized, the cost function~\eqref{eq:oc_bolza_cost} becomes 
+\begin{equation}
+\label{eq:ms_cost}
+	\mathcal{J}\left(x_0, \hdots, x_{N}, u_0, \hdots, u_{N-1} \right) = \beta\left(x_{N}\right) + \sum_i^{N - 1} \ell \left(x_i, u_i\right) \diff t.
+\end{equation}
+Following the same approach, the algebraic constraints~\eqref{eq:oc_bolza_constraint}, become a list of constraints
+\begin{IEEEeqnarray}{c}
+\phantomsection \label{eq:ms_constraints} \IEEEyesnumber \IEEEyessubnumber*
+c(x_0, u_0) \le 0_{n_c \times 1} \\
+c(x_1, u_1) \le 0_{n_c \times 1} \\
+c(x_2, u_2) \le 0_{n_c \times 1} \\
+    \vdots\\
+c(x_{N-1}, u_{N-1}) \le 0_{n_c \times 1}.
+\end{IEEEeqnarray}
+
+Substituting the discretized dynamics~\eqref{eq:ms_dynamics}, the cost function~\eqref{eq:ms_cost} and algebraic constraints~\eqref{eq:ms_constraints} into the Bolza problem~\eqref{eq:oc_bolza}, we obtain the final form of the optimal control problem solved with a direct multiple shooting method  
+\begin{IEEEeqnarray}{cll}
+\phantomsection \label{eq:mc_oc} \IEEEyesnumber \IEEEyessubnumber*
+\; \; \minimize\limits_{x_0, \hdots, x_{N}, u_0, \hdots, u_{N-1}} \; \;   &  \IEEEeqnarraymulticol{2}{l}{\beta\left(x_{N}\right) + \sum_k^{N - 1} \ell \left(x_k, u_k\right) \diff t} \\ 
+\st &  x_{k+1} - \Gamma(x_k, u_k) = 0 & \quad \quad k = 0\hdots N-1 \\
+& c(x_k, u_k) \le 0_{n_c \times 1} & \quad \quad k = 0\hdots N-1 \\
+&  x_0 = x(t_0).
+\end{IEEEeqnarray}
