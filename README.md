@@ -21,7 +21,7 @@ Thesis submitted for the degree of Doctor of Philosophy (34 ◦ cycle)
 <div align="center">
   <a href="https://www.youtube.com/watch?v=VJ7CXwclDuQ"><b>YouTube</b></a> | 
   <a href="https://iris.unige.it/handle/11567/1092976"><b>UniGe</b></a> |
-  <a href="https://romualdi.github.io/romualdi-phd-thesis/romualdi-phd-thesis.pdf ."><b>Thesis</b></a> 
+  <a href="https://giulioromualdi.github.io/romualdi-phd-thesis/romualdi-phd-thesis.pdf"><b>Thesis</b></a> 
 </div>
 
 
